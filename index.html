@@ -52,14 +52,14 @@ h1 .l3{display:block;color:rgba(255,255,255,.95);}
 .h-note{font-size:11px;color:rgba(255,255,255,.22);letter-spacing:.04em;}
 
 /* Right — Phone */
-.hr{display:flex;align-items:center;justify-content:center;height:100%;position:relative;}
+.hr{display:flex;align-items:center;justify-content:center;height:100%;position:relative;padding-bottom:30px;}
 
 /* Phone scene wrapper — applies 3D */
 .phone-scene{
   position:relative;
   animation:float 6s ease-in-out infinite;
 }
-@keyframes float{0%,100%{transform:perspective(1200px) rotateX(4deg) rotateY(-10deg) translateY(0);}50%{transform:perspective(1200px) rotateX(4deg) rotateY(-10deg) translateY(-14px);}}
+@keyframes float{0%,100%{transform:perspective(1100px) rotateX(3deg) rotateY(-8deg) translateY(0);}50%{transform:perspective(1100px) rotateX(3deg) rotateY(-8deg) translateY(-12px);}}
 
 /* Phone frame — visual shell only, no overflow:hidden */
 .phone-frame{
@@ -401,7 +401,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
 
   <!-- Right: Phone -->
   <div class="hr">
-    <div class="phone-glow"></div>
+    
 
     <!-- Chips positioned relative to phone-scene container -->
     <div style="position:relative;">
@@ -448,10 +448,10 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
               <div class="s-card">
                 <div class="s-label">Agent Fleet</div>
                 <div class="s-agents">
-                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name">HAMLET</div><div class="s-agent-stat">Macro live</div></div>
-                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name">ATLAS</div><div class="s-agent-stat">3 leads</div></div>
-                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name">MENTOR</div><div class="s-agent-stat">Drafting</div></div>
-                  <div class="s-agent"><div class="s-agent-dot idle"></div><div class="s-agent-name">BUILDER</div><div class="s-agent-stat">Idle</div></div>
+                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name">PULSE</div><div class="s-agent-stat">Macro live</div></div>
+                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name">FORGE</div><div class="s-agent-stat">3 leads</div></div>
+                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name">COACH</div><div class="s-agent-stat">Drafting</div></div>
+                  <div class="s-agent"><div class="s-agent-dot idle"></div><div class="s-agent-name">BUILD</div><div class="s-agent-stat">Idle</div></div>
                 </div>
               </div>
               <!-- Session -->
@@ -711,48 +711,48 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
     <p class="section-p">Every agent is purpose-built. Specialized prompt, specialized skills, specialized output. No generic chatbots.</p>
     <div class="agent-grid">
       <div class="ag-card">
-        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">JARVIS</div><div class="ag-role">Orchestrator</div></div>
-        <div class="ag-desc">Master coordinator. Routes tasks, makes decisions, escalates to the right specialist. Your operational backbone.</div>
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">NEXUS</div><div class="ag-role">Command Layer</div></div>
+        <div class="ag-desc">The central intelligence node. Routes every task, decides which agent acts, and keeps all systems in sync — 24/7.</div>
         <div class="ag-tags"><span>coordination</span><span>routing</span><span>decisions</span></div>
       </div>
       <div class="ag-card">
-        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">HAMLET</div><div class="ag-role">Market Intelligence</div></div>
-        <div class="ag-desc">Publishes daily macro analysis: futures, sentiment, earnings, oil, gold, crypto. Reads like an institutional trader wrote it.</div>
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">PULSE</div><div class="ag-role">Market Intelligence</div></div>
+        <div class="ag-desc">Publishes daily macro briefings before markets open. Futures, sentiment, earnings, geopolitics — institutional quality, zero manual input.</div>
         <div class="ag-tags"><span>macro</span><span>sentiment</span><span>geopolitics</span></div>
       </div>
       <div class="ag-card">
-        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">MENTOR</div><div class="ag-role">Client Coaching</div></div>
-        <div class="ag-desc">Responds to student messages in your voice. Identifies FOMO, revenge trading, oversizing. Concrete feedback, no fluff.</div>
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">COACH</div><div class="ag-role">Client Coaching</div></div>
+        <div class="ag-desc">Responds to clients in your voice. Identifies patterns — FOMO, revenge trading, oversizing. Specific feedback based on what actually happened.</div>
         <div class="ag-tags"><span>coaching</span><span>psychology</span><span>feedback</span></div>
       </div>
       <div class="ag-card">
-        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">ATLAS</div><div class="ag-role">Revenue & Leads</div></div>
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">FORGE</div><div class="ag-role">Revenue & Leads</div></div>
         <div class="ag-desc">Finds prospects, enriches with email and LinkedIn, runs outreach sequences. Fills your pipeline while you sleep.</div>
         <div class="ag-tags"><span>leads</span><span>enrichment</span><span>pipeline</span></div>
       </div>
       <div class="ag-card">
-        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">MUSE</div><div class="ag-role">Content Engine</div></div>
-        <div class="ag-desc">Repurposes your content across every format. Turns one post into a thread, newsletter, short-form video brief and email.</div>
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">CRAFT</div><div class="ag-role">Content Engine</div></div>
+        <div class="ag-desc">One input, every format. A post becomes a thread, newsletter, short video brief and email sequence — automatically.</div>
         <div class="ag-tags"><span>content</span><span>repurposing</span><span>social</span></div>
       </div>
       <div class="ag-card">
-        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">BUILDER</div><div class="ag-role">Systems & Code</div></div>
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">BUILD</div><div class="ag-role">Systems & Code</div></div>
         <div class="ag-desc">Builds APIs, writes database schema, deploys infrastructure, runs UI tests. Your technical co-founder on demand.</div>
         <div class="ag-tags"><span>code</span><span>deploy</span><span>databases</span></div>
       </div>
       <div class="ag-card">
-        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">ANNA</div><div class="ag-role">Social Execution</div></div>
-        <div class="ag-desc">Posts to TikTok, Instagram and X on schedule. Trend detection, content generation, publishing. Zero manual work.</div>
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">REACH</div><div class="ag-role">Social Execution</div></div>
+        <div class="ag-desc">Detects trends, generates content, posts to TikTok, Instagram and X on schedule. Your social presence runs without you touching it.</div>
         <div class="ag-tags"><span>tiktok</span><span>instagram</span><span>X</span></div>
       </div>
       <div class="ag-card">
-        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">SCOUT</div><div class="ag-role">Market Scanning</div></div>
-        <div class="ag-desc">Monitors Reddit, X and TradingView for signal. Surfaces opportunities, flags risks, summarizes sentiment shifts.</div>
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">RADAR</div><div class="ag-role">Signal Detection</div></div>
+        <div class="ag-desc">Monitors Reddit, X and TradingView continuously. Surfaces high-signal opportunities, flags risks before they hit the news.</div>
         <div class="ag-tags"><span>scanning</span><span>reddit</span><span>signals</span></div>
       </div>
       <div class="ag-card">
-        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">COPY</div><div class="ag-role">Copywriting</div></div>
-        <div class="ag-desc">Email sequences, ad copy, landing pages, DMs. Trained on your tone and brand voice. No AI-sounding output.</div>
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">VOICE</div><div class="ag-role">Brand Copywriting</div></div>
+        <div class="ag-desc">Email sequences, ad copy, landing pages, DMs — written in your tone. No AI phrasing, no filler. Sounds like you, scales like a machine.</div>
         <div class="ag-tags"><span>email</span><span>ads</span><span>brand</span></div>
       </div>
     </div>
@@ -800,7 +800,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
         <div class="p-agents-block featured">
           <div class="p-agents-label">Agents included</div>
           <div class="p-agents-num">9</div>
-          <div class="p-agents-names">JARVIS · HAMLET · MENTOR · ATLAS · MUSE · BUILDER · ANNA · SCOUT · COPY</div>
+          <div class="p-agents-names">NEXUS · PULSE · COACH · FORGE · CRAFT · BUILD · REACH · RADAR · VOICE</div>
         </div>
         <ul class="price-list">
           <li><span class="ck">✓</span><strong>9 pre-built agents, ready day one</strong></li>
