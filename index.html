@@ -230,6 +230,27 @@ section{padding:96px clamp(18px,5vw,72px);position:relative;z-index:1;}
 .u-text{font-size:13px;color:rgba(255,255,255,.38);}
 .u-text strong{color:rgba(255,255,255,.7);}
 
+/* ─── AGENTS ─── */
+.agent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.ag-card{padding:20px 20px;border-radius:13px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);transition:all .2s;}
+.ag-card:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.14);transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.5);}
+.ag-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.ag-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.ag-name{font-size:13px;font-weight:800;letter-spacing:-.2px;flex:1;}
+.ag-role{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.28);text-transform:uppercase;white-space:nowrap;}
+.ag-desc{font-size:12px;color:rgba(255,255,255,.42);line-height:1.65;margin-bottom:12px;}
+.ag-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.ag-tags span{padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);font-size:9px;font-weight:600;color:rgba(255,255,255,.3);letter-spacing:.06em;}
+
+/* Agent block in pricing */
+.p-agents-block{padding:14px 16px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);margin-bottom:20px;text-align:center;}
+.p-agents-block.featured{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);}
+.p-agents-block.pro{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);}
+.p-agents-label{font-size:8px;font-weight:700;letter-spacing:.16em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:4px;}
+.p-agents-num{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:1.1;margin-bottom:4px;}
+.p-agents-sub{font-size:10px;color:rgba(255,255,255,.32);line-height:1.5;}
+.p-agents-names{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.06em;line-height:1.6;}
+
 /* ─── PRICING ─── */
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .price-card{border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:30px 26px;background:rgba(255,255,255,.02);position:relative;transition:all .2s;}
@@ -294,6 +315,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
   .voice-grid{grid-template-columns:1fr;}
   .voice-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);}
   .sk-grid{grid-template-columns:repeat(2,1fr);}
+  .agent-grid{grid-template-columns:repeat(3,1fr);}
   .price-grid{grid-template-columns:1fr 1fr;}
   .price-card:first-child{grid-column:1/-1;}
 
@@ -315,6 +337,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
   .voice-left,.voice-right{padding:28px 22px;}
   .lang-grid{grid-template-columns:1fr 1fr;}
   .sk-grid{grid-template-columns:1fr;}
+  .agent-grid{grid-template-columns:1fr 1fr;}
   .price-grid{grid-template-columns:1fr;}
   .price-card:first-child{grid-column:auto;}
   footer{flex-direction:column;text-align:center;}
@@ -680,56 +703,136 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
   <div class="u-text">Early access. <strong>$99 → $299</strong> at 50 installs.</div>
 </div>
 
+<!-- AGENTS SHOWCASE -->
+<section id="agents" style="padding-bottom:0;">
+  <div class="wrap">
+    <div class="eyebrow">Agent fleet</div>
+    <h2 class="section-h">9 agents. Pre-installed.<br><em>Ready day one.</em></h2>
+    <p class="section-p">Every agent is purpose-built. Specialized prompt, specialized skills, specialized output. No generic chatbots.</p>
+    <div class="agent-grid">
+      <div class="ag-card">
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">JARVIS</div><div class="ag-role">Orchestrator</div></div>
+        <div class="ag-desc">Master coordinator. Routes tasks, makes decisions, escalates to the right specialist. Your operational backbone.</div>
+        <div class="ag-tags"><span>coordination</span><span>routing</span><span>decisions</span></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">HAMLET</div><div class="ag-role">Market Intelligence</div></div>
+        <div class="ag-desc">Publishes daily macro analysis: futures, sentiment, earnings, oil, gold, crypto. Reads like an institutional trader wrote it.</div>
+        <div class="ag-tags"><span>macro</span><span>sentiment</span><span>geopolitics</span></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">MENTOR</div><div class="ag-role">Client Coaching</div></div>
+        <div class="ag-desc">Responds to student messages in your voice. Identifies FOMO, revenge trading, oversizing. Concrete feedback, no fluff.</div>
+        <div class="ag-tags"><span>coaching</span><span>psychology</span><span>feedback</span></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">ATLAS</div><div class="ag-role">Revenue & Leads</div></div>
+        <div class="ag-desc">Finds prospects, enriches with email and LinkedIn, runs outreach sequences. Fills your pipeline while you sleep.</div>
+        <div class="ag-tags"><span>leads</span><span>enrichment</span><span>pipeline</span></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">MUSE</div><div class="ag-role">Content Engine</div></div>
+        <div class="ag-desc">Repurposes your content across every format. Turns one post into a thread, newsletter, short-form video brief and email.</div>
+        <div class="ag-tags"><span>content</span><span>repurposing</span><span>social</span></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">BUILDER</div><div class="ag-role">Systems & Code</div></div>
+        <div class="ag-desc">Builds APIs, writes database schema, deploys infrastructure, runs UI tests. Your technical co-founder on demand.</div>
+        <div class="ag-tags"><span>code</span><span>deploy</span><span>databases</span></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">ANNA</div><div class="ag-role">Social Execution</div></div>
+        <div class="ag-desc">Posts to TikTok, Instagram and X on schedule. Trend detection, content generation, publishing. Zero manual work.</div>
+        <div class="ag-tags"><span>tiktok</span><span>instagram</span><span>X</span></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">SCOUT</div><div class="ag-role">Market Scanning</div></div>
+        <div class="ag-desc">Monitors Reddit, X and TradingView for signal. Surfaces opportunities, flags risks, summarizes sentiment shifts.</div>
+        <div class="ag-tags"><span>scanning</span><span>reddit</span><span>signals</span></div>
+      </div>
+      <div class="ag-card">
+        <div class="ag-top"><div class="ag-dot on"></div><div class="ag-name">COPY</div><div class="ag-role">Copywriting</div></div>
+        <div class="ag-desc">Email sequences, ad copy, landing pages, DMs. Trained on your tone and brand voice. No AI-sounding output.</div>
+        <div class="ag-tags"><span>email</span><span>ads</span><span>brand</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PRICING -->
 <section id="pricing">
   <div class="wrap">
-    <div style="text-align:center;margin-bottom:48px;">
+    <div style="text-align:center;margin-bottom:52px;">
       <div class="eyebrow" style="display:flex;justify-content:center;">Pricing</div>
-      <h2 class="section-h">Start free.<br><em>Go all-in when ready.</em></h2>
-      <p class="section-p" style="margin:0 auto;max-width:380px;">One-time payment. No subscriptions. No lock-in. You own the code.</p>
+      <h2 class="section-h">Pick your fleet size.</h2>
+      <p class="section-p" style="margin:0 auto;max-width:400px;">One-time payment. No subscriptions. No lock-in. You own the code, you own the agents.</p>
     </div>
     <div class="price-grid">
+
+      <!-- Demo -->
       <div class="price-card">
         <div class="price-tier">Demo</div>
         <div class="price-amount">$<span style="color:rgba(255,255,255,.9)">0</span></div>
-        <div class="price-note">Try before you buy</div>
+        <div class="price-note">No account needed</div>
         <a href="/demo"><button class="price-btn pbtn-o">Try live demo →</button></a>
+        <div class="p-agents-block">
+          <div class="p-agents-label">Agents</div>
+          <div class="p-agents-num">0</div>
+          <div class="p-agents-sub">Simulated UI only</div>
+        </div>
         <ul class="price-list">
           <li><span class="ck">✓</span>Full UI — all devices</li>
           <li><span class="ck">✓</span>Voice demo</li>
           <li><span class="ck">✓</span>All features visible</li>
           <li class="dim"><span class="ck">–</span>Demo data only</li>
-          <li class="dim"><span class="ck">–</span>No integrations</li>
+          <li class="dim"><span class="ck">–</span>No live integrations</li>
+          <li class="dim"><span class="ck">–</span>No agents included</li>
         </ul>
       </div>
+
+      <!-- Full Access -->
       <div class="price-card featured">
         <div class="price-badge">MOST POPULAR</div>
-        <div class="price-tier" style="margin-top:14px;">Full access</div>
+        <div class="price-tier" style="margin-top:14px;">Full Access</div>
         <div class="price-amount"><sup>$</sup>99</div>
         <div class="price-note">One-time · Instant GitHub invite</div>
         <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="price-btn pbtn-w">Get full access →</button></a>
+        <div class="p-agents-block featured">
+          <div class="p-agents-label">Agents included</div>
+          <div class="p-agents-num">9</div>
+          <div class="p-agents-names">JARVIS · HAMLET · MENTOR · ATLAS · MUSE · BUILDER · ANNA · SCOUT · COPY</div>
+        </div>
         <ul class="price-list">
-          <li><span class="ck">✓</span><strong>Private repo — instant invite</strong></li>
-          <li><span class="ck">✓</span><strong>70+ skills bundle</strong></li>
+          <li><span class="ck">✓</span><strong>9 pre-built agents, ready day one</strong></li>
+          <li><span class="ck">✓</span><strong>90+ skills bundled</strong></li>
           <li><span class="ck">✓</span>Stripe + Cal.com wired</li>
-          <li><span class="ck">✓</span>Whisper + ElevenLabs</li>
-          <li><span class="ck">✓</span>Client AI coaching engine</li>
+          <li><span class="ck">✓</span>Whisper + ElevenLabs voice</li>
+          <li><span class="ck">✓</span>Private GitHub repo — instant invite</li>
           <li><span class="ck">✓</span>Lifetime updates</li>
         </ul>
       </div>
+
+      <!-- Done-for-you -->
       <div class="price-card">
-        <div class="price-tier">Done-for-you</div>
+        <div class="price-tier">Done-For-You</div>
         <div class="price-amount"><sup>$</sup>1000</div>
-        <div class="price-note">One-time · We set everything up</div>
+        <div class="price-note">One-time · Fully custom setup</div>
         <a href="https://buy.stripe.com/3cI4gy8fKdrQa6L11Z8Vi0g" target="_blank"><button class="price-btn pbtn-g">Get custom setup →</button></a>
+        <div class="p-agents-block pro">
+          <div class="p-agents-label">PRO agents</div>
+          <div class="p-agents-num">50<span style="font-size:28px;color:rgba(255,255,255,.3);">+</span></div>
+          <div class="p-agents-sub">Industry-specific · Built for your business model</div>
+        </div>
         <ul class="price-list">
           <li><span class="ck">✓</span><strong>Everything in Full Access</strong></li>
-          <li><span class="ck">✓</span>Custom agent architecture</li>
-          <li><span class="ck">✓</span>All integrations connected</li>
-          <li><span class="ck">✓</span>Revenue automations live</li>
+          <li><span class="ck">✓</span><strong>50+ PRO agents — your industry, your stack</strong></li>
+          <li><span class="ck">✓</span>SaaS · Trading · Coaching · E-com · Agency</li>
+          <li><span class="ck">✓</span>All integrations connected and tested</li>
+          <li><span class="ck">✓</span>Revenue automations live on day one</li>
           <li><span class="ck">✓</span>30-day priority support</li>
         </ul>
       </div>
+
     </div>
   </div>
 </section>
