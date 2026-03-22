@@ -554,7 +554,14 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
         <p style="font-size:15px;color:rgba(255,255,255,.38);line-height:1.7;max-width:440px;">90+ production-ready agent skills. Every category. Drop in, connect your keys, and run. Nothing else required.</p>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:clamp(80px,12vw,140px);font-weight:900;letter-spacing:-5px;line-height:.9;color:rgba(255,255,255,.9);"><span id="sc">0</span><span style="color:rgba(255,255,255,.2);">+</span></div>
+        <div style="font-size:clamp(80px,12vw,140px);font-weight:900;letter-spacing:-5px;line-height:.9;color:rgba(255,255,255,.9);"><span id="sc">90</span><span style="color:rgba(255,255,255,.2);">+</span></div>
+        <script>
+        (function(){
+          var el=document.getElementById('sc'),t=0,d=1400;
+          function step(ts){if(!t)t=ts;var p=Math.min((ts-t)/d,1);el.textContent=Math.round(p*90);if(p<1)requestAnimationFrame(step);}
+          requestAnimationFrame(step);
+        })();
+        </script>
         <div style="font-size:11px;color:rgba(255,255,255,.28);letter-spacing:.16em;text-transform:uppercase;margin-top:6px;">Skills included</div>
       </div>
     </div>
