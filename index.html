@@ -127,21 +127,33 @@ nav::before{
 
 /* RIGHT — Floating device */
 .hero-right{
-  position:relative;z-index:2;display:flex;align-items:center;justify-content:center;
-  padding:100px 0 60px;
+  position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:80px 0 60px;gap:20px;
 }
 .device-wrap{
   position:relative;
-  transform:perspective(1000px) rotateX(8deg) rotateY(-14deg) rotateZ(2deg);
+  transform:perspective(900px) rotateX(6deg) rotateY(-10deg);
   animation:deviceFloat 5s ease-in-out infinite;
-  filter:drop-shadow(0 40px 80px rgba(0,0,0,.7));
+  filter:drop-shadow(0 32px 64px rgba(0,0,0,.8));
 }
-@keyframes deviceFloat{0%,100%{transform:perspective(1000px) rotateX(8deg) rotateY(-14deg) rotateZ(2deg) translateY(0);}50%{transform:perspective(1000px) rotateX(8deg) rotateY(-14deg) rotateZ(2deg) translateY(-12px);}}
+@keyframes deviceFloat{0%,100%{transform:perspective(900px) rotateX(6deg) rotateY(-10deg) translateY(0);}50%{transform:perspective(900px) rotateX(6deg) rotateY(-10deg) translateY(-10px);}}
 .device{
-  width:260px;border-radius:28px;overflow:hidden;
-  background:#0a0a0d;border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 0 0 1px rgba(255,255,255,.05),inset 0 1px 0 rgba(255,255,255,.08);
+  width:240px;border-radius:24px;overflow:hidden;
+  background:#0a0a0d;border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 0 0 1px rgba(255,255,255,.04),inset 0 1px 0 rgba(255,255,255,.07);
 }
+/* Clean stat row below device */
+.device-stats{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  max-width:280px;
+}
+.ds{
+  padding:5px 11px;border-radius:6px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  font-size:10px;font-weight:600;color:rgba(255,255,255,.45);
+  display:flex;align-items:center;gap:5px;white-space:nowrap;
+}
+.ds-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.4);animation:blink 1.6s infinite;}
 .device-bar{
   height:36px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.07);
   display:flex;align-items:center;justify-content:space-between;padding:0 14px;
@@ -186,20 +198,7 @@ nav::before{
 .corner.bl{bottom:-8px;left:-8px;border-width:0 0 1px 1px;}
 .corner.br{bottom:-8px;right:-8px;border-width:0 1px 1px 0;}
 
-/* Floating chips near device */
-.f-chip{
-  position:absolute;
-  padding:7px 12px;border-radius:8px;
-  background:rgba(12,12,15,.9);border:1px solid rgba(255,255,255,.1);
-  backdrop-filter:blur(12px);font-size:10px;font-weight:700;color:rgba(255,255,255,.7);
-  display:flex;align-items:center;gap:6px;white-space:nowrap;
-  animation:chipFloat 4s ease-in-out infinite;
-}
-.f-chip:nth-child(2){top:14%;right:-16%;animation-delay:1s;}
-.f-chip:nth-child(3){bottom:22%;left:-18%;animation-delay:2s;}
-.f-chip:nth-child(4){bottom:8%;right:-12%;animation-delay:.5s;}
-@keyframes chipFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-.chip-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);animation:blink 1.6s infinite;}
+.chip-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.5);animation:blink 1.6s infinite;}
 
 /* Remove old hero stats row */
 .hero-stats{display:none;}
@@ -518,19 +517,6 @@ footer{
 
   <!-- RIGHT — floating device -->
   <div class="hero-right">
-    <div class="f-chip" style="top:12%;left:-6%;">
-      <div class="chip-dot"></div>6 agents running
-    </div>
-    <div class="f-chip">
-      <div class="chip-dot"></div>MRR $4,270
-    </div>
-    <div class="f-chip">
-      <div class="chip-dot"></div>Churn risk: 3 clients
-    </div>
-    <div class="f-chip">
-      <div class="chip-dot"></div>Next session 18:00
-    </div>
-
     <div class="device-glow"></div>
     <div class="device-wrap">
       <div class="corner tl"></div><div class="corner tr"></div>
@@ -577,6 +563,11 @@ footer{
           </div>
         </div>
       </div>
+    </div>
+    <div class="device-stats">
+      <div class="ds"><div class="ds-dot"></div>6 agents live</div>
+      <div class="ds"><div class="ds-dot"></div>MRR $4,270</div>
+      <div class="ds"><div class="ds-dot"></div>18:00 session</div>
     </div>
   </div>
 </section>
@@ -838,7 +829,7 @@ footer{
 
   function initNodes(){
     nodes=[];
-    const count = Math.floor((W*H)/16000);
+    const count = Math.floor((W*H)/22000);
     for(let i=0;i<count;i++){
       nodes.push({
         x: Math.random()*W,
@@ -869,7 +860,7 @@ footer{
 
   function dist(a,b){return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2);}
 
-  const maxDist = 160;
+  const maxDist = 140;
 
   function draw(){
     requestAnimationFrame(draw);
@@ -901,7 +892,7 @@ footer{
       for(let j=i+1;j<nodes.length;j++){
         const d=dist(nodes[i],nodes[j]);
         if(d<maxDist){
-          const alpha=(1-d/maxDist)*0.12;
+          const alpha=(1-d/maxDist)*0.07;
           ctx.strokeStyle=`rgba(255,255,255,${alpha})`;
           ctx.lineWidth=.5;
           ctx.beginPath();
@@ -938,7 +929,7 @@ footer{
     // Draw nodes
     nodes.forEach(n=>{
       const pulse=Math.sin(n.pulse)*.5+.5;
-      const baseAlpha = n.active ? 0.35 : 0.12;
+      const baseAlpha = n.active ? 0.25 : 0.08;
       const r = n.r + pulse*(n.active?.8:.2);
 
       // outer glow for active nodes
