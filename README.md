@@ -335,7 +335,7 @@ No. One payment. You own the code. Ongoing costs are your direct API usage — t
 We take your business model and industry, build a custom agent architecture, wire every integration, test every workflow, and hand you a running system within 48 hours. Then 30 days of priority support.
 
 **What are the 90+ skills?**  
-Specialist modules your agents load on demand. New skills ship weekly via [ClawHub](https://clawhub.com). Your install updates automatically.
+Specialist modules your agents load on demand. New skills ship weekly via [ClawHub](https://clawhub.com). Your install updates automatically. 13,700+ community skills available — install any with `clawhub install <slug>`.
 
 ---
 

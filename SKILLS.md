@@ -1,4 +1,4 @@
-# Skills Catalog — 90+
+# Skills Catalog — 100+
 
 Skills are specialist modules your agents load on demand via OpenClaw's skill system. Each skill adds a specific capability — a CLI tool, API integration, workflow or knowledge base — that any agent can invoke.
 
@@ -44,6 +44,11 @@ New skills ship weekly via [ClawHub](https://clawhub.com). Your install updates 
 | `competitive-intelligence-market-research` | 24 B2B SaaS competitive scenarios across Sales/HR/Fintech/Ops Tech |
 | `seo-competitor-analysis` | Keyword gaps, backlink analysis, content strategy mapping vs competitors |
 | `seo-autopilot` | Automated SEO content production and publishing pipeline |
+| `apollo` | Apollo.io: people/org enrichment, prospect search, email + phone data |
+| `campaign-orchestrator` | Multi-channel follow-up campaigns — email, LinkedIn, X, SMS |
+| `data-enricher` | Enrich any lead list with verified email addresses and company data |
+| `linkdapi` | LinkedIn professional profile and company data via LinkdAPI SDK |
+| `brevo` | Brevo (Sendinblue) email marketing — contacts, lists, campaigns, automations |
 
 ---
 
@@ -59,6 +64,11 @@ New skills ship weekly via [ClawHub](https://clawhub.com). Your install updates 
 | `content-repurposing` | Long-form → threads, clips, newsletters, email sequences |
 | `video-scripts` | Platform-optimized scripts for TikTok, YouTube Shorts, Instagram Reels |
 | `brand-voice` | Trains on your existing content, writes in your exact tone everywhere |
+| `brand-voice-profile` | Stores brand voice profile for consistent multi-agent content generation |
+| `bluesky` | Full Bluesky CLI — post, reply, like, repost, follow, search |
+| `facebook-page-manager` | Manage Facebook Pages via Meta Graph API — schedule, post, analytics |
+| `canva` | Create, export and manage Canva designs via Connect API |
+| `openclaw-twitter` | X/Twitter — search, post, reply, schedule — no API credits required |
 
 ---
 
@@ -149,4 +159,4 @@ clawhub search "email automation"
 # Agents pick them up automatically on next run
 ```
 
-All 90+ skills included with Full Access. New skills added weekly.
+All 100+ curated skills included with Full Access. New skills added weekly.
