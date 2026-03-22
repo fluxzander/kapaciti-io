@@ -793,6 +793,99 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
   </div>
 </section>
 
+<!-- AI ENGINES -->
+<section id="ai-engines" style="border-top:1px solid rgba(255,255,255,.07);padding:80px 0;">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:52px;">
+      <div class="eyebrow" style="display:flex;justify-content:center;margin-bottom:14px;">AI Engine</div>
+      <h2 class="section-h">Bring your own model.</h2>
+      <p class="section-p" style="margin:0 auto;max-width:480px;">Claude is the default. But you run on whatever you want — OpenAI, Gemini, Ollama local, DeepSeek, Groq. Swap models per agent, per task, per session. No lock-in.</p>
+    </div>
+
+    <!-- Model grid -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;max-width:900px;margin:0 auto 48px;">
+
+      <!-- Claude — main -->
+      <div style="padding:20px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);position:relative;">
+        <div style="position:absolute;top:12px;right:12px;font-size:8px;font-weight:800;letter-spacing:.14em;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);">DEFAULT</div>
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px;">Claude</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;">Anthropic</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;">Sonnet 4 · Opus · Haiku<br>Main reasoning engine</div>
+      </div>
+
+      <!-- GPT-4o -->
+      <div style="padding:20px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px;">GPT-4o</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;">OpenAI</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;">GPT-4o · o1 · o3-mini<br>Code and structured output</div>
+      </div>
+
+      <!-- Gemini -->
+      <div style="padding:20px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px;">Gemini</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;">Google</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;">Flash 2.0 · Pro 1.5<br>Fast, multimodal tasks</div>
+      </div>
+
+      <!-- Ollama — local -->
+      <div style="padding:20px;border-radius:14px;background:rgba(107,158,120,.06);border:1px solid rgba(107,158,120,.2);position:relative;">
+        <div style="position:absolute;top:12px;right:12px;font-size:8px;font-weight:800;letter-spacing:.14em;padding:2px 7px;border-radius:4px;background:rgba(107,158,120,.15);color:rgba(107,158,120,.9);">LOCAL</div>
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px;">Ollama</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;">Based on your hardware</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;">Llama 3 · Mistral · Qwen<br>Runs entirely offline</div>
+      </div>
+
+      <!-- DeepSeek -->
+      <div style="padding:20px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px;">DeepSeek</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;">DeepSeek AI</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;">R1 · V3 · Coder<br>Cost-efficient reasoning</div>
+      </div>
+
+      <!-- Groq -->
+      <div style="padding:20px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px;">Groq</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;">Groq Cloud</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;">LPU inference<br>Sub-50ms response times</div>
+      </div>
+
+      <!-- Mistral -->
+      <div style="padding:20px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px;">Mistral</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;">Mistral AI</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;">Large · Small · Nemo<br>European, privacy-first</div>
+      </div>
+
+      <!-- Grok -->
+      <div style="padding:20px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:15px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px;">Grok</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px;">xAI</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;">Grok-2 · Grok-3<br>Real-time X data access</div>
+      </div>
+
+    </div>
+
+    <!-- Config example -->
+    <div style="max-width:560px;margin:0 auto;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px 24px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.18em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">
+        Config — .env
+        <span style="font-size:10px;font-weight:600;color:rgba(107,158,120,.8);">Swap anytime</span>
+      </div>
+      <pre style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.9;font-family:'SF Mono',monospace;margin:0;overflow-x:auto;"><span style="color:rgba(255,255,255,.25)"># Main model — change to anything</span>
+<span style="color:rgba(107,158,120,.85);">MODEL</span>=anthropic/claude-sonnet-4-6
+
+<span style="color:rgba(255,255,255,.25)"># Per-agent override</span>
+<span style="color:rgba(107,158,120,.85);">PULSE_MODEL</span>=openai/gpt-4o
+<span style="color:rgba(107,158,120,.85);">BUILD_MODEL</span>=groq/llama-3.3-70b
+<span style="color:rgba(107,158,120,.85);">COACH_MODEL</span>=ollama/llama3.2
+
+<span style="color:rgba(255,255,255,.25)"># Local Ollama — no API key needed</span>
+<span style="color:rgba(107,158,120,.85);">OLLAMA_HOST</span>=http://localhost:11434</pre>
+    </div>
+
+  </div>
+</section>
+
 <!-- PRICING -->
 <section id="pricing">
   <div class="wrap">
