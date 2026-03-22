@@ -3,513 +3,451 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kapaciti — One install. All skills. One command.</title>
-<meta name="description" content="The AI operator's command center. Revenue, clients, voice, and 70+ agent skills — one interface. $99 one-time.">
+<title>Kapaciti</title>
+<meta name="description" content="One install. All skills. One command. The AI operator's command center.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#020203;
+  --w:rgba(255,255,255,.92);
+  --w6:rgba(255,255,255,.55);
+  --w3:rgba(255,255,255,.28);
+  --w1:rgba(255,255,255,.06);
+  --bd:rgba(255,255,255,.08);
+  --bd2:rgba(255,255,255,.14);
+}
+html{scroll-behavior:smooth;cursor:none;}
+body{background:var(--black);color:var(--w);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none;}
+a{color:inherit;text-decoration:none;cursor:none;}
+button{cursor:none;}
 
-:root {
-  --bg:   #080809;
-  --bg1:  #0d0d0f;
-  --bg2:  #111113;
-  --bg3:  #161618;
-  --w:    rgba(255,255,255,0.92);
-  --w7:   rgba(255,255,255,0.70);
-  --w5:   rgba(255,255,255,0.50);
-  --w3:   rgba(255,255,255,0.30);
-  --w1:   rgba(255,255,255,0.07);
-  --w06:  rgba(255,255,255,0.06);
-  --bd:   rgba(255,255,255,0.08);
-  --bd2:  rgba(255,255,255,0.12);
-  --r:    12px;
-  --glass: rgba(255,255,255,0.04);
-  --glass-bd: rgba(255,255,255,0.09);
-}
+/* ── CUSTOM CURSOR ── */
+#cursor{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;mix-blend-mode:difference;}
+#cursor-dot{width:8px;height:8px;background:#fff;border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .2s,height .2s,opacity .2s;}
+#cursor-ring{width:36px;height:36px;border:1px solid rgba(255,255,255,.5);border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .2s;will-change:transform;}
+body.hovering #cursor-dot{width:0;height:0;opacity:0;}
+body.hovering #cursor-ring{width:56px;height:56px;border-color:rgba(255,255,255,.9);}
 
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--w);
-  font-family: 'Inter', system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-  line-height: 1.5;
-}
-a { color: inherit; text-decoration: none; }
+/* ── CANVAS BG ── */
+#canvas-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.55;}
 
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--bd2); border-radius: 3px; }
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(24px,5vw,64px);height:64px;
+  mix-blend-mode:normal;
+}
+nav::before{
+  content:'';position:absolute;inset:0;
+  background:rgba(2,2,3,.6);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--bd);
+}
+.nav-logo{position:relative;z-index:1;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800;letter-spacing:-.3px;}
+.logo-sq{width:24px;height:24px;background:#fff;border-radius:5px;display:flex;align-items:center;justify-content:center;}
+.logo-sq svg{display:block;}
+.nav-center{position:relative;z-index:1;display:flex;gap:36px;}
+.nav-center a{font-size:12px;font-weight:500;color:var(--w3);letter-spacing:.04em;transition:color .15s;}
+.nav-center a:hover{color:var(--w);}
+.nav-right{position:relative;z-index:1;display:flex;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;border:none;transition:all .2s;letter-spacing:.02em;}
+.btn-dim{background:var(--w1);color:var(--w6);border:1px solid var(--bd);}
+.btn-dim:hover{background:rgba(255,255,255,.09);color:var(--w);}
+.btn-white{background:#fff;color:#020203;}
+.btn-white:hover{opacity:.85;}
 
-/* ─── GLASS MIXIN ─── */
-.glass {
-  background: var(--glass);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid var(--glass-bd);
+/* ── HERO ── */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:80px clamp(24px,6vw,80px) 80px;text-align:center;
+  position:relative;z-index:1;
 }
+.hero-label{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;border-radius:99px;border:1px solid var(--bd);background:var(--w1);
+  font-size:11px;font-weight:600;color:var(--w3);letter-spacing:.06em;
+  margin-bottom:40px;opacity:0;animation:fadeIn .8s .3s forwards;
+}
+.hero-label-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);}
+.hero-h1{
+  font-size:clamp(52px,9vw,112px);font-weight:900;letter-spacing:-4px;line-height:.95;
+  margin-bottom:28px;
+}
+.hero-h1 .line{display:block;overflow:hidden;}
+.hero-h1 .inner{display:block;transform:translateY(110%);animation:slideUp .9s cubic-bezier(.16,1,.3,1) forwards;}
+.hero-h1 .line:nth-child(1) .inner{animation-delay:.1s;}
+.hero-h1 .line:nth-child(2) .inner{animation-delay:.18s;color:var(--w3);}
+.hero-h1 .line:nth-child(3) .inner{animation-delay:.26s;}
+.hero-sub{
+  font-size:clamp(15px,1.8vw,18px);color:var(--w6);max-width:480px;line-height:1.75;
+  margin:0 auto 48px;opacity:0;animation:fadeIn .8s .6s forwards;
+}
+.hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeIn .8s .75s forwards;margin-bottom:16px;}
+.hero-note{font-size:11px;color:var(--w3);opacity:0;animation:fadeIn .8s .9s forwards;}
 
-/* ─── NAV ─── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 clamp(20px,4vw,56px); height: 60px;
-  background: rgba(8,8,9,0.7);
-  backdrop-filter: blur(24px) saturate(180%);
-  border-bottom: 1px solid var(--bd);
-}
-.logo { display: flex; align-items: center; gap: 9px; }
-.logo-mark {
-  width: 26px; height: 26px; border-radius: 7px;
-  background: var(--w); display: flex; align-items: center; justify-content: center;
-}
-.logo-text { font-size: 14px; font-weight: 700; letter-spacing: -.3px; }
-.nav-links { display: flex; gap: 32px; }
-.nav-links a { font-size: 13px; color: var(--w5); transition: color .15s; }
-.nav-links a:hover { color: var(--w); }
-.nav-right { display: flex; gap: 8px; align-items: center; }
-.btn-sm {
-  padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
-  cursor: pointer; transition: all .15s; border: none; display: inline-flex; align-items: center; gap: 6px;
-}
-.btn-ghost { background: var(--w1); color: var(--w5); border: 1px solid var(--bd); }
-.btn-ghost:hover { color: var(--w); background: var(--w06); }
-.btn-solid { background: var(--w); color: var(--bg); }
-.btn-solid:hover { opacity: .88; }
+.btn-hero{padding:14px 32px;border-radius:10px;font-size:14px;font-weight:700;border:none;letter-spacing:-.1px;transition:all .25s;}
+.btn-hero.p{background:#fff;color:#020203;}
+.btn-hero.p:hover{transform:translateY(-2px);box-shadow:0 16px 48px rgba(255,255,255,.1);}
+.btn-hero.s{background:var(--w1);color:var(--w6);border:1px solid var(--bd);backdrop-filter:blur(8px);}
+.btn-hero.s:hover{background:rgba(255,255,255,.08);color:var(--w);}
 
-/* ─── HERO ─── */
-.hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 120px clamp(20px,6vw,80px) 80px;
-  text-align: center;
-  position: relative; overflow: hidden;
+/* SCROLL INDICATOR */
+.scroll-ind{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeIn .8s 1.2s forwards;
 }
-/* Subtle grid */
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 70% 50% at 50% 0%, black, transparent 80%);
-}
-/* Radial fade center glow */
-.hero::after {
-  content: '';
-  position: absolute; top: -160px; left: 50%; transform: translateX(-50%);
-  width: 700px; height: 700px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,.04) 0%, transparent 65%);
-  pointer-events: none;
-}
+.scroll-line{width:1px;height:48px;background:linear-gradient(var(--bd2),transparent);animation:scrollDrop 1.8s ease-in-out infinite;}
+.scroll-label{font-size:9px;font-weight:600;letter-spacing:.2em;color:var(--w3);text-transform:uppercase;}
+@keyframes scrollDrop{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
 
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 5px 14px; border-radius: 99px;
-  background: var(--glass); border: 1px solid var(--glass-bd);
-  font-size: 11px; font-weight: 600; color: var(--w5); letter-spacing: .04em;
-  margin-bottom: 36px; position: relative; z-index: 2;
-  animation: fadeDown .5s ease-out both;
+/* ── MARQUEE ── */
+.marquee-wrap{
+  border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);
+  overflow:hidden;padding:18px 0;position:relative;z-index:1;
 }
-.hero-eyebrow-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--w3); }
+.marquee{display:flex;gap:0;width:max-content;animation:marqueeScroll 30s linear infinite;}
+.marquee-item{
+  padding:0 40px;font-size:11px;font-weight:700;letter-spacing:.18em;
+  color:var(--w3);text-transform:uppercase;white-space:nowrap;
+  display:flex;align-items:center;gap:40px;
+}
+.marquee-item::after{content:'·';color:var(--bd2);}
+@keyframes marqueeScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-.hero h1 {
-  font-size: clamp(42px, 8vw, 96px);
-  font-weight: 900; letter-spacing: -3.5px; line-height: 1.0;
-  margin-bottom: 24px; position: relative; z-index: 2;
-  animation: fadeUp .6s .05s ease-out both;
-}
-.hero h1 .muted { color: var(--w3); }
+/* ── FEATURES ── */
+#features{position:relative;z-index:1;}
+.feat-header{padding:100px clamp(24px,6vw,80px) 0;max-width:900px;}
+.feat-eyebrow{font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--w3);text-transform:uppercase;margin-bottom:16px;}
+.feat-h2{font-size:clamp(36px,6vw,72px);font-weight:900;letter-spacing:-2.5px;line-height:1.0;margin-bottom:0;}
+.feat-h2 em{font-style:italic;font-weight:300;color:var(--w3);}
 
-.hero-sub {
-  font-size: clamp(15px, 2vw, 18px); color: var(--w5); max-width: 520px;
-  line-height: 1.75; margin: 0 auto 44px;
-  position: relative; z-index: 2;
-  animation: fadeUp .6s .1s ease-out both;
+.feat-grid-wrap{padding:56px clamp(24px,6vw,80px) 100px;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:16px;overflow:hidden;}
+.feat-card{
+  background:var(--black);padding:32px 28px;
+  position:relative;overflow:hidden;transition:background .25s;
 }
+.feat-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 120% 80% at 50% -5%, rgba(255,255,255,.03), transparent);
+  opacity:0;transition:opacity .3s;
+}
+.feat-card:hover{background:#0a0a0b;}
+.feat-card:hover::before{opacity:1;}
+/* 3D tilt applied via JS */
+.feat-num{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--w3);margin-bottom:24px;font-variant-numeric:tabular-nums;}
+.feat-title{font-size:16px;font-weight:800;letter-spacing:-.3px;margin-bottom:10px;line-height:1.2;}
+.feat-desc{font-size:13px;color:var(--w6);line-height:1.7;}
+.feat-tag{display:inline-block;margin-top:20px;padding:3px 10px;border-radius:4px;background:var(--w1);border:1px solid var(--bd);font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--w3);}
 
-.hero-actions {
-  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-  position: relative; z-index: 2;
-  animation: fadeUp .6s .15s ease-out both;
-  margin-bottom: 18px;
+/* ── VOICE SECTION ── */
+#voice{
+  padding:0 clamp(24px,6vw,80px) 100px;
+  position:relative;z-index:1;
 }
-.btn-lg {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 13px 28px; border-radius: 10px;
-  font-size: 14px; font-weight: 700; cursor: pointer; transition: all .2s; border: none;
+.voice-inner{
+  background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:20px;
+  display:grid;grid-template-columns:1fr 1fr;overflow:hidden;
 }
-.btn-lg.primary { background: var(--w); color: var(--bg); }
-.btn-lg.primary:hover { opacity: .88; transform: translateY(-1px); box-shadow: 0 12px 40px rgba(255,255,255,.08); }
-.btn-lg.secondary { background: var(--glass); color: var(--w7); border: 1px solid var(--glass-bd); backdrop-filter: blur(12px); }
-.btn-lg.secondary:hover { background: var(--w1); color: var(--w); }
+.voice-left{padding:56px 48px;border-right:1px solid var(--bd);}
+.voice-right{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:56px 48px;position:relative;overflow:hidden;
+  background:rgba(255,255,255,.01);
+}
+/* Waveform canvas */
+#waveCanvas{width:100%;height:160px;opacity:.7;}
+.voice-points{display:flex;flex-direction:column;gap:18px;margin-top:40px;}
+.vp{display:flex;align-items:flex-start;gap:14px;}
+.vp-num{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--w3);margin-top:3px;min-width:20px;}
+.vp-title{font-size:13px;font-weight:700;margin-bottom:4px;letter-spacing:-.1px;}
+.vp-desc{font-size:12px;color:var(--w6);line-height:1.65;}
+.tech-pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:28px;}
+.pill{padding:5px 12px;border-radius:6px;background:var(--w1);border:1px solid var(--bd);font-size:10px;font-weight:600;color:var(--w3);letter-spacing:.05em;}
+.lang-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%;}
+.lang-item{
+  padding:10px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--w1);
+  font-size:12px;color:var(--w6);display:flex;align-items:center;gap:8px;
+  transition:all .2s;
+}
+.lang-item:hover{border-color:var(--bd2);background:rgba(255,255,255,.06);color:var(--w);}
+.voice-stat{text-align:center;margin-top:32px;}
+.voice-stat-val{font-size:52px;font-weight:900;letter-spacing:-2px;}
+.voice-stat-label{font-size:11px;color:var(--w3);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;}
 
-.hero-note { font-size: 12px; color: var(--w3); position: relative; z-index: 2; animation: fadeUp .6s .2s ease-out both; }
+/* ── SKILLS ── */
+#skills{
+  padding:100px clamp(24px,6vw,80px);
+  border-top:1px solid var(--bd);
+  position:relative;z-index:1;
+}
+.skills-layout{display:flex;align-items:flex-start;gap:80px;}
+.skills-left{flex:0 0 260px;}
+.skills-big{font-size:clamp(80px,12vw,140px);font-weight:900;letter-spacing:-5px;line-height:.9;color:var(--w);}
+.skills-big span{color:var(--w3);}
+.skills-sub{font-size:14px;color:var(--w6);line-height:1.65;margin-top:16px;max-width:200px;}
+.skills-cats{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.scat{
+  padding:16px 18px;border-radius:10px;
+  background:var(--w1);border:1px solid var(--bd);
+  transition:all .2s;cursor:default;
+}
+.scat:hover{background:rgba(255,255,255,.08);border-color:var(--bd2);transform:translateY(-2px);}
+.scat-label{font-size:9px;font-weight:700;letter-spacing:.18em;color:var(--w3);text-transform:uppercase;margin-bottom:8px;}
+.scat-items{font-size:11px;color:var(--w6);line-height:2;}
 
-.hero-stats {
-  display: flex; align-items: center; gap: 40px; justify-content: center; flex-wrap: wrap;
-  margin-top: 72px; padding-top: 48px; border-top: 1px solid var(--bd);
-  position: relative; z-index: 2; animation: fadeUp .6s .25s ease-out both;
-  width: 100%; max-width: 640px;
+/* ── PRICING ── */
+#pricing{
+  padding:100px clamp(24px,6vw,80px);
+  border-top:1px solid var(--bd);
+  position:relative;z-index:1;
 }
-.stat-val { font-size: 28px; font-weight: 900; letter-spacing: -1px; }
-.stat-label { font-size: 11px; color: var(--w3); letter-spacing: .06em; margin-top: 2px; }
-.stat-div { width: 1px; height: 36px; background: var(--bd); }
+.pricing-header{text-align:center;margin-bottom:56px;}
+.pricing-h2{font-size:clamp(32px,5vw,60px);font-weight:900;letter-spacing:-2px;margin-bottom:14px;}
+.pricing-sub{font-size:15px;color:var(--w6);}
 
-/* ─── FOR ─── */
-.for-bar {
-  border-top: 1px solid var(--bd); border-bottom: 1px solid var(--bd);
-  padding: 18px clamp(20px,4vw,56px);
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+/* 3D tilt applied via JS */
+.price-card{
+  border:1px solid var(--bd);border-radius:16px;padding:32px 26px;
+  background:rgba(255,255,255,.02);
+  transition:transform .1s ease-out,box-shadow .2s;
+  transform-style:preserve-3d;will-change:transform;
+  position:relative;overflow:hidden;
 }
-.for-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; justify-content: center; }
-.for-label { font-size: 11px; font-weight: 600; color: var(--w3); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
-.for-chips { display: flex; gap: 7px; flex-wrap: wrap; justify-content: center; }
-.chip {
-  padding: 5px 13px; border-radius: 99px;
-  background: var(--w1); border: 1px solid var(--bd);
-  font-size: 12px; font-weight: 500; color: var(--w5);
-  transition: all .15s; cursor: default;
+.price-card::before{
+  content:'';position:absolute;inset:0;border-radius:16px;
+  background:radial-gradient(ellipse 80% 60% at var(--mx,50%) var(--my,50%), rgba(255,255,255,.04), transparent);
+  opacity:0;transition:opacity .3s;pointer-events:none;
 }
-.chip:hover { color: var(--w); border-color: var(--bd2); }
+.price-card:hover::before{opacity:1;}
+.price-card.feat-p{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.04);}
+.price-badge{
+  position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  padding:4px 14px;background:#fff;color:#020203;
+  border-radius:0 0 8px 8px;font-size:9px;font-weight:800;letter-spacing:.1em;
+}
+.pt{font-size:10px;font-weight:700;letter-spacing:.16em;color:var(--w3);text-transform:uppercase;margin-bottom:14px;}
+.pv{font-size:54px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:4px;}
+.pv sup{font-size:22px;vertical-align:top;margin-top:10px;font-weight:700;color:var(--w6);}
+.pc{font-size:12px;color:var(--w3);margin-bottom:26px;}
+.pbtn{
+  display:block;width:100%;padding:13px;border-radius:9px;border:none;
+  font-size:13px;font-weight:700;margin-bottom:26px;transition:all .2s;letter-spacing:-.1px;
+}
+.pbtn.wt{background:#fff;color:#020203;}
+.pbtn.wt:hover{opacity:.85;}
+.pbtn.ol{background:transparent;color:var(--w6);border:1px solid var(--bd);}
+.pbtn.ol:hover{border-color:var(--bd2);color:var(--w);background:var(--w1);}
+.pbtn.sf{background:var(--w1);color:var(--w6);border:1px solid var(--bd);}
+.pbtn.sf:hover{background:rgba(255,255,255,.07);color:var(--w);}
+.plist{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.plist li{font-size:12px;color:var(--w6);display:flex;gap:9px;align-items:flex-start;line-height:1.4;}
+.plist li svg{flex-shrink:0;margin-top:2px;color:var(--w3);}
+.plist li strong{color:var(--w7,rgba(255,255,255,.8));font-weight:600;}
+.plist li.off{color:var(--w3);}
 
-/* ─── SECTIONS ─── */
-section { padding: 96px clamp(20px,6vw,80px); }
-.inner { max-width: 960px; margin: 0 auto; }
-.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .18em; color: var(--w3); text-transform: uppercase; margin-bottom: 14px; }
-.h2 { font-size: clamp(28px, 5vw, 52px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 16px; }
-.lead { font-size: 16px; color: var(--w5); line-height: 1.7; max-width: 500px; margin-bottom: 52px; }
+/* ── URGENCY ── */
+.urgency{
+  border-top:1px solid var(--bd);padding:14px clamp(24px,5vw,64px);
+  display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;
+  position:relative;z-index:1;background:rgba(255,255,255,.02);
+}
+.u-pill{padding:4px 12px;border-radius:99px;background:var(--w1);border:1px solid var(--bd);font-size:12px;font-weight:700;color:rgba(255,255,255,.75);}
+.u-text{font-size:13px;color:var(--w6);}
+.u-text strong{color:var(--w);}
 
-/* ─── FEATURES ─── */
-.feat-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1px; background: var(--bd);
-  border: 1px solid var(--bd); border-radius: 16px; overflow: hidden;
+/* ── FINAL ── */
+#final{
+  padding:120px clamp(24px,6vw,80px);
+  text-align:center;position:relative;z-index:1;
+  border-top:1px solid var(--bd);
+  overflow:hidden;
 }
-.feat {
-  background: var(--bg1); padding: 28px 26px;
-  transition: background .2s; cursor: default;
-  position: relative; overflow: hidden;
+#final::before{
+  content:'';position:absolute;bottom:-200px;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.04),transparent 65%);
+  pointer-events:none;
 }
-.feat::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 100% 80% at 50% -10%, rgba(255,255,255,.025), transparent);
-  opacity: 0; transition: opacity .3s;
-}
-.feat:hover::before { opacity: 1; }
-.feat:hover { background: var(--bg2); }
-.feat-icon {
-  width: 36px; height: 36px; border-radius: 9px;
-  background: var(--w1); border: 1px solid var(--bd);
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 18px; color: var(--w5); flex-shrink: 0;
-  transition: all .2s;
-}
-.feat:hover .feat-icon { background: var(--w06); border-color: var(--bd2); color: var(--w7); }
-.feat-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; letter-spacing: -.2px; }
-.feat-desc { font-size: 13px; color: var(--w5); line-height: 1.65; }
-.feat-tag {
-  display: inline-flex; margin-top: 14px; padding: 2px 8px; border-radius: 4px;
-  font-size: 9px; font-weight: 700; letter-spacing: .1em;
-  background: var(--w1); border: 1px solid var(--bd); color: var(--w3);
-}
+.final-h{font-size:clamp(40px,7vw,84px);font-weight:900;letter-spacing:-3px;line-height:.95;margin-bottom:24px;}
+.final-h em{font-style:italic;font-weight:300;color:var(--w3);}
+.final-sub{font-size:16px;color:var(--w6);margin-bottom:44px;}
+.final-note{font-size:11px;color:var(--w3);margin-top:16px;}
 
-/* ─── VOICE ─── */
-.voice-layout {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
-}
-.voice-point {
-  display: flex; gap: 14px; align-items: flex-start; padding: 18px;
-  background: var(--glass); border: 1px solid var(--glass-bd); border-radius: 12px;
-  backdrop-filter: blur(10px);
-  margin-bottom: 10px;
-  transition: background .2s;
-}
-.voice-point:hover { background: var(--w1); }
-.voice-point-icon {
-  width: 30px; height: 30px; border-radius: 8px;
-  background: var(--w1); border: 1px solid var(--bd);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--w5); flex-shrink: 0; margin-top: 1px;
-}
-.voice-point-title { font-size: 13px; font-weight: 700; margin-bottom: 5px; }
-.voice-point-desc { font-size: 12px; color: var(--w5); line-height: 1.65; }
+/* ── FAQ ── */
+#faq{padding:100px clamp(24px,6vw,80px);border-top:1px solid var(--bd);position:relative;z-index:1;}
+.faq-wrap{max-width:640px;margin:0 auto;}
+.faq-h{font-size:clamp(28px,4vw,48px);font-weight:900;letter-spacing:-1.5px;margin-bottom:40px;text-align:center;}
+.faq{border:1px solid var(--bd);border-radius:14px;overflow:hidden;}
+details{border-bottom:1px solid var(--bd);}
+details:last-child{border-bottom:none;}
+summary{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:none;font-size:14px;font-weight:600;letter-spacing:-.2px;list-style:none;transition:background .15s;}
+summary::-webkit-details-marker{display:none;}
+summary:hover{background:var(--w1);}
+.faq-icon{width:18px;height:18px;border:1px solid var(--bd);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;color:var(--w3);transition:all .2s;font-weight:300;}
+details[open] .faq-icon{transform:rotate(45deg);border-color:var(--bd2);color:var(--w6);}
+.faq-a{padding:0 22px 18px;font-size:13px;color:var(--w6);line-height:1.7;}
 
-.voice-orb-section { display: flex; flex-direction: column; align-items: center; gap: 32px; padding-top: 20px; }
-.orb-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
-.orb {
-  width: 160px; height: 160px; border-radius: 50%;
-  background: radial-gradient(circle at 40% 38%, rgba(255,255,255,.06), rgba(8,8,9,.9));
-  border: 1px solid rgba(255,255,255,.1);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 0 1px rgba(255,255,255,.05), 0 32px 64px rgba(0,0,0,.5);
-  position: relative; z-index: 1;
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--bd);padding:32px clamp(24px,5vw,64px);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  position:relative;z-index:1;
 }
-.orb-ring {
-  position: absolute; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.05);
-  animation: ringPulse 3s ease-out infinite;
-}
-.orb-ring:nth-child(1) { width: 200px; height: 200px; }
-.orb-ring:nth-child(2) { width: 250px; height: 250px; animation-delay: .5s; }
-.orb-ring:nth-child(3) { width: 310px; height: 310px; animation-delay: 1s; }
-@keyframes ringPulse { 0% { opacity: .5; transform: scale(1); } 100% { opacity: 0; transform: scale(1.08); } }
+.fc{font-size:11px;color:var(--w3);}
+.fl{display:flex;gap:24px;}
+.fl a{font-size:11px;color:var(--w3);transition:color .15s;}
+.fl a:hover{color:var(--w6);}
 
-.lang-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-.lang-chip {
-  padding: 6px 14px; border-radius: 99px;
-  background: var(--glass); border: 1px solid var(--glass-bd);
-  backdrop-filter: blur(8px);
-  font-size: 11px; color: var(--w5); font-weight: 500;
-}
+/* ── ANIMATIONS ── */
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes slideUp{from{transform:translateY(110%);}to{transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
+.reveal.in{opacity:1;transform:none;}
 
-.tech-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
-.tech-tag {
-  padding: 5px 12px; border-radius: 7px;
-  background: var(--w1); border: 1px solid var(--bd);
-  font-size: 11px; font-weight: 600; color: var(--w3);
-  font-variant-numeric: tabular-nums; letter-spacing: .02em;
-}
-
-/* ─── SKILLS ─── */
-.skills-layout { display: flex; gap: 56px; align-items: flex-start; flex-wrap: wrap; }
-.skills-number { font-size: clamp(80px,14vw,140px); font-weight: 900; letter-spacing: -5px; line-height: 1; color: var(--w); flex-shrink: 0; }
-.skills-number span { color: var(--w3); }
-.skills-cats { flex: 1; min-width: 280px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.skills-cat {
-  padding: 14px 16px; border-radius: 10px;
-  background: var(--glass); border: 1px solid var(--glass-bd);
-  backdrop-filter: blur(8px); cursor: default; transition: all .15s;
-}
-.skills-cat:hover { background: var(--w1); border-color: var(--bd2); }
-.skills-cat-label { font-size: 9px; font-weight: 700; letter-spacing: .14em; color: var(--w3); text-transform: uppercase; margin-bottom: 6px; }
-.skills-cat-list { font-size: 11px; color: var(--w5); line-height: 1.9; }
-
-/* ─── PRICING ─── */
-.pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-.price-card {
-  border: 1px solid var(--bd); border-radius: 14px; padding: 28px 24px;
-  background: var(--bg1); position: relative;
-  transition: all .2s;
-}
-.price-card:hover { border-color: var(--bd2); transform: translateY(-3px); box-shadow: 0 24px 60px rgba(0,0,0,.3); }
-.price-card.featured {
-  background: var(--bg2);
-  border-color: rgba(255,255,255,.18);
-  box-shadow: 0 0 0 1px rgba(255,255,255,.06);
-}
-.price-card.featured:hover { box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 24px 60px rgba(0,0,0,.4); }
-.price-badge-wrap { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); }
-.price-badge {
-  padding: 3px 12px; border-radius: 99px;
-  background: var(--w); color: var(--bg);
-  font-size: 9px; font-weight: 800; letter-spacing: .1em; white-space: nowrap;
-}
-.price-tier { font-size: 10px; font-weight: 700; letter-spacing: .16em; color: var(--w3); text-transform: uppercase; margin-bottom: 14px; }
-.price-amount { font-size: 52px; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 4px; }
-.price-amount sup { font-size: 22px; vertical-align: top; margin-top: 10px; color: var(--w7); font-weight: 700; }
-.price-cadence { font-size: 12px; color: var(--w3); margin-bottom: 24px; }
-.price-btn {
-  display: block; width: 100%; padding: 12px; border-radius: 9px;
-  font-size: 13px; font-weight: 700; cursor: pointer; border: none;
-  transition: all .2s; margin-bottom: 24px; letter-spacing: -.1px;
-}
-.price-btn.solid { background: var(--w); color: var(--bg); }
-.price-btn.solid:hover { opacity: .88; }
-.price-btn.outline { background: transparent; color: var(--w5); border: 1px solid var(--bd); }
-.price-btn.outline:hover { color: var(--w); border-color: var(--bd2); background: var(--w1); }
-.price-btn.soft { background: var(--w1); color: var(--w5); border: 1px solid var(--bd); }
-.price-btn.soft:hover { background: var(--w06); color: var(--w); }
-.price-items { list-style: none; display: flex; flex-direction: column; gap: 9px; }
-.price-items li { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: var(--w5); line-height: 1.4; }
-.price-items li svg { flex-shrink: 0; margin-top: 2px; }
-.price-items li strong { color: var(--w7); font-weight: 600; }
-.price-items li.muted { color: var(--w3); }
-.price-items li.muted svg { opacity: .4; }
-
-/* ─── URGENCY ─── */
-.urgency-bar {
-  padding: 14px clamp(20px,4vw,56px);
-  background: var(--bg2); border-top: 1px solid var(--bd); border-bottom: 1px solid var(--bd);
-  display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
-}
-.urgency-pill {
-  padding: 4px 12px; border-radius: 99px;
-  background: var(--w1); border: 1px solid var(--bd);
-  font-size: 12px; font-weight: 700; color: var(--w7);
-}
-.urgency-text { font-size: 13px; color: var(--w5); }
-.urgency-text strong { color: var(--w7); }
-
-/* ─── FAQ ─── */
-.faq { border: 1px solid var(--bd); border-radius: 14px; overflow: hidden; }
-.faq details { border-bottom: 1px solid var(--bd); }
-.faq details:last-child { border-bottom: none; }
-.faq summary {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 22px; cursor: pointer;
-  font-size: 14px; font-weight: 600; letter-spacing: -.2px;
-  list-style: none; transition: background .15s;
-}
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary:hover { background: var(--w1); }
-.faq-icon { width: 18px; height: 18px; border-radius: 50%; background: var(--w1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--w3); font-size: 11px; transition: all .2s; }
-details[open] .faq-icon { transform: rotate(45deg); background: var(--bd2); color: var(--w7); }
-.faq p { padding: 0 22px 18px; font-size: 13px; color: var(--w5); line-height: 1.7; }
-
-/* ─── FINAL CTA ─── */
-.final-cta { text-align: center; }
-.final-cta h2 { font-size: clamp(32px,6vw,60px); font-weight: 900; letter-spacing: -2px; margin-bottom: 16px; }
-.final-cta p { font-size: 16px; color: var(--w5); margin-bottom: 36px; }
-
-/* ─── FOOTER ─── */
-footer {
-  border-top: 1px solid var(--bd); padding: 32px clamp(20px,4vw,56px);
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
-}
-.footer-copy { font-size: 12px; color: var(--w3); }
-.footer-links { display: flex; gap: 24px; }
-.footer-links a { font-size: 12px; color: var(--w3); transition: color .15s; }
-.footer-links a:hover { color: var(--w7); }
-
-/* ─── ANIMATIONS ─── */
-@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
-@keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease-out, transform .65s ease-out; }
-.reveal.in { opacity: 1; transform: none; }
-
-/* ─── RESPONSIVE ─── */
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-  .voice-layout { grid-template-columns: 1fr; }
-  .voice-orb-section { order: -1; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .skills-layout { flex-direction: column; }
-  .skills-cats { grid-template-columns: 1fr; width: 100%; }
-  footer { flex-direction: column; text-align: center; }
+/* ── MOBILE ── */
+@media(max-width:768px){
+  html,body{cursor:auto;}
+  #cursor{display:none;}
+  .nav-center{display:none;}
+  .feat-grid{grid-template-columns:1fr;}
+  .voice-inner{grid-template-columns:1fr;}
+  .voice-left{border-right:none;border-bottom:1px solid var(--bd);padding:36px 28px;}
+  .voice-right{padding:36px 28px;}
+  .skills-layout{flex-direction:column;gap:36px;}
+  .skills-cats{grid-template-columns:1fr 1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;text-align:center;}
+  .lang-grid{grid-template-columns:repeat(2,1fr);}
 }
 </style>
 </head>
 <body>
 
+<!-- CUSTOM CURSOR -->
+<div id="cursor">
+  <div id="cursor-ring"></div>
+  <div id="cursor-dot"></div>
+</div>
+
+<!-- THREE.JS PARTICLE BG -->
+<canvas id="canvas-bg"></canvas>
+
 <!-- NAV -->
 <nav>
-  <div class="logo">
-    <div class="logo-mark">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#08080c" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+  <div class="nav-logo">
+    <div class="logo-sq">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#020203" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
     </div>
-    <span class="logo-text">Kapaciti</span>
+    Kapaciti
   </div>
-  <div class="nav-links">
+  <div class="nav-center">
     <a href="#features">Features</a>
     <a href="#voice">Voice</a>
     <a href="#skills">Skills</a>
     <a href="#pricing">Pricing</a>
   </div>
   <div class="nav-right">
-    <a href="/demo"><button class="btn-sm btn-ghost">Try demo</button></a>
-    <a href="#pricing"><button class="btn-sm btn-solid">Get access →</button></a>
+    <a href="/demo"><button class="btn btn-dim">Try demo</button></a>
+    <a href="#pricing"><button class="btn btn-white">Get access →</button></a>
   </div>
 </nav>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-eyebrow">
-    <div class="hero-eyebrow-dot"></div>
-    One install · All skills · One command
+<section id="hero">
+  <div class="hero-label">
+    <div class="hero-label-dot"></div>
+    The AI operator's command center
   </div>
-  <h1>The command center<br><span class="muted">for AI operators.</span></h1>
-  <p class="hero-sub">Revenue, clients, voice, and 70+ agent skills — one interface. Built for OpenClaw and Claude Code users who are serious about running their operation.</p>
+  <h1 class="hero-h1">
+    <span class="line"><span class="inner">One install.</span></span>
+    <span class="line"><span class="inner">All skills.</span></span>
+    <span class="line"><span class="inner">One command.</span></span>
+  </h1>
+  <p class="hero-sub">Revenue, clients, voice, and 70+ agent skills in one interface. Built for OpenClaw and Claude Code operators who run at full capacity.</p>
   <div class="hero-actions">
-    <a href="/demo"><button class="btn-lg secondary">Try live demo</button></a>
-    <a href="#pricing"><button class="btn-lg primary">Get full access — $99</button></a>
+    <a href="/demo"><button class="btn-hero s">Try live demo</button></a>
+    <a href="#pricing"><button class="btn-hero p">Get full access — $99</button></a>
   </div>
   <p class="hero-note">No account needed to try &nbsp;·&nbsp; One-time payment &nbsp;·&nbsp; Yours forever</p>
-  <div class="hero-stats">
-    <div><div class="stat-val">70+</div><div class="stat-label">Agent skills</div></div>
-    <div class="stat-div"></div>
-    <div><div class="stat-val">3×</div><div class="stat-label">Devices</div></div>
-    <div class="stat-div"></div>
-    <div><div class="stat-val">30 min</div><div class="stat-label">Setup time</div></div>
-    <div class="stat-div"></div>
-    <div><div class="stat-val">$0/mo</div><div class="stat-label">Recurring cost</div></div>
+  <div class="scroll-ind">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-line"></div>
   </div>
-</div>
+</section>
 
-<!-- FOR -->
-<div class="for-bar">
-  <div class="for-inner">
-    <span class="for-label">Built for</span>
-    <div class="for-chips">
-      <div class="chip">OpenClaw users</div>
-      <div class="chip">Claude Code users</div>
-      <div class="chip">AI builders</div>
-      <div class="chip">Solo operators</div>
-      <div class="chip">Agency owners</div>
-      <div class="chip">SaaS founders</div>
-      <div class="chip">Trading mentors</div>
-    </div>
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee" id="marquee">
+    <div class="marquee-item">One install</div>
+    <div class="marquee-item">70+ skills</div>
+    <div class="marquee-item">Voice interface</div>
+    <div class="marquee-item">Whisper + ElevenLabs</div>
+    <div class="marquee-item">Live revenue</div>
+    <div class="marquee-item">Churn predictor</div>
+    <div class="marquee-item">Agent fleet</div>
+    <div class="marquee-item">No subscriptions</div>
+    <div class="marquee-item">$99 one-time</div>
+    <div class="marquee-item">Open source core</div>
+    <div class="marquee-item">One install</div>
+    <div class="marquee-item">70+ skills</div>
+    <div class="marquee-item">Voice interface</div>
+    <div class="marquee-item">Whisper + ElevenLabs</div>
+    <div class="marquee-item">Live revenue</div>
+    <div class="marquee-item">Churn predictor</div>
+    <div class="marquee-item">Agent fleet</div>
+    <div class="marquee-item">No subscriptions</div>
+    <div class="marquee-item">$99 one-time</div>
+    <div class="marquee-item">Open source core</div>
   </div>
 </div>
 
 <!-- FEATURES -->
 <section id="features">
-  <div class="inner">
-    <div class="reveal">
-      <div class="eyebrow">What it does</div>
-      <div class="h2">Stop switching tabs.<br>Command everything.</div>
-      <p class="lead">Every signal your business generates — in one interface. Your agents can act on all of it.</p>
-    </div>
+  <div class="feat-header reveal">
+    <div class="feat-eyebrow">What it does</div>
+    <h2 class="feat-h2">Stop switching tabs.<br><em>Command everything.</em></h2>
+  </div>
+  <div class="feat-grid-wrap">
     <div class="feat-grid reveal">
-      <div class="feat">
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 5a1 1 0 0 1 2 0v7a1 1 0 0 1-2 0z"/><path d="M5 10v2a7 7 0 0 0 14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-        </div>
+      <div class="feat-card tilt">
+        <div class="feat-num">01</div>
         <div class="feat-title">Voice — ask anything</div>
         <div class="feat-desc">Hold to talk. Ask about revenue, clients, or your next session. Whisper transcribes, GPT-4 reasons, ElevenLabs answers. Under 3 seconds.</div>
         <span class="feat-tag">VOICE</span>
       </div>
-      <div class="feat">
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
-        </div>
+      <div class="feat-card tilt">
+        <div class="feat-num">02</div>
         <div class="feat-title">Live revenue</div>
-        <div class="feat-desc">Real-time MRR, active subscribers, churn prediction, and revenue trends. Stripe-connected. No manual updates.</div>
+        <div class="feat-desc">Real-time MRR, churn risk, and revenue trends. Stripe-connected. No dashboards to update. No manual exports.</div>
         <span class="feat-tag">REVENUE</span>
       </div>
-      <div class="feat">
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-        </div>
+      <div class="feat-card tilt">
+        <div class="feat-num">03</div>
         <div class="feat-title">Client intelligence</div>
-        <div class="feat-desc">AI-generated churn scores per client. Session tracking, coaching drafts, one-tap send. Your clients feel attended to — automatically.</div>
+        <div class="feat-desc">AI-scored churn risk per client. Session tracking, coaching drafts, one-tap send. Every client feels attended to — automatically.</div>
         <span class="feat-tag">CLIENTS</span>
       </div>
-      <div class="feat">
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        </div>
+      <div class="feat-card tilt">
+        <div class="feat-num">04</div>
         <div class="feat-title">Agent fleet</div>
-        <div class="feat-desc">See every agent's live status. Trigger runs, inspect logs, route tasks — without touching a terminal. All 8 agents visible at once.</div>
+        <div class="feat-desc">See every agent's live status. Trigger runs, view logs, route tasks — without touching a terminal.</div>
         <span class="feat-tag">AGENTS</span>
       </div>
-      <div class="feat">
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        </div>
+      <div class="feat-card tilt">
+        <div class="feat-num">05</div>
         <div class="feat-title">Calendar + War Room</div>
-        <div class="feat-desc">All bookings in one place. Tap any session for an AI-prepared brief. Launch War Room for fullscreen focus with live client data.</div>
+        <div class="feat-desc">All bookings in one place. Tap for AI session brief. Launch War Room for fullscreen focus with live client data.</div>
         <span class="feat-tag">CALENDAR</span>
       </div>
-      <div class="feat">
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-        </div>
+      <div class="feat-card tilt">
+        <div class="feat-num">06</div>
         <div class="feat-title">Mac · iPhone · iPad</div>
-        <div class="feat-desc">Fluid layout adapts to any screen. Installs as PWA. No App Store. No Electron. Open HTML/JS — you own the code.</div>
+        <div class="feat-desc">Fluid layout, any screen. PWA install — no App Store, no Electron. Open HTML/JS. You own the code.</div>
         <span class="feat-tag">CROSS-DEVICE</span>
       </div>
     </div>
@@ -517,277 +455,361 @@ footer {
 </section>
 
 <!-- VOICE -->
-<section id="voice" style="padding-top:0;">
-  <div class="inner">
-    <div class="voice-layout reveal">
-      <div>
-        <div class="eyebrow">Voice layer</div>
-        <div class="h2" style="font-size:clamp(24px,4vw,44px);">It talks back.</div>
-        <p class="lead" style="margin-bottom:28px;">Custom voice. Zero transcription errors. 99 languages. The full pipeline in under 3 seconds.</p>
-
-        <div class="voice-point">
-          <div class="voice-point-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 5a1 1 0 0 1 2 0v7a1 1 0 0 1-2 0z"/><path d="M5 10v2a7 7 0 0 0 14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-          </div>
-          <div>
-            <div class="voice-point-title">Whisper transcription</div>
-            <div class="voice-point-desc">OpenAI Whisper captures every accent, dialect, and language. If you said it, it captures it — word for word. No retries.</div>
-          </div>
-        </div>
-
-        <div class="voice-point">
-          <div class="voice-point-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
-          </div>
-          <div>
-            <div class="voice-point-title">Custom voice — ElevenLabs</div>
-            <div class="voice-point-desc">Your command center answers in a premium voice. Choose from 1,000+ or clone your own. Auto language-switch mid-session.</div>
-          </div>
-        </div>
-
-        <div class="voice-point">
-          <div class="voice-point-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          </div>
-          <div>
-            <div class="voice-point-title">99 languages. Zero wrong answers.</div>
-            <div class="voice-point-desc">Swedish, English, Spanish — mid-sentence. Whisper never gets confused. Multilingual transcription that simply works.</div>
-          </div>
-        </div>
-
-        <div class="voice-point">
-          <div class="voice-point-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          </div>
-          <div>
-            <div class="voice-point-title">Under 3 seconds. Start to spoken answer.</div>
-            <div class="voice-point-desc">Voice → Whisper → GPT-4 → ElevenLabs → speaker. The full pipeline. Every time.</div>
-          </div>
-        </div>
-
-        <div class="tech-row">
-          <span class="tech-tag">OpenAI Whisper</span>
-          <span class="tech-tag">ElevenLabs TTS</span>
-          <span class="tech-tag">99 languages</span>
-          <span class="tech-tag">&lt; 3s latency</span>
-        </div>
+<section id="voice">
+  <div class="voice-inner reveal">
+    <div class="voice-left">
+      <div class="feat-eyebrow">Voice layer</div>
+      <h2 style="font-size:clamp(28px,4vw,48px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:16px;">It talks back.</h2>
+      <p style="font-size:14px;color:var(--w6);line-height:1.75;max-width:360px;margin-bottom:0;">Custom voice. Zero transcription errors. 99 languages. The full pipeline in under 3 seconds.</p>
+      <div class="voice-points">
+        <div class="vp"><div class="vp-num">01</div><div><div class="vp-title">Whisper transcription</div><div class="vp-desc">Every accent. Every dialect. Every language. Word for word. No retries.</div></div></div>
+        <div class="vp"><div class="vp-num">02</div><div><div class="vp-title">Custom voice — ElevenLabs</div><div class="vp-desc">1,000+ voices or clone your own. Auto language-switch mid-session.</div></div></div>
+        <div class="vp"><div class="vp-num">03</div><div><div class="vp-title">99 languages. Zero wrong answers.</div><div class="vp-desc">Swedish, English, Spanish — mid-sentence. Whisper never gets confused.</div></div></div>
+        <div class="vp"><div class="vp-num">04</div><div><div class="vp-title">Under 3 seconds.</div><div class="vp-desc">Voice → Whisper → GPT-4 → ElevenLabs → speaker. The full pipeline.</div></div></div>
       </div>
-
-      <div class="voice-orb-section">
-        <div class="orb-wrap">
-          <div class="orb-ring"></div>
-          <div class="orb-ring"></div>
-          <div class="orb-ring"></div>
-          <div class="orb">
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><path d="M11 5a1 1 0 0 1 2 0v7a1 1 0 0 1-2 0z"/><path d="M5 10v2a7 7 0 0 0 14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-          </div>
-        </div>
-        <div class="lang-chips">
-          <div class="lang-chip">🇸🇪 Swedish</div>
-          <div class="lang-chip">🇺🇸 English</div>
-          <div class="lang-chip">🇩🇪 German</div>
-          <div class="lang-chip">🇪🇸 Spanish</div>
-          <div class="lang-chip">+ 95 more</div>
-        </div>
+      <div class="tech-pills">
+        <span class="pill">OpenAI Whisper</span>
+        <span class="pill">ElevenLabs TTS</span>
+        <span class="pill">99 languages</span>
+        <span class="pill">&lt;3s latency</span>
+      </div>
+    </div>
+    <div class="voice-right">
+      <canvas id="waveCanvas"></canvas>
+      <div class="voice-stat">
+        <div class="voice-stat-val" id="langCount">0</div>
+        <div class="voice-stat-label">Languages supported</div>
+      </div>
+      <div class="lang-grid" style="margin-top:28px;">
+        <div class="lang-item">🇸🇪 Swedish</div>
+        <div class="lang-item">🇺🇸 English</div>
+        <div class="lang-item">🇩🇪 German</div>
+        <div class="lang-item">🇪🇸 Spanish</div>
+        <div class="lang-item">🇫🇷 French</div>
+        <div class="lang-item">🇯🇵 Japanese</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- SKILLS -->
-<section id="skills" style="border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:var(--bg1);">
-  <div class="inner">
-    <div class="reveal">
-      <div class="eyebrow">Skills bundle</div>
-      <div class="h2" style="margin-bottom:48px;">Every capability.<br>One install.</div>
+<section id="skills">
+  <div class="reveal">
+    <div class="feat-eyebrow">Skills bundle</div>
+    <h2 style="font-size:clamp(36px,6vw,72px);font-weight:900;letter-spacing:-2.5px;line-height:1.0;margin-bottom:56px;">Every capability.<br><span style="color:var(--w3);font-weight:300;font-style:italic;">One install.</span></h2>
+  </div>
+  <div class="skills-layout reveal">
+    <div class="skills-left">
+      <div class="skills-big"><span id="sc">0</span><span>+</span></div>
+      <div class="skills-sub">Production-ready OpenClaw skills. Drop in. Work immediately.</div>
     </div>
-    <div class="skills-layout reveal">
-      <div>
-        <div class="skills-number"><span id="sc">0</span><span>+</span></div>
-        <p style="font-size:15px;color:var(--w5);margin-top:12px;max-width:220px;line-height:1.65;">Production-ready skills. Drop into your workspace. Work immediately.</p>
-      </div>
-      <div class="skills-cats">
-        <div class="skills-cat">
-          <div class="skills-cat-label">Orchestration</div>
-          <div class="skills-cat-list">agent-orchestrator<br>capability-evolver<br>self-improving-agent<br>mcp-builder</div>
-        </div>
-        <div class="skills-cat">
-          <div class="skills-cat-label">Memory</div>
-          <div class="skills-cat-list">cognitive-memory<br>supermemory<br>mnemo-cortex<br>buildlog</div>
-        </div>
-        <div class="skills-cat">
-          <div class="skills-cat-label">Revenue</div>
-          <div class="skills-cat-list">stripe-integration<br>saas-revenue-tracker<br>financial-data<br>onchain</div>
-        </div>
-        <div class="skills-cat">
-          <div class="skills-cat-label">Social & Content</div>
-          <div class="skills-cat-list">x-post-automation<br>instagram-poster<br>tiktok-growth<br>typefully</div>
-        </div>
-        <div class="skills-cat">
-          <div class="skills-cat-label">Leads & Sales</div>
-          <div class="skills-cat-list">lead-hunter<br>dm-outreach<br>email-campaigns<br>firecrawl</div>
-        </div>
-        <div class="skills-cat">
-          <div class="skills-cat-label">Research & SEO</div>
-          <div class="skills-cat-list">deep-research-pro<br>seo-autopilot<br>competitive-intel<br>exa-web-search</div>
-        </div>
-        <div class="skills-cat">
-          <div class="skills-cat-label">Infra & Databases</div>
-          <div class="skills-cat-list">supabase<br>notion<br>playwright<br>webapp-testing</div>
-        </div>
-        <div class="skills-cat">
-          <div class="skills-cat-label">Trading & Finance</div>
-          <div class="skills-cat-list">trading-journal<br>trading-coach<br>day-trading-skill<br>predictme</div>
-        </div>
-      </div>
+    <div class="skills-cats">
+      <div class="scat"><div class="scat-label">Orchestration</div><div class="scat-items">agent-orchestrator<br>capability-evolver<br>self-improving-agent<br>mcp-builder</div></div>
+      <div class="scat"><div class="scat-label">Memory</div><div class="scat-items">cognitive-memory<br>supermemory<br>mnemo-cortex<br>buildlog</div></div>
+      <div class="scat"><div class="scat-label">Revenue</div><div class="scat-items">stripe-integration<br>saas-revenue-tracker<br>financial-data<br>onchain</div></div>
+      <div class="scat"><div class="scat-label">Social</div><div class="scat-items">x-post-automation<br>instagram-poster<br>tiktok-growth<br>typefully</div></div>
+      <div class="scat"><div class="scat-label">Leads & Sales</div><div class="scat-items">lead-hunter<br>dm-outreach<br>email-campaigns<br>firecrawl</div></div>
+      <div class="scat"><div class="scat-label">Research</div><div class="scat-items">deep-research-pro<br>seo-autopilot<br>competitive-intel<br>exa-web-search</div></div>
+      <div class="scat"><div class="scat-label">Databases</div><div class="scat-items">supabase<br>notion<br>playwright<br>webapp-testing</div></div>
+      <div class="scat"><div class="scat-label">Trading</div><div class="scat-items">trading-journal<br>trading-coach<br>day-trading-skill<br>predictme</div></div>
+      <div class="scat"><div class="scat-label">Content</div><div class="scat-items">content-repurposing<br>newsletter-creation<br>landing-page-gen<br>stop-slop</div></div>
     </div>
   </div>
 </section>
 
 <!-- URGENCY -->
-<div class="urgency-bar">
-  <div class="urgency-pill">14 spots left</div>
-  <div class="urgency-text">Early access. <strong>$99 → $299</strong> when we hit 50 installs.</div>
+<div class="urgency">
+  <div class="u-pill">14 spots left at $99</div>
+  <div class="u-text">Early access pricing. <strong>$99 → $299</strong> at 50 installs.</div>
 </div>
 
 <!-- PRICING -->
 <section id="pricing">
-  <div class="inner">
-    <div class="reveal" style="text-align:center;margin-bottom:52px;">
-      <div class="eyebrow" style="justify-content:center;display:flex;">Pricing</div>
-      <div class="h2">Start free. Go all-in when ready.</div>
-      <p class="lead" style="margin:0 auto;max-width:440px;">One-time payment. No subscriptions. No lock-in.</p>
+  <div class="pricing-header reveal">
+    <h2 class="pricing-h2">Start free.<br>Go all-in when ready.</h2>
+    <p class="pricing-sub">One-time payment. No subscriptions. No lock-in.</p>
+  </div>
+  <div class="pricing-grid reveal">
+    <div class="price-card tilt">
+      <div class="pt">Demo</div>
+      <div class="pv">$<span style="color:var(--w)">0</span></div>
+      <div class="pc">Try before you buy</div>
+      <a href="/demo"><button class="pbtn ol">Try live demo →</button></a>
+      <ul class="plist">
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Full UI — all devices</li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Voice interface demo</li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>All features visible</li>
+        <li class="off"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>Demo data only</li>
+        <li class="off"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>No integrations</li>
+      </ul>
     </div>
-    <div class="pricing-grid reveal">
-      <div class="price-card">
-        <div class="price-tier">Demo</div>
-        <div class="price-amount">$<span style="color:var(--w);">0</span></div>
-        <div class="price-cadence">Try before you buy</div>
-        <a href="/demo"><button class="price-btn outline">Try live demo →</button></a>
-        <ul class="price-items">
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Full UI — mobile, iPad, desktop</li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Voice interface demo</li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>All features visible</li>
-          <li class="muted"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>Demo data only</li>
-          <li class="muted"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>No real integrations</li>
-        </ul>
-      </div>
-
-      <div class="price-card featured">
-        <div class="price-badge-wrap"><div class="price-badge">MOST POPULAR</div></div>
-        <div class="price-tier">Full access</div>
-        <div class="price-amount"><sup>$</sup>99</div>
-        <div class="price-cadence">One-time · Instant GitHub access</div>
-        <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="price-btn solid">Get full access →</button></a>
-        <ul class="price-items">
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><strong>Private repo — instant invite</strong></li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><strong>70+ skills bundle</strong></li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Stripe + Cal.com integration</li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Client AI coaching engine</li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Voice — Whisper + ElevenLabs</li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Mobile + iPad + desktop</li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Lifetime updates</li>
-        </ul>
-      </div>
-
-      <div class="price-card">
-        <div class="price-tier">Done-for-you</div>
-        <div class="price-amount"><sup>$</sup>1000</div>
-        <div class="price-cadence">One-time · Custom setup</div>
-        <a href="https://buy.stripe.com/3cI4gy8fKdrQa6L11Z8Vi0g" target="_blank"><button class="price-btn soft">Get custom setup →</button></a>
-        <ul class="price-items">
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><strong>Everything in Full Access</strong></li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Custom agent architecture</li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>All integrations connected</li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Revenue automations set up</li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Client pipeline configured</li>
-          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>30-day priority support</li>
-        </ul>
-      </div>
+    <div class="price-card feat-p tilt">
+      <div class="price-badge">MOST POPULAR</div>
+      <div class="pt" style="margin-top:14px;">Full access</div>
+      <div class="pv"><sup>$</sup>99</div>
+      <div class="pc">One-time · Instant GitHub</div>
+      <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="pbtn wt">Get full access →</button></a>
+      <ul class="plist">
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><strong>Private repo invite</strong></li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><strong>70+ skills bundle</strong></li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Stripe + Cal.com</li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Whisper + ElevenLabs</li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Client AI coaching</li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Lifetime updates</li>
+      </ul>
+    </div>
+    <div class="price-card tilt">
+      <div class="pt">Done-for-you</div>
+      <div class="pv"><sup>$</sup>1000</div>
+      <div class="pc">One-time · Custom setup</div>
+      <a href="https://buy.stripe.com/3cI4gy8fKdrQa6L11Z8Vi0g" target="_blank"><button class="pbtn sf">Get custom setup →</button></a>
+      <ul class="plist">
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><strong>Everything in Full Access</strong></li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Custom agent architecture</li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>All integrations wired up</li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Revenue automations live</li>
+        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>30-day priority support</li>
+      </ul>
     </div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section style="padding-top:0;">
-  <div class="inner" style="max-width:640px;">
-    <div class="reveal" style="text-align:center;margin-bottom:36px;">
-      <div class="eyebrow" style="display:flex;justify-content:center;">FAQ</div>
-      <div class="h2" style="font-size:clamp(24px,4vw,40px);">Common questions</div>
-    </div>
+<section id="faq">
+  <div class="faq-wrap">
+    <h2 class="faq-h reveal">Common questions</h2>
     <div class="faq reveal">
-      <details>
-        <summary>Do I get access to your personal data or accounts?<div class="faq-icon">+</div></summary>
-        <p>Never. The private repo contains generic code only. You connect your own Stripe, Discord, Cal.com, and OpenAI keys. Your data stays completely separate.</p>
-      </details>
-      <details>
-        <summary>What do I need to run this?<div class="faq-icon">+</div></summary>
-        <p>A Mac or Linux machine with Node.js. OpenClaw or Claude Code for agent skills. API keys for Stripe, OpenAI, and optionally Cal.com and Discord. Nothing else.</p>
-      </details>
-      <details>
-        <summary>How long does setup take?<div class="faq-icon">+</div></summary>
-        <p>Self-install ($99) takes about 30 minutes. Clone the repo, run the setup script, enter your API keys, and you're live. Done-for-you ($1000) means we handle everything.</p>
-      </details>
-      <details>
-        <summary>Is this a subscription?<div class="faq-icon">+</div></summary>
-        <p>No. One-time payment. You own the code. You host it yourself. No recurring fees. You pay for your own API usage (OpenAI, ElevenLabs) directly.</p>
-      </details>
-      <details>
-        <summary>What are the 70+ skills exactly?<div class="faq-icon">+</div></summary>
-        <p>OpenClaw skills covering revenue tracking, agent orchestration, social media automation, lead generation, content repurposing, SEO, email campaigns, Stripe, Supabase, Notion, cognitive memory, churn prediction, calendar prep, and more. All drop-in ready.</p>
-      </details>
+      <details><summary>Do I get access to your personal accounts?<div class="faq-icon">+</div></summary><p class="faq-a">Never. The repo is generic code. You connect your own Stripe, OpenAI, Cal.com, and Discord keys. Your data stays separate.</p></details>
+      <details><summary>What do I need to run this?<div class="faq-icon">+</div></summary><p class="faq-a">Mac or Linux with Node.js. OpenClaw or Claude Code for agent skills. API keys for Stripe and OpenAI — optionally Cal.com and Discord.</p></details>
+      <details><summary>How long does setup take?<div class="faq-icon">+</div></summary><p class="faq-a">Self-install ($99) takes about 30 minutes. Clone, run setup script, enter keys, done. Done-for-you means we handle it all.</p></details>
+      <details><summary>Is this a subscription?<div class="faq-icon">+</div></summary><p class="faq-a">No. One-time. You own the code. Host it yourself. Pay only for your own API usage directly.</p></details>
+      <details><summary>What are the 70+ skills?<div class="faq-icon">+</div></summary><p class="faq-a">OpenClaw skills covering revenue, agent orchestration, social automation, lead gen, content, SEO, email, databases, trading, and memory. All drop-in ready.</p></details>
     </div>
   </div>
 </section>
 
-<!-- FINAL CTA -->
-<section class="final-cta" style="border-top:1px solid var(--bd);">
-  <div class="inner" style="max-width:640px;">
-    <div class="reveal">
-      <div class="eyebrow" style="display:flex;justify-content:center;">Get started</div>
-      <h2>Your agents are running.<br>Your business isn't visible.</h2>
-      <p>Get the interface.</p>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;">
-        <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="btn-lg primary">Get full access — $99</button></a>
-        <a href="/demo"><button class="btn-lg secondary">Try demo first</button></a>
-      </div>
-      <p style="font-size:12px;color:var(--w3);">One-time fee · Instant GitHub access · Lifetime updates</p>
+<!-- FINAL -->
+<section id="final">
+  <div class="reveal">
+    <h2 class="final-h">Your agents are running.<br><em>Your business isn't visible.</em></h2>
+    <p class="final-sub">Get the interface.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="btn-hero p">Get full access — $99</button></a>
+      <a href="/demo"><button class="btn-hero s">Try demo first</button></a>
     </div>
+    <p class="final-note">One-time &nbsp;·&nbsp; Instant GitHub access &nbsp;·&nbsp; Lifetime updates</p>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-copy">© 2026 Kapaciti · Built by <a href="https://x.com/fluxztrading" style="color:var(--w5);">@fluxztrading</a></div>
-  <div class="footer-links">
+  <div class="fc">© 2026 Kapaciti · Built by <a href="https://x.com/fluxztrading" style="color:rgba(255,255,255,.5);">@fluxztrading</a></div>
+  <div class="fl">
     <a href="https://github.com/fluxzander/fluxz-command-center-lite" target="_blank">GitHub</a>
     <a href="/demo">Demo</a>
-    <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank">$99 access</a>
-    <a href="https://buy.stripe.com/3cI4gy8fKdrQa6L11Z8Vi0g" target="_blank">$1000 setup</a>
+    <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank">$99</a>
+    <a href="https://buy.stripe.com/3cI4gy8fKdrQa6L11Z8Vi0g" target="_blank">$1000</a>
   </div>
 </footer>
 
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script>
-// Reveal on scroll
-const obs = new IntersectionObserver(els => els.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }}), { threshold: .1 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+// ── PARTICLE FIELD (Three.js) ──
+(function(){
+  const canvas = document.getElementById('canvas-bg');
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:false});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+  renderer.setSize(window.innerWidth, window.innerHeight);
 
-// Counter
-const sc = document.getElementById('sc');
-const cObs = new IntersectionObserver(els => {
-  if(els[0].isIntersecting){
-    let s = null;
-    const step = ts => {
-      if(!s) s = ts;
-      const p = Math.min((ts-s)/1000, 1);
-      sc.textContent = Math.floor((1-Math.pow(1-p,3))*70);
-      if(p < 1) requestAnimationFrame(step); else sc.textContent = 70;
-    };
-    requestAnimationFrame(step);
-    cObs.disconnect();
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.z = 28;
+
+  // Particles
+  const count = 900;
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  const sizes = new Float32Array(count);
+  for(let i = 0; i < count; i++){
+    pos[i*3]   = (Math.random()-.5)*60;
+    pos[i*3+1] = (Math.random()-.5)*60;
+    pos[i*3+2] = (Math.random()-.5)*30;
+    sizes[i] = Math.random() * 1.5 + 0.3;
   }
-}, { threshold: .5 });
-cObs.observe(sc);
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  geo.setAttribute('size', new THREE.BufferAttribute(sizes,1));
+
+  const mat = new THREE.ShaderMaterial({
+    uniforms:{
+      uTime:{value:0},
+      uMouse:{value:new THREE.Vector2(.5,.5)}
+    },
+    vertexShader:`
+      attribute float size;
+      uniform float uTime;
+      uniform vec2 uMouse;
+      void main(){
+        vec3 p = position;
+        p.x += sin(p.y*.2 + uTime*.3)*.4;
+        p.y += cos(p.x*.15 + uTime*.2)*.3;
+        float dist = length(p.xy - (uMouse*2.-1.)*20.);
+        p.z += sin(dist*.1 - uTime)*1.2;
+        gl_PointSize = size * (1.0 + .3*sin(uTime + p.x));
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(p,1.);
+      }
+    `,
+    fragmentShader:`
+      void main(){
+        float d = length(gl_PointCoord - .5);
+        if(d > .5) discard;
+        float a = 1. - d*2.;
+        gl_FragColor = vec4(1.,1.,1., a*.22);
+      }
+    `,
+    transparent:true,blending:THREE.AdditiveBlending,depthWrite:false
+  });
+
+  const points = new THREE.Points(geo,mat);
+  scene.add(points);
+
+  // Lines between close particles
+  const lineMat = new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.04});
+
+  let mouse = new THREE.Vector2(.5,.5);
+  document.addEventListener('mousemove', e=>{
+    mouse.x = e.clientX/window.innerWidth;
+    mouse.y = 1 - e.clientY/window.innerHeight;
+  });
+
+  window.addEventListener('resize',()=>{
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+  });
+
+  let t = 0;
+  (function loop(){
+    requestAnimationFrame(loop);
+    t += .008;
+    mat.uniforms.uTime.value = t;
+    mat.uniforms.uMouse.value.lerp(mouse, .04);
+    points.rotation.y = t * .04;
+    points.rotation.x = Math.sin(t*.15)*.05;
+    renderer.render(scene,camera);
+  })();
+})();
+
+// ── CURSOR ──
+(function(){
+  const ring = document.getElementById('cursor-ring');
+  const dot = document.getElementById('cursor-dot');
+  let rx=0,ry=0,tx=0,ty=0;
+  document.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;dot.style.transform=`translate(calc(${tx}px - 50%), calc(${ty}px - 50%))`; });
+  (function loop(){
+    requestAnimationFrame(loop);
+    rx+=(tx-rx)*.12; ry+=(ty-ry)*.12;
+    ring.style.transform=`translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+  })();
+  document.querySelectorAll('a,button,.feat-card,.price-card,.scat,.lang-item').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
+  });
+})();
+
+// ── SCROLL REVEAL ──
+const obs = new IntersectionObserver(els=>els.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── 3D CARD TILT ──
+document.querySelectorAll('.tilt').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX-r.left)/r.width-.5;
+    const y = (e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(600px) rotateY(${x*12}deg) rotateX(${-y*12}deg) translateZ(6px)`;
+    card.style.setProperty('--mx', `${(e.clientX-r.left)/r.width*100}%`);
+    card.style.setProperty('--my', `${(e.clientY-r.top)/r.height*100}%`);
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='';});
+});
+
+// ── WAVEFORM CANVAS ──
+(function(){
+  const c = document.getElementById('waveCanvas');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  function resize(){c.width=c.offsetWidth*window.devicePixelRatio;c.height=c.offsetHeight*window.devicePixelRatio;ctx.scale(window.devicePixelRatio,window.devicePixelRatio);}
+  resize(); window.addEventListener('resize',resize);
+  let t=0;
+  (function draw(){
+    requestAnimationFrame(draw);
+    ctx.clearRect(0,0,c.offsetWidth,c.offsetHeight);
+    const w=c.offsetWidth, h=c.offsetHeight;
+    const bars = 48;
+    ctx.strokeStyle='rgba(255,255,255,.5)';
+    ctx.lineWidth=1.5;
+    for(let i=0;i<bars;i++){
+      const x = (i/(bars-1))*w;
+      const amp = (Math.sin(i*.4+t)*Math.sin(i*.13+t*1.7)*.5+.5);
+      const hh = amp*h*.6+4;
+      ctx.globalAlpha = .25 + amp*.5;
+      ctx.beginPath();
+      ctx.moveTo(x, h/2-hh/2);
+      ctx.lineTo(x, h/2+hh/2);
+      ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+    t+=.04;
+  })();
+})();
+
+// ── SKILLS COUNTER ──
+(function(){
+  const el = document.getElementById('sc');
+  const o = new IntersectionObserver(ents=>{
+    if(ents[0].isIntersecting){
+      let s=null;
+      (function step(ts){
+        if(!s)s=ts;
+        const p=Math.min((ts-s)/1000,1);
+        el.textContent=Math.floor((1-Math.pow(1-p,3))*70);
+        if(p<1)requestAnimationFrame(step);else el.textContent=70;
+      })(performance.now());
+      o.disconnect();
+    }
+  },{threshold:.5});
+  o.observe(el);
+})();
+
+// ── LANG COUNTER ──
+(function(){
+  const el = document.getElementById('langCount');
+  const o = new IntersectionObserver(ents=>{
+    if(ents[0].isIntersecting){
+      let s=null;
+      (function step(ts){
+        if(!s)s=ts;
+        const p=Math.min((ts-s)/1200,1);
+        el.textContent=Math.floor((1-Math.pow(1-p,3))*99);
+        if(p<1)requestAnimationFrame(step);else el.textContent=99;
+      })(performance.now());
+      o.disconnect();
+    }
+  },{threshold:.5});
+  o.observe(el);
+})();
+
+// ── MAGNETIC BUTTONS ──
+document.querySelectorAll('.btn-hero,.btn,.pbtn').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    const x=(e.clientX-r.left-r.width/2)*.25;
+    const y=(e.clientY-r.top-r.height/2)*.25;
+    btn.style.transform=`translate(${x}px,${y}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
+});
 </script>
 </body>
 </html>
