@@ -211,16 +211,18 @@ section{padding:96px clamp(18px,5vw,72px);position:relative;z-index:1;}
 .lang-item{padding:7px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);font-size:11px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:7px;}
 
 /* ─── SKILLS ─── */
-.skills-wrap{display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap;}
-.skills-left{flex:0 0 220px;}
-.skills-big{font-size:clamp(80px,12vw,130px);font-weight:900;letter-spacing:-5px;line-height:.9;color:rgba(255,255,255,.9);}
-.skills-big span{color:rgba(255,255,255,.22);}
-.skills-sub{font-size:13px;color:rgba(255,255,255,.38);line-height:1.7;margin-top:12px;max-width:180px;}
-.skills-cats{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.s-cat{padding:14px 16px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);transition:all .15s;cursor:default;}
-.s-cat:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);transform:translateY(-2px);}
-.s-cat-l{font-size:8px;font-weight:700;letter-spacing:.18em;color:rgba(255,255,255,.25);text-transform:uppercase;margin-bottom:8px;}
-.s-cat-i{font-size:10px;color:rgba(255,255,255,.4);line-height:2;}
+.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.sk-cat{padding:22px 22px;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);transition:all .18s;}
+.sk-cat:hover{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.13);}
+.sk-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.sk-label{font-size:9px;font-weight:700;letter-spacing:.18em;color:rgba(255,255,255,.28);text-transform:uppercase;}
+.sk-count{font-size:9px;font-weight:600;color:rgba(255,255,255,.18);letter-spacing:.06em;}
+.sk-intro{font-size:11px;color:rgba(255,255,255,.38);line-height:1.65;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.07);}
+.sk-list{list-style:none;display:flex;flex-direction:column;gap:0;}
+.sk-list li{padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;gap:2px;}
+.sk-list li:last-child{border-bottom:none;}
+.sk-name{font-size:10px;font-weight:700;color:rgba(255,255,255,.7);letter-spacing:-.1px;font-family:'SF Mono','Fira Code',monospace;}
+.sk-desc{font-size:10px;color:rgba(255,255,255,.32);line-height:1.55;}
 
 /* ─── URGENCY ─── */
 .urgency{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);padding:14px clamp(18px,4vw,56px);display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;}
@@ -291,12 +293,10 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
   .feat-grid{grid-template-columns:1fr 1fr;}
   .voice-grid{grid-template-columns:1fr;}
   .voice-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);}
-  .skills-cats{grid-template-columns:repeat(2,1fr);}
+  .sk-grid{grid-template-columns:repeat(2,1fr);}
   .price-grid{grid-template-columns:1fr 1fr;}
   .price-card:first-child{grid-column:1/-1;}
-  .skills-wrap{flex-direction:column;gap:24px;}
-  .skills-left{display:flex;align-items:baseline;gap:12px;flex:none;}
-  .skills-big{font-size:80px;}
+
 }
 @media(max-width:768px){
   .nlinks{display:none;}
@@ -314,7 +314,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
   .feat-grid{grid-template-columns:1fr;}
   .voice-left,.voice-right{padding:28px 22px;}
   .lang-grid{grid-template-columns:1fr 1fr;}
-  .skills-cats{grid-template-columns:1fr 1fr;}
+  .sk-grid{grid-template-columns:1fr;}
   .price-grid{grid-template-columns:1fr;}
   .price-card:first-child{grid-column:auto;}
   footer{flex-direction:column;text-align:center;}
@@ -506,27 +506,171 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
 </section>
 
 <!-- SKILLS -->
-<section id="skills" style="border-top:1px solid rgba(255,255,255,.07);">
-  <div class="wrap">
-    <div class="eyebrow">Skills bundle</div>
-    <h2 class="section-h">Every capability.<br><em>One install.</em></h2>
-    <div class="skills-wrap">
-      <div class="skills-left">
-        <div class="skills-big"><span id="sc">70</span><span>+</span></div>
-        <div class="skills-sub">Production-ready skills. Drop in and work immediately.</div>
+<section id="skills" style="border-top:1px solid rgba(255,255,255,.07);padding-bottom:80px;">
+  <div style="max-width:1100px;margin:0 auto;padding:0 clamp(18px,5vw,72px);">
+
+    <!-- Hero block -->
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:64px;">
+      <div>
+        <div class="eyebrow">Skills bundle</div>
+        <h2 class="section-h" style="margin-bottom:10px;">This is all<br>you need.</h2>
+        <p style="font-size:15px;color:rgba(255,255,255,.38);line-height:1.7;max-width:440px;">90+ production-ready agent skills. Every category. Drop in, connect your keys, and run. Nothing else required.</p>
       </div>
-      <div class="skills-cats">
-        <div class="s-cat"><div class="s-cat-l">Orchestration</div><div class="s-cat-i">agent-orchestrator<br>capability-evolver<br>self-improving-agent<br>mcp-builder</div></div>
-        <div class="s-cat"><div class="s-cat-l">Memory</div><div class="s-cat-i">cognitive-memory<br>supermemory<br>mnemo-cortex<br>buildlog</div></div>
-        <div class="s-cat"><div class="s-cat-l">Revenue</div><div class="s-cat-i">stripe-integration<br>saas-revenue-tracker<br>financial-data<br>onchain</div></div>
-        <div class="s-cat"><div class="s-cat-l">Social</div><div class="s-cat-i">x-post-automation<br>instagram-poster<br>tiktok-growth<br>typefully</div></div>
-        <div class="s-cat"><div class="s-cat-l">Leads</div><div class="s-cat-i">lead-hunter<br>dm-outreach<br>firecrawl<br>email-campaigns</div></div>
-        <div class="s-cat"><div class="s-cat-l">Research</div><div class="s-cat-i">deep-research-pro<br>seo-autopilot<br>competitive-intel<br>exa-web-search</div></div>
-        <div class="s-cat"><div class="s-cat-l">Databases</div><div class="s-cat-i">supabase<br>notion<br>playwright<br>webapp-testing</div></div>
-        <div class="s-cat"><div class="s-cat-l">Trading</div><div class="s-cat-i">trading-journal<br>trading-coach<br>day-trading-skill<br>predictme</div></div>
-        <div class="s-cat"><div class="s-cat-l">Content</div><div class="s-cat-i">content-repurposing<br>newsletter-creation<br>landing-page-gen<br>stop-slop</div></div>
+      <div style="text-align:right;">
+        <div style="font-size:clamp(80px,12vw,140px);font-weight:900;letter-spacing:-5px;line-height:.9;color:rgba(255,255,255,.9);"><span id="sc">0</span><span style="color:rgba(255,255,255,.2);">+</span></div>
+        <div style="font-size:11px;color:rgba(255,255,255,.28);letter-spacing:.16em;text-transform:uppercase;margin-top:6px;">Skills included</div>
       </div>
     </div>
+
+    <!-- Skill categories grid -->
+    <div class="sk-grid">
+
+      <div class="sk-cat">
+        <div class="sk-head"><span class="sk-label">Orchestration</span><span class="sk-count">4 skills</span></div>
+        <p class="sk-intro">Your agents spawn, coordinate, and improve other agents. Build systems that run themselves.</p>
+        <ul class="sk-list">
+          <li><span class="sk-name">agent-orchestrator</span><span class="sk-desc">Decomposes complex tasks into subtasks, spawns specialized sub-agents, consolidates results</span></li>
+          <li><span class="sk-name">capability-evolver</span><span class="sk-desc">Analyzes session history, identifies patterns, applies protocol-constrained self-improvements</span></li>
+          <li><span class="sk-name">self-improving-agent</span><span class="sk-desc">Captures errors and corrections, builds a permanent knowledge base that persists across sessions</span></li>
+          <li><span class="sk-name">mcp-builder</span><span class="sk-desc">Builds and deploys MCP servers to Anthropic standard — HTTP or stdio, config and CLI generation</span></li>
+        </ul>
+      </div>
+
+      <div class="sk-cat">
+        <div class="sk-head"><span class="sk-label">Memory</span><span class="sk-count">4 skills</span></div>
+        <p class="sk-intro">Your agent remembers everything. Episodic logs, semantic graphs, decay scoring. Wakes up where it left off.</p>
+        <ul class="sk-list">
+          <li><span class="sk-name">cognitive-memory</span><span class="sk-desc">Multi-store memory: episodic, semantic, procedural + core. Decay scoring, reflection cycles, entity graphs</span></li>
+          <li><span class="sk-name">supermemory</span><span class="sk-desc">Store and retrieve memories via SuperMemory API. Search your knowledge base with natural language</span></li>
+          <li><span class="sk-name">mnemo-cortex</span><span class="sk-desc">Local ingestion and retrieval node. Post events, query context — fire-and-forget, always-on</span></li>
+          <li><span class="sk-name">buildlog</span><span class="sk-desc">Records AI coding sessions as replayable buildlogs. Full audit trail of decisions and changes</span></li>
+        </ul>
+      </div>
+
+      <div class="sk-cat">
+        <div class="sk-head"><span class="sk-label">Revenue</span><span class="sk-count">5 skills</span></div>
+        <p class="sk-intro">Your agent tracks money in real-time. MRR, churn, invoices, crypto — one command away.</p>
+        <ul class="sk-list">
+          <li><span class="sk-name">stripe-integration</span><span class="sk-desc">Subscriptions, invoices, customers, webhooks, payment links — full Stripe API via managed OAuth</span></li>
+          <li><span class="sk-name">saas-revenue-tracker</span><span class="sk-desc">Monitors MRR targets, growth rates, churn identification and profitability analysis</span></li>
+          <li><span class="sk-name">financial-data</span><span class="sk-desc">Yahoo Finance, CoinGecko, Fear & Greed Index — live market data for any asset</span></li>
+          <li><span class="sk-name">onchain</span><span class="sk-desc">Crypto portfolio, wallet balances, Coinbase/Binance history, Polymarket predictions</span></li>
+          <li><span class="sk-name">afrexai-startup-metrics</span><span class="sk-desc">Pre-seed to Series B metrics engine. Board-ready reporting for every business model</span></li>
+        </ul>
+      </div>
+
+      <div class="sk-cat">
+        <div class="sk-head"><span class="sk-label">Leads & Sales</span><span class="sk-count">5 skills</span></div>
+        <p class="sk-intro">Your agent finds buyers while you sleep. Enriches, scores, and sequences outreach automatically.</p>
+        <ul class="sk-list">
+          <li><span class="sk-name">lead-hunter</span><span class="sk-desc">Prospect discovery, email and social enrichment, AI scoring and prioritization — pipeline on autopilot</span></li>
+          <li><span class="sk-name">lead-generation</span><span class="sk-desc">Finds high-intent buyers in live Twitter, Instagram, Reddit conversations via 1.5B+ indexed posts</span></li>
+          <li><span class="sk-name">kapaciti-sales</span><span class="sk-desc">B2B pipeline management with email sequences, prospect tracking and conversion monitoring</span></li>
+          <li><span class="sk-name">firecrawl</span><span class="sk-desc">Structured web scraping for lead enrichment and research. Extracts clean data from any URL</span></li>
+          <li><span class="sk-name">automation-workflows</span><span class="sk-desc">Designs and implements no-code automations across Zapier, Make, n8n — reduces manual work to zero</span></li>
+        </ul>
+      </div>
+
+      <div class="sk-cat">
+        <div class="sk-head"><span class="sk-label">Social & Content</span><span class="sk-count">8 skills</span></div>
+        <p class="sk-intro">Your agent posts, repurposes, and grows your audience. Every platform. Fully automated.</p>
+        <ul class="sk-list">
+          <li><span class="sk-name">x-automation</span><span class="sk-desc">Identifies X trends, generates opinionated content, posts on schedule — zero manual input</span></li>
+          <li><span class="sk-name">tiktok-viral-marketing</span><span class="sk-desc">Creator strategy, FYP optimization, viral challenge design for maximum reach</span></li>
+          <li><span class="sk-name">tiktok-scraping</span><span class="sk-desc">Crawl TikTok for trends, content analysis and competitor research</span></li>
+          <li><span class="sk-name">typefully</span><span class="sk-desc">Schedule and publish across social platforms. Queue threads, manage drafts, track performance</span></li>
+          <li><span class="sk-name">newsletter-creation</span><span class="sk-desc">Industry-specific newsletters with cadence recommendations and full distribution automation</span></li>
+          <li><span class="sk-name">landing-page-generator</span><span class="sk-desc">High-converting pages from a brief. Product launches, lead gen, digital sales — production HTML</span></li>
+          <li><span class="sk-name">mia-content-creator</span><span class="sk-desc">AI content creation and monetization strategy across YouTube, Instagram and TikTok</span></li>
+          <li><span class="sk-name">stop-slop</span><span class="sk-desc">Strips filler words, AI-sounding phrases, passive voice and throat-clearing from any text</span></li>
+        </ul>
+      </div>
+
+      <div class="sk-cat">
+        <div class="sk-head"><span class="sk-label">Research & SEO</span><span class="sk-count">4 skills</span></div>
+        <p class="sk-intro">Your agent researches competitors, writes SEO content, and finds market edges — while you focus on decisions.</p>
+        <ul class="sk-list">
+          <li><span class="sk-name">competitive-intelligence</span><span class="sk-desc">B2B SaaS competitive analysis across 24 scenarios — Sales, HR, Fintech, Ops Tech</span></li>
+          <li><span class="sk-name">seo-autopilot</span><span class="sk-desc">Automated SEO content generation, PR creation and publishing for target domains</span></li>
+          <li><span class="sk-name">seo-competitor-analysis</span><span class="sk-desc">Keyword research, backlink analysis, content gap mapping — full competitor playbook</span></li>
+          <li><span class="sk-name">qmd</span><span class="sk-desc">Local BM25 + vector search + reranking. Index any codebase or document set for instant retrieval</span></li>
+        </ul>
+      </div>
+
+      <div class="sk-cat">
+        <div class="sk-head"><span class="sk-label">Databases & Dev</span><span class="sk-count">6 skills</span></div>
+        <p class="sk-intro">Your agent writes to databases, tests UIs, and builds infrastructure. No terminal required.</p>
+        <ul class="sk-list">
+          <li><span class="sk-name">supabase</span><span class="sk-desc">Full Supabase DB operations — upsert, RLS policies, real-time queries and schema management</span></li>
+          <li><span class="sk-name">notion</span><span class="sk-desc">Tasks DB, Command Center pages, database queries and property updates via Notion API</span></li>
+          <li><span class="sk-name">playwright-automation</span><span class="sk-desc">Advanced browser automation — form fills, scraping, interaction sequences, screenshot capture</span></li>
+          <li><span class="sk-name">webapp-testing</span><span class="sk-desc">Full UI test suite generation with Playwright. Runs, reports, and flags regressions automatically</span></li>
+          <li><span class="sk-name">github</span><span class="sk-desc">PRs, CI runs, issues, code review and API queries — full GitHub operations via gh CLI</span></li>
+          <li><span class="sk-name">coding-agent</span><span class="sk-desc">Delegates complex coding tasks to Codex or Claude Code. Spawns, monitors, reports completion</span></li>
+        </ul>
+      </div>
+
+      <div class="sk-cat">
+        <div class="sk-head"><span class="sk-label">Trading</span><span class="sk-count">4 skills</span></div>
+        <p class="sk-intro">Your agent analyzes trades, scores decisions, and coaches in real-time using institutional frameworks.</p>
+        <ul class="sk-list">
+          <li><span class="sk-name">trading-journal</span><span class="sk-desc">Trade analysis and pattern detection. FIFO P&L, setup scoring, session review automation</span></li>
+          <li><span class="sk-name">trading-coach</span><span class="sk-desc">Import broker CSV, FIFO pair positions, 8-dimension quality scoring, AI insights report</span></li>
+          <li><span class="sk-name">day-trading-investor-pro</span><span class="sk-desc">Price action, SMC, liquidity, risk management coaching. Built by a value investor for disciplined traders</span></li>
+          <li><span class="sk-name">predictme</span><span class="sk-desc">Trade 10-second crypto prediction markets on PredictMe — live, autonomous, data-driven</span></li>
+        </ul>
+      </div>
+
+      <div class="sk-cat">
+        <div class="sk-head"><span class="sk-label">Productivity</span><span class="sk-count">8 skills</span></div>
+        <p class="sk-intro">Your agent manages email, calendar, tasks, and messages. Every major platform. One interface.</p>
+        <ul class="sk-list">
+          <li><span class="sk-name">gog</span><span class="sk-desc">Gmail, Calendar, Drive, Contacts, Sheets and Docs — full Google Workspace via CLI</span></li>
+          <li><span class="sk-name">himalaya</span><span class="sk-desc">Full IMAP/SMTP email client. Read, write, reply, forward, search and organize any inbox</span></li>
+          <li><span class="sk-name">imsg</span><span class="sk-desc">iMessage and SMS — list chats, read history, send messages via Messages.app</span></li>
+          <li><span class="sk-name">things-mac</span><span class="sk-desc">Things 3 todo management — add, update, complete tasks and projects via URL scheme</span></li>
+          <li><span class="sk-name">apple-reminders</span><span class="sk-desc">Reminders CLI — list, add, edit, complete across all reminder lists with date filters</span></li>
+          <li><span class="sk-name">obsidian</span><span class="sk-desc">Obsidian vault management — create, search, edit and link notes via obsidian-cli</span></li>
+          <li><span class="sk-name">peekaboo</span><span class="sk-desc">macOS UI capture and automation — screenshot any app, identify elements, run interactions</span></li>
+          <li><span class="sk-name">1password</span><span class="sk-desc">1Password CLI integration — read, inject and run secrets without exposing them in plaintext</span></li>
+        </ul>
+      </div>
+
+      <div class="sk-cat" style="grid-column:1/-1;background:rgba(255,255,255,.025);border-color:rgba(255,255,255,.1);">
+        <div class="sk-head"><span class="sk-label">Voice, AI & Hardware</span><span class="sk-count">12 skills</span></div>
+        <p class="sk-intro">Your agent speaks, listens, generates images, controls lights, speakers and smart home — the full stack.</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0 24px;">
+          <ul class="sk-list">
+            <li><span class="sk-name">openai-whisper-api</span><span class="sk-desc">Transcribe audio via OpenAI Whisper API — any accent, any language, near-zero error rate</span></li>
+            <li><span class="sk-name">openai-whisper</span><span class="sk-desc">Local Whisper for offline speech-to-text — no API key, runs on-device</span></li>
+            <li><span class="sk-name">openai-image-gen</span><span class="sk-desc">Batch image generation via DALL-E API. Random prompt sampler + gallery page output</span></li>
+          </ul>
+          <ul class="sk-list">
+            <li><span class="sk-name">gemini</span><span class="sk-desc">Gemini CLI for Q&A, summaries and generation — one-shot or session mode</span></li>
+            <li><span class="sk-name">sonoscli</span><span class="sk-desc">Sonos speaker control — discover, play, group, adjust volume across all rooms</span></li>
+            <li><span class="sk-name">blucli</span><span class="sk-desc">BluOS speaker discovery, playback and grouping for high-end audio systems</span></li>
+          </ul>
+          <ul class="sk-list">
+            <li><span class="sk-name">openhue</span><span class="sk-desc">Philips Hue control — lights, scenes, schedules and automations via OpenHue CLI</span></li>
+            <li><span class="sk-name">eightctl</span><span class="sk-desc">Eight Sleep pod — status, temperature, alarms and schedules from the command line</span></li>
+            <li><span class="sk-name">songsee</span><span class="sk-desc">Spectrogram and feature-panel visualizations from audio — songsee CLI</span></li>
+          </ul>
+          <ul class="sk-list">
+            <li><span class="sk-name">video-frames</span><span class="sk-desc">Extract frames or short clips from any video using ffmpeg — batch or single file</span></li>
+            <li><span class="sk-name">gifgrep</span><span class="sk-desc">Search GIF providers with CLI/TUI, download results, extract stills and sheets</span></li>
+            <li><span class="sk-name">nano-pdf</span><span class="sk-desc">Edit PDFs with natural-language instructions — merge, redact, annotate via nano-pdf CLI</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /sk-grid -->
+
+    <div style="text-align:center;margin-top:52px;padding:28px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.02);">
+      <div style="font-size:12px;color:rgba(255,255,255,.28);margin-bottom:8px;letter-spacing:.1em;text-transform:uppercase;">And growing</div>
+      <div style="font-size:18px;font-weight:700;color:rgba(255,255,255,.75);margin-bottom:4px;">New skills added every week via ClawHub</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.35);">Your install updates automatically. You never pay again.</div>
+    </div>
+
   </div>
 </section>
 
@@ -655,7 +799,7 @@ for(let i=0;i<COUNT;i++){
   vel[i*3+2] = 0;
 }
 geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
-const mat = new THREE.PointsMaterial({color:0xffffff,size:.08,transparent:true,opacity:.35,sizeAttenuation:true});
+const mat = new THREE.PointsMaterial({color:0xffffff,size:.08,transparent:true,opacity:.18,sizeAttenuation:true});
 const particles = new THREE.Points(geo,mat);
 scene.add(particles);
 
@@ -668,7 +812,7 @@ for(let i=-G;i<=G;i++){
   gridVerts.push(-G*S,i*S,-8, G*S,i*S,-8);
 }
 gridGeo.setAttribute('position', new THREE.Float32BufferAttribute(gridVerts,3));
-const gridMat = new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.022});
+const gridMat = new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.01});
 const grid = new THREE.LineSegments(gridGeo,gridMat);
 scene.add(grid);
 
