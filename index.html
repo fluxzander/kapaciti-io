@@ -58,34 +58,164 @@ nav::before{
 .btn-white{background:#fff;color:#020203;}
 .btn-white:hover{opacity:.85;}
 
-/* ── HERO ── */
+
+/* ── NEW HERO ── */
 #hero{
-  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:80px clamp(24px,6vw,80px) 80px;text-align:center;
-  position:relative;z-index:1;
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;
+  padding:0 clamp(24px,6vw,80px);padding-top:64px;
+  position:relative;z-index:1;gap:40px;overflow:hidden;
 }
-.hero-label{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:6px 16px;border-radius:99px;border:1px solid var(--bd);background:var(--w1);
-  font-size:11px;font-weight:600;color:var(--w3);letter-spacing:.06em;
-  margin-bottom:40px;opacity:0;animation:fadeIn .8s .3s forwards;
+/* Scan line */
+.scan{
+  position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.18) 40%,rgba(255,255,255,.35) 50%,rgba(255,255,255,.18) 60%,transparent 100%);
+  animation:scanAnim 6s ease-in-out infinite;pointer-events:none;z-index:2;
 }
-.hero-label-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);}
+@keyframes scanAnim{0%{top:-2px;opacity:0;}5%{opacity:1;}90%{opacity:.7;}100%{top:101%;opacity:0;}}
+/* Fine grid */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse 100% 100% at 50% 50%,black 20%,transparent 80%);
+  pointer-events:none;
+}
+/* Left side */
+.hero-left{position:relative;z-index:2;padding:80px 0;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:5px 14px 5px 8px;border-radius:99px;border:1px solid var(--bd);background:var(--w1);
+  font-size:10px;font-weight:700;color:var(--w3);letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:32px;opacity:0;animation:fadeIn .6s .2s forwards;
+}
+.eyebrow-live{
+  width:20px;height:20px;border-radius:99px;background:rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;
+}
+.eyebrow-live-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
 .hero-h1{
-  font-size:clamp(52px,9vw,112px);font-weight:900;letter-spacing:-4px;line-height:.95;
-  margin-bottom:28px;
+  font-size:clamp(44px,6.5vw,88px);font-weight:900;letter-spacing:-3px;line-height:.96;
+  margin-bottom:24px;text-align:left;
 }
 .hero-h1 .line{display:block;overflow:hidden;}
-.hero-h1 .inner{display:block;transform:translateY(110%);animation:slideUp .9s cubic-bezier(.16,1,.3,1) forwards;}
-.hero-h1 .line:nth-child(1) .inner{animation-delay:.1s;}
-.hero-h1 .line:nth-child(2) .inner{animation-delay:.18s;color:var(--w3);}
-.hero-h1 .line:nth-child(3) .inner{animation-delay:.26s;}
+.hero-h1 .inner{display:block;transform:translateY(110%);animation:slideUp .85s cubic-bezier(.16,1,.3,1) forwards;}
+.hero-h1 .line:nth-child(1) .inner{animation-delay:.08s;}
+.hero-h1 .line:nth-child(2) .inner{animation-delay:.16s;color:var(--w3);font-style:italic;font-weight:300;}
+.hero-h1 .line:nth-child(3) .inner{animation-delay:.24s;}
 .hero-sub{
-  font-size:clamp(15px,1.8vw,18px);color:var(--w6);max-width:480px;line-height:1.75;
-  margin:0 auto 48px;opacity:0;animation:fadeIn .8s .6s forwards;
+  font-size:clamp(13px,1.4vw,16px);color:var(--w6);line-height:1.75;max-width:400px;
+  margin-bottom:36px;opacity:0;animation:fadeIn .7s .5s forwards;text-align:left;
 }
-.hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeIn .8s .75s forwards;margin-bottom:16px;}
-.hero-note{font-size:11px;color:var(--w3);opacity:0;animation:fadeIn .8s .9s forwards;}
+.hero-actions{display:flex;gap:8px;flex-wrap:wrap;opacity:0;animation:fadeIn .7s .65s forwards;}
+.hero-note{font-size:11px;color:var(--w3);opacity:0;animation:fadeIn .7s .8s forwards;margin-top:14px;text-align:left;}
+
+/* Floating stats */
+.hero-stats-col{
+  display:flex;flex-direction:column;gap:10px;margin-top:48px;
+  opacity:0;animation:fadeIn .7s .9s forwards;
+}
+.hero-stat{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 12px;border-radius:8px;background:var(--w1);border:1px solid var(--bd);
+  width:fit-content;
+}
+.hs-val{font-size:14px;font-weight:800;letter-spacing:-.4px;}
+.hs-label{font-size:11px;color:var(--w3);}
+
+/* RIGHT — Floating device */
+.hero-right{
+  position:relative;z-index:2;display:flex;align-items:center;justify-content:center;
+  padding:100px 0 60px;
+}
+.device-wrap{
+  position:relative;
+  transform:perspective(1000px) rotateX(8deg) rotateY(-14deg) rotateZ(2deg);
+  animation:deviceFloat 5s ease-in-out infinite;
+  filter:drop-shadow(0 40px 80px rgba(0,0,0,.7));
+}
+@keyframes deviceFloat{0%,100%{transform:perspective(1000px) rotateX(8deg) rotateY(-14deg) rotateZ(2deg) translateY(0);}50%{transform:perspective(1000px) rotateX(8deg) rotateY(-14deg) rotateZ(2deg) translateY(-12px);}}
+.device{
+  width:260px;border-radius:28px;overflow:hidden;
+  background:#0a0a0d;border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 0 0 1px rgba(255,255,255,.05),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.device-bar{
+  height:36px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;padding:0 14px;
+}
+.device-dot{display:flex;gap:5px;}
+.device-dot span{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.15);}
+.device-live{display:flex;align-items:center;gap:5px;font-size:8px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.35);}
+.device-live-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.5);animation:blink 1.4s infinite;}
+.device-body{padding:14px;}
+/* Simulated UI rows */
+.d-section{font-size:7px;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.25);text-transform:uppercase;margin:10px 0 6px;}
+.d-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:8px;padding:10px 12px;margin-bottom:6px;
+}
+.d-row{display:flex;align-items:center;justify-content:space-between;}
+.d-label{font-size:8px;color:rgba(255,255,255,.35);}
+.d-val{font-size:14px;font-weight:900;letter-spacing:-.5px;color:rgba(255,255,255,.9);}
+.d-val.sm{font-size:11px;}
+.d-badge{font-size:7px;font-weight:700;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);letter-spacing:.08em;}
+.d-badge.up{color:rgba(255,255,255,.6);}
+.d-bars{display:flex;align-items:flex-end;gap:2px;height:20px;margin-top:6px;}
+.d-bar{flex:1;border-radius:1px;background:rgba(255,255,255,.12);}
+.d-bar.hi{background:rgba(255,255,255,.45);}
+.d-agents{display:flex;flex-direction:column;gap:4px;}
+.d-agent{display:flex;align-items:center;gap:6px;}
+.d-agent-dot{width:4px;height:4px;border-radius:50%;}
+.d-agent-dot.on{background:rgba(255,255,255,.6);box-shadow:0 0 4px rgba(255,255,255,.3);animation:blink 1.8s infinite;}
+.d-agent-dot.idle{background:rgba(255,255,255,.2);}
+.d-agent-name{font-size:8px;color:rgba(255,255,255,.45);font-weight:600;flex:1;}
+.d-agent-status{font-size:7px;color:rgba(255,255,255,.25);}
+/* Glow behind device */
+.device-glow{
+  position:absolute;inset:-40px;
+  background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(255,255,255,.05),transparent);
+  pointer-events:none;z-index:-1;border-radius:50%;
+}
+/* Corner decorations */
+.corner{position:absolute;width:12px;height:12px;border-color:rgba(255,255,255,.2);border-style:solid;}
+.corner.tl{top:-8px;left:-8px;border-width:1px 0 0 1px;}
+.corner.tr{top:-8px;right:-8px;border-width:1px 1px 0 0;}
+.corner.bl{bottom:-8px;left:-8px;border-width:0 0 1px 1px;}
+.corner.br{bottom:-8px;right:-8px;border-width:0 1px 1px 0;}
+
+/* Floating chips near device */
+.f-chip{
+  position:absolute;
+  padding:7px 12px;border-radius:8px;
+  background:rgba(12,12,15,.9);border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(12px);font-size:10px;font-weight:700;color:rgba(255,255,255,.7);
+  display:flex;align-items:center;gap:6px;white-space:nowrap;
+  animation:chipFloat 4s ease-in-out infinite;
+}
+.f-chip:nth-child(2){top:14%;right:-16%;animation-delay:1s;}
+.f-chip:nth-child(3){bottom:22%;left:-18%;animation-delay:2s;}
+.f-chip:nth-child(4){bottom:8%;right:-12%;animation-delay:.5s;}
+@keyframes chipFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+.chip-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);animation:blink 1.6s infinite;}
+
+/* Remove old hero stats row */
+.hero-stats{display:none;}
+.scroll-ind{bottom:20px;}
+
+/* Mobile hero */
+@media(max-width:900px){
+  #hero{grid-template-columns:1fr;padding-top:80px;text-align:center;}
+  .hero-h1{font-size:clamp(44px,10vw,72px);text-align:center;}
+  .hero-sub{text-align:center;max-width:100%;}
+  .hero-actions{justify-content:center;}
+  .hero-note{text-align:center;}
+  .hero-stats-col{align-items:center;}
+  .hero-right{display:none;}
+}
+
 
 .btn-hero{padding:14px 32px;border-radius:10px;font-size:14px;font-weight:700;border:none;letter-spacing:-.1px;transition:all .25s;}
 .btn-hero.p{background:#fff;color:#020203;}
@@ -359,24 +489,95 @@ footer{
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-label">
-    <div class="hero-label-dot"></div>
-    The AI operator's command center
+  <div class="hero-grid"></div>
+  <div class="scan"></div>
+
+  <!-- LEFT -->
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-live"><div class="eyebrow-live-dot"></div></div>
+      AI operator command center
+    </div>
+    <h1 class="hero-h1">
+      <span class="line"><span class="inner">One install.</span></span>
+      <span class="line"><span class="inner">All skills.</span></span>
+      <span class="line"><span class="inner">One command.</span></span>
+    </h1>
+    <p class="hero-sub">Revenue, clients, voice, and 70+ agent skills — one interface. Built for OpenClaw and Claude Code operators who run at full capacity.</p>
+    <div class="hero-actions">
+      <a href="/demo"><button class="btn-hero s">Try live demo</button></a>
+      <a href="#pricing"><button class="btn-hero p">Get full access — $99</button></a>
+    </div>
+    <p class="hero-note">No account needed &nbsp;·&nbsp; One-time payment &nbsp;·&nbsp; Yours forever</p>
+    <div class="hero-stats-col">
+      <div class="hero-stat"><span class="hs-val">70+</span><span class="hs-label">agent skills bundled</span></div>
+      <div class="hero-stat"><span class="hs-val">$0/mo</span><span class="hs-label">no subscriptions</span></div>
+      <div class="hero-stat"><span class="hs-val">30 min</span><span class="hs-label">from zero to live</span></div>
+    </div>
   </div>
-  <h1 class="hero-h1">
-    <span class="line"><span class="inner">One install.</span></span>
-    <span class="line"><span class="inner">All skills.</span></span>
-    <span class="line"><span class="inner">One command.</span></span>
-  </h1>
-  <p class="hero-sub">Revenue, clients, voice, and 70+ agent skills in one interface. Built for OpenClaw and Claude Code operators who run at full capacity.</p>
-  <div class="hero-actions">
-    <a href="/demo"><button class="btn-hero s">Try live demo</button></a>
-    <a href="#pricing"><button class="btn-hero p">Get full access — $99</button></a>
-  </div>
-  <p class="hero-note">No account needed to try &nbsp;·&nbsp; One-time payment &nbsp;·&nbsp; Yours forever</p>
-  <div class="scroll-ind">
-    <span class="scroll-label">Scroll</span>
-    <div class="scroll-line"></div>
+
+  <!-- RIGHT — floating device -->
+  <div class="hero-right">
+    <div class="f-chip" style="top:12%;left:-6%;">
+      <div class="chip-dot"></div>6 agents running
+    </div>
+    <div class="f-chip">
+      <div class="chip-dot"></div>MRR $4,270
+    </div>
+    <div class="f-chip">
+      <div class="chip-dot"></div>Churn risk: 3 clients
+    </div>
+    <div class="f-chip">
+      <div class="chip-dot"></div>Next session 18:00
+    </div>
+
+    <div class="device-glow"></div>
+    <div class="device-wrap">
+      <div class="corner tl"></div><div class="corner tr"></div>
+      <div class="corner bl"></div><div class="corner br"></div>
+      <div class="device">
+        <div class="device-bar">
+          <div class="device-dot"><span></span><span></span><span></span></div>
+          <div class="device-live"><div class="device-live-dot"></div>LIVE</div>
+        </div>
+        <div class="device-body">
+          <div class="d-section">Revenue</div>
+          <div class="d-card">
+            <div class="d-row">
+              <div><div class="d-label">MRR</div><div class="d-val">$4,270</div></div>
+              <div class="d-badge up">+18.4%</div>
+            </div>
+            <div class="d-bars">
+              <div class="d-bar" style="height:35%"></div>
+              <div class="d-bar" style="height:50%"></div>
+              <div class="d-bar" style="height:42%"></div>
+              <div class="d-bar" style="height:65%"></div>
+              <div class="d-bar" style="height:58%"></div>
+              <div class="d-bar" style="height:75%"></div>
+              <div class="d-bar" style="height:70%"></div>
+              <div class="d-bar" style="height:85%"></div>
+              <div class="d-bar hi" style="height:100%"></div>
+            </div>
+          </div>
+          <div class="d-section">Agent Fleet</div>
+          <div class="d-card">
+            <div class="d-agents">
+              <div class="d-agent"><div class="d-agent-dot on"></div><div class="d-agent-name">HAMLET</div><div class="d-agent-status">Publishing macro</div></div>
+              <div class="d-agent"><div class="d-agent-dot on"></div><div class="d-agent-name">ATLAS</div><div class="d-agent-status">Enriching leads</div></div>
+              <div class="d-agent"><div class="d-agent-dot on"></div><div class="d-agent-name">MENTOR</div><div class="d-agent-status">Drafting reply</div></div>
+              <div class="d-agent"><div class="d-agent-dot idle"></div><div class="d-agent-name">BUILDER</div><div class="d-agent-status">Standby</div></div>
+            </div>
+          </div>
+          <div class="d-section">Next Session</div>
+          <div class="d-card">
+            <div class="d-row">
+              <div><div class="d-label">Lea M.</div><div class="d-val sm">18:00 today</div></div>
+              <div class="d-badge">AI brief ready</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
