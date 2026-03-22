@@ -11,13 +11,12 @@
 :root{
   --bg:#090909;
   --g0:rgba(255,255,255,.04);--g1:rgba(255,255,255,.055);--g2:rgba(255,255,255,.08);--g3:rgba(255,255,255,.11);
-  --bd0:rgba(255,255,255,.07);--bd1:rgba(255,255,255,.11);--bd2:rgba(255,255,255,.16);--hi:rgba(255,255,255,.17);
+  --bd0:rgba(255,255,255,.07);--bd1:rgba(255,255,255,.11);--bd2:rgba(255,255,255,.16);
   --w:#F0EDE8;--w9:rgba(240,237,232,.95);--w8:rgba(240,237,232,.85);--w7:rgba(240,237,232,.72);
   --w6:rgba(240,237,232,.58);--w5:rgba(240,237,232,.46);--w4:rgba(240,237,232,.36);
   --w3:rgba(240,237,232,.26);--w2:rgba(240,237,232,.16);--w1:rgba(240,237,232,.08);
   --grn:#6B9E78;--red:#9E6B6B;--amb:#9E8B65;
-  --t:env(safe-area-inset-top,47px);--b:env(safe-area-inset-bottom,34px);
-  --spring:cubic-bezier(.34,1.56,.64,1);--ease:cubic-bezier(.25,.46,.45,.94);
+  --t:env(safe-area-inset-top,20px);--b:env(safe-area-inset-bottom,20px);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--w);
@@ -26,554 +25,508 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--w);
 button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;touch-action:manipulation;}
 *{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;}
 ::-webkit-scrollbar{display:none;}
-
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.4)}}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
-@keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.glass{background:var(--g1);-webkit-backdrop-filter:blur(28px) saturate(140%);backdrop-filter:blur(28px) saturate(140%);border:1px solid var(--bd0);position:relative;overflow:hidden;}
-.glass::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--hi) 35%,var(--hi) 65%,transparent);pointer-events:none;}
-
-/* ── DEMO BANNER ── */
-#demo-banner{
-  position:fixed;top:0;left:0;right:0;z-index:9999;
-  background:rgba(107,158,120,.15);border-bottom:1px solid rgba(107,158,120,.3);
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  padding:10px 16px;padding-top:calc(10px + var(--t));
-  font-size:11px;font-weight:700;letter-spacing:.1em;color:rgba(107,158,120,.9);
-}
-.demo-dot{width:6px;height:6px;border-radius:50%;background:var(--grn);animation:pulse 1.5s infinite;}
-#demo-banner a{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:8px;background:var(--grn);color:#090909;font-size:10px;font-weight:800;letter-spacing:.06em;text-decoration:none;transition:opacity .15s;}
-#demo-banner a:hover{opacity:.85;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes fadeup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── TOPBAR ── */
 #topbar{
-  position:fixed;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
-  padding:0 18px;height:52px;
-  background:rgba(9,9,9,.8);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding-top:var(--t);
+  height:calc(var(--t) + 52px);
+  display:flex;align-items:flex-end;justify-content:space-between;
+  padding-bottom:10px;padding-left:18px;padding-right:18px;
+  background:rgba(9,9,9,.9);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
   border-bottom:1px solid var(--bd0);
 }
-#topbar-top{top:calc(var(--t) + 40px);}
-.live-badge{display:flex;align-items:center;gap:6px;font-size:9px;font-weight:700;letter-spacing:.16em;color:var(--grn);}
+.live-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:99px;border:1px solid rgba(107,158,120,.35);background:rgba(107,158,120,.08);font-size:9px;font-weight:700;letter-spacing:.14em;color:rgba(107,158,120,.9);}
 .live-dot{width:5px;height:5px;border-radius:50%;background:var(--grn);animation:pulse 1.8s infinite;}
-.topbar-title{font-size:14px;font-weight:700;letter-spacing:-.2px;}
-.topbar-right{display:flex;align-items:center;gap:12px;}
-.icon-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:10px;color:var(--w5);}
-.notif-badge{font-size:9px;font-weight:700;background:var(--grn);color:#090909;padding:1px 5px;border-radius:6px;}
+.top-icons{display:flex;align-items:center;gap:16px;}
+.top-icon{display:flex;align-items:center;justify-content:center;color:var(--w5);}
+.top-icon svg{width:20px;height:20px;}
+.notif-dot{width:5px;height:5px;border-radius:50%;background:var(--grn);margin-left:-8px;margin-top:-10px;}
 
-/* ── SCROLL AREA ── */
+/* ── DEMO BANNER ── */
+#demo-banner{
+  position:fixed;left:0;right:0;z-index:90;
+  background:rgba(9,9,9,.95);border-bottom:1px solid var(--bd0);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 18px;top:calc(var(--t) + 52px);
+  font-size:10px;color:var(--w5);
+}
+.demo-badge{display:inline-flex;align-items:center;gap:5px;font-weight:700;color:rgba(107,158,120,.8);letter-spacing:.08em;}
+#demo-banner a{padding:5px 14px;border-radius:8px;background:#fff;color:#090909;font-size:10px;font-weight:800;letter-spacing:.04em;}
+
+/* ── NOTIFY TOAST ── */
+#notify{
+  position:fixed;left:16px;right:16px;z-index:200;
+  background:var(--g2);border:1px solid var(--bd1);border-radius:14px;
+  padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  animation:fadeup .3s ease;
+}
+.notify-text{font-size:13px;color:var(--w7);}
+.notify-later{font-size:12px;color:var(--w4);padding:0 10px;}
+.notify-act{padding:7px 16px;border-radius:9px;background:var(--w9);color:#090909;font-size:12px;font-weight:700;}
+
+/* ── SCROLL ── */
 #scroll{
   position:fixed;left:0;right:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  padding:0 14px 120px;
+  padding:0 14px 20px;
 }
-#scroll-top{top:calc(var(--t) + 40px + 52px);}
-#scroll-bottom{bottom:calc(var(--b) + 64px);}
 
-/* ── SECTIONS ── */
-.section-head{display:flex;align-items:center;justify-content:space-between;padding:16px 2px 8px;}
-.section-lbl{font-size:9px;font-weight:700;letter-spacing:.2em;color:var(--w4);text-transform:uppercase;}
-.section-action{font-size:10px;font-weight:600;color:var(--w4);}
+/* ── CARDS ── */
+.card{
+  background:var(--g1);border:1px solid var(--bd0);border-radius:18px;
+  position:relative;overflow:hidden;margin-bottom:10px;
+}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1) 40%,rgba(255,255,255,.1) 60%,transparent);}
 
 /* ── REVENUE CARD ── */
-.rev-card{border-radius:20px;padding:20px 20px 18px;margin-bottom:10px;}
-.rev-eyebrow{font-size:8px;font-weight:700;letter-spacing:.2em;color:var(--w4);text-transform:uppercase;margin-bottom:10px;}
-.rev-main{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
-.rev-mrr{font-size:42px;font-weight:900;letter-spacing:-2px;line-height:1;}
-.rev-arr-block{text-align:right;}
-.rev-arr-lbl{font-size:8px;color:var(--w4);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;}
-.rev-arr{font-size:20px;font-weight:800;letter-spacing:-1px;color:var(--w8);}
-.rev-delta{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:8px;background:rgba(107,158,120,.15);border:1px solid rgba(107,158,120,.22);font-size:11px;font-weight:700;color:var(--grn);}
-.rev-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-top:1px solid var(--bd0);padding-top:14px;margin-top:14px;}
-.rev-stat{text-align:center;}
-.rev-stat-val{font-size:22px;font-weight:900;letter-spacing:-1px;color:var(--grn);}
-.rev-stat-lbl{font-size:8px;font-weight:700;letter-spacing:.16em;color:var(--w4);text-transform:uppercase;margin-top:3px;}
-.rev-bars{display:flex;gap:3px;height:28px;align-items:flex-end;margin-top:12px;}
-.rev-bar{flex:1;border-radius:3px 3px 0 0;background:rgba(107,158,120,.25);}
-.rev-bar.hi{background:rgba(107,158,120,.75);}
+.rev-card{padding:22px 22px 16px;}
+.rev-eyebrow{font-size:9px;font-weight:700;letter-spacing:.2em;color:var(--w4);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
+.rev-eyebrow svg{width:14px;height:14px;color:var(--w4);}
+.rev-amount{font-size:52px;font-weight:900;letter-spacing:-3px;line-height:1;margin-bottom:10px;}
+.rev-sub{font-size:12px;color:var(--w5);display:flex;align-items:center;gap:8px;}
+.rev-up{color:var(--grn);font-weight:700;}
+.sparkline{width:100%;height:40px;margin-top:14px;opacity:.7;}
 
-/* ── MINI GRID ── */
-.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
-.mini-card{border-radius:16px;padding:16px 15px;}
-.mini-icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:16px;}
-.mini-lbl{font-size:8px;font-weight:700;letter-spacing:.16em;color:var(--w4);text-transform:uppercase;margin-bottom:6px;}
-.mini-val{font-size:26px;font-weight:900;letter-spacing:-1.5px;line-height:1;margin-bottom:3px;}
-.mini-sub{font-size:11px;color:var(--w5);}
-.mini-badge{display:inline-block;margin-top:8px;padding:2px 8px;border-radius:5px;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
-.badge-grn{background:rgba(107,158,120,.18);color:var(--grn);border:1px solid rgba(107,158,120,.25);}
-.badge-amb{background:rgba(158,139,101,.15);color:var(--amb);border:1px solid rgba(158,139,101,.2);}
+/* ── BRIEF CARD ── */
+.brief-card{padding:16px 18px;}
+.brief-lbl{font-size:8px;font-weight:700;letter-spacing:.2em;color:var(--w4);text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;}
+.brief-lbl span{color:var(--w3);}
+.brief-text{font-size:12px;color:var(--w6);line-height:1.65;}
 
-/* ── AGENTS ── */
-.agents-list{border-radius:20px;overflow:hidden;margin-bottom:10px;}
-.agent-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--bd0);}
+/* ── STAT GRID ── */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;}
+.stat-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.stat-card{background:var(--g1);border:1px solid var(--bd0);border-radius:16px;padding:16px 16px 14px;position:relative;}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08) 50%,transparent);}
+.stat-icon{position:absolute;top:14px;right:14px;color:var(--w3);}
+.stat-icon svg{width:16px;height:16px;}
+.stat-val{font-size:28px;font-weight:900;letter-spacing:-1.5px;line-height:1;margin-bottom:6px;}
+.stat-lbl{font-size:8px;font-weight:700;letter-spacing:.18em;color:var(--w4);text-transform:uppercase;}
+.stat-val.grn{color:var(--grn);}
+.stat-val.amb{color:var(--amb);}
+
+/* ── AGENT STATUS ── */
+.agents-card{padding:0;}
+.agent-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--bd0);}
 .agent-row:last-child{border-bottom:none;}
-.agent-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.agent-dot.on{background:var(--grn);box-shadow:0 0 8px rgba(107,158,120,.5);animation:pulse 2s infinite;}
-.agent-dot.idle{background:var(--w3);}
-.agent-dot.busy{background:var(--amb);animation:blink 1.4s infinite;}
-.agent-name{font-size:12px;font-weight:800;letter-spacing:.02em;width:58px;flex-shrink:0;}
-.agent-role{font-size:10px;color:var(--w5);flex:1;}
-.agent-status{font-size:9px;font-weight:600;letter-spacing:.06em;}
-.agent-status.on{color:var(--grn);}
-.agent-status.idle{color:var(--w3);}
-.agent-status.busy{color:var(--amb);}
+.ag-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.ag-dot.on{background:var(--grn);box-shadow:0 0 7px rgba(107,158,120,.5);animation:pulse 2.2s infinite;}
+.ag-dot.busy{background:var(--amb);animation:blink 1.4s infinite;}
+.ag-dot.idle{background:var(--w3);}
+.ag-name{font-size:12px;font-weight:800;letter-spacing:.02em;width:56px;flex-shrink:0;}
+.ag-task{font-size:11px;color:var(--w5);flex:1;}
+.ag-status{font-size:9px;font-weight:700;letter-spacing:.08em;}
+.ag-status.on{color:var(--grn);}
+.ag-status.busy{color:var(--amb);}
+.ag-status.idle{color:var(--w3);}
 
-/* ── CLIENTS ── */
-.client-list{display:flex;flex-direction:column;gap:7px;margin-bottom:10px;}
-.client-card{border-radius:14px;padding:13px 15px;display:flex;align-items:center;gap:12px;}
-.client-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;background:var(--g2);border:1px solid var(--bd1);}
-.client-info{flex:1;min-width:0;}
-.client-name{font-size:13px;font-weight:700;letter-spacing:-.1px;}
+/* ── ACTION ITEMS ── */
+.section-head{display:flex;align-items:center;justify-content:space-between;padding:12px 2px 6px;}
+.section-lbl{font-size:9px;font-weight:700;letter-spacing:.2em;color:var(--w4);text-transform:uppercase;}
+.section-action{font-size:12px;color:var(--w5);font-weight:600;}
+.action-item{display:flex;align-items:center;gap:12px;padding:13px 16px;}
+.action-icon{width:34px;height:34px;border-radius:10px;background:var(--g2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.action-icon svg{width:16px;height:16px;color:var(--w5);}
+.action-text{flex:1;font-size:13px;color:var(--w7);}
+.action-sub{font-size:10px;color:var(--w4);margin-top:2px;}
+.action-arrow{color:var(--w3);}
+.action-arrow svg{width:14px;height:14px;}
+
+/* ── CLIENT CARDS ── */
+.client-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--bd0);}
+.client-item:last-child{border-bottom:none;}
+.client-av{width:36px;height:36px;border-radius:50%;background:var(--g2);border:1px solid var(--bd1);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.client-info{flex:1;}
+.client-name{font-size:13px;font-weight:700;}
 .client-meta{font-size:10px;color:var(--w5);margin-top:1px;}
-.client-right{text-align:right;}
-.churn-score{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;}
-.churn-low{background:rgba(107,158,120,.15);color:var(--grn);}
-.churn-mid{background:rgba(158,139,101,.15);color:var(--amb);}
+.churn-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;text-align:right;}
+.churn-lo{background:rgba(107,158,120,.15);color:var(--grn);}
+.churn-mi{background:rgba(158,139,101,.15);color:var(--amb);}
 .churn-hi{background:rgba(158,107,107,.15);color:var(--red);}
-.client-mrr{font-size:11px;color:var(--w5);margin-top:3px;}
-
-/* ── PIPELINE ── */
-.pipeline-card{border-radius:18px;padding:16px 18px;margin-bottom:10px;}
-.pipe-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd0);}
-.pipe-row:last-child{border-bottom:none;}
-.pipe-co{font-size:12px;font-weight:700;flex:1;}
-.pipe-stage{font-size:9px;font-weight:700;letter-spacing:.1em;padding:2px 8px;border-radius:5px;background:var(--g2);color:var(--w5);}
-.pipe-val{font-size:13px;font-weight:800;color:var(--w8);text-align:right;min-width:56px;}
-
-/* ── ECOMMERCE ── */
-.ecom-card{border-radius:18px;padding:16px 18px;margin-bottom:10px;}
-.ecom-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
-.ecom-stat{background:var(--g1);border:1px solid var(--bd0);border-radius:10px;padding:10px 12px;}
-.ecom-stat-val{font-size:18px;font-weight:900;letter-spacing:-1px;}
-.ecom-stat-lbl{font-size:8px;color:var(--w4);letter-spacing:.14em;text-transform:uppercase;margin-top:2px;}
-.ecom-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd0);}
-.ecom-row:last-child{border-bottom:none;}
-.ecom-prod{font-size:11px;font-weight:700;flex:1;}
-.ecom-sold{font-size:10px;color:var(--w5);}
-.ecom-rev{font-size:12px;font-weight:700;color:var(--grn);}
 
 /* ── CALENDAR ── */
-.cal-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
-.cal-item{border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:12px;}
-.cal-time{font-size:11px;font-weight:700;color:var(--w5);min-width:40px;text-align:center;}
-.cal-bar{width:2px;height:32px;border-radius:2px;background:var(--grn);flex-shrink:0;}
+.cal-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--bd0);}
+.cal-item:last-child{border-bottom:none;}
+.cal-time{font-size:11px;font-weight:700;color:var(--w5);width:36px;flex-shrink:0;text-align:center;}
+.cal-bar{width:2px;height:30px;border-radius:2px;flex-shrink:0;}
+.cal-bar.grn{background:var(--grn);}
 .cal-bar.amb{background:var(--amb);}
-.cal-info{flex:1;}
-.cal-title{font-size:12px;font-weight:700;}
-.cal-meta{font-size:10px;color:var(--w5);margin-top:2px;}
-.cal-ai-chip{font-size:8px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(107,158,120,.15);border:1px solid rgba(107,158,120,.2);color:var(--grn);}
-
-/* ── VOICE ORBS ── */
-.voice-orb-btn{
-  position:fixed;bottom:calc(var(--b) + 72px);left:50%;transform:translateX(-50%);z-index:200;
-  width:58px;height:58px;border-radius:50%;background:#fff;color:#090909;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 6px 24px rgba(0,0,0,.5);transition:all .2s var(--spring);
-}
-.voice-orb-btn:active{transform:translateX(-50%) scale(.93);}
+.cal-title{font-size:12px;font-weight:700;flex:1;}
+.cal-meta{font-size:10px;color:var(--w4);margin-top:1px;}
+.cal-tag{font-size:8px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(107,158,120,.12);border:1px solid rgba(107,158,120,.2);color:rgba(107,158,120,.9);white-space:nowrap;}
 
 /* ── BOTTOM NAV ── */
-#bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:300;
-  height:calc(64px + var(--b));padding-bottom:var(--b);
-  background:rgba(9,9,9,.88);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
+#nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:rgba(9,9,9,.92);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
   border-top:1px solid var(--bd0);
-  display:flex;align-items:center;justify-content:space-around;padding-top:0;
+  height:calc(64px + var(--b));
+  display:flex;align-items:center;justify-content:space-around;
+  padding-bottom:var(--b);padding-top:2px;
 }
-.nav-tab{flex:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--w4);transition:color .15s;}
-.nav-tab.active{color:var(--w8);}
-.nav-tab svg{width:22px;height:22px;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;color:var(--w4);transition:color .15s;position:relative;}
+.nav-btn.active{color:var(--w8);}
+.nav-btn svg{width:23px;height:23px;}
+.nav-dot{position:absolute;top:10px;right:calc(50% - 18px);width:5px;height:5px;border-radius:50%;background:var(--grn);}
 .nav-lbl{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
-.nav-spacer{flex:1;}
+.nav-fab{
+  flex:1;display:flex;align-items:center;justify-content:center;height:100%;
+  position:relative;
+}
+.fab-btn{
+  width:56px;height:56px;border-radius:50%;background:#fff;color:#090909;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+  margin-top:-20px;
+  transition:transform .15s;
+}
+.fab-btn:active{transform:scale(.93);}
+.fab-btn svg{width:22px;height:22px;}
 
 /* ── VOICE OVERLAY ── */
-#voice-overlay{
-  position:fixed;inset:0;z-index:9000;background:rgba(9,9,9,.95);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
-  opacity:0;pointer-events:none;transition:opacity .3s;
+#voice-ov{
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(9,9,9,.96);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+  opacity:0;pointer-events:none;transition:opacity .25s;
 }
-#voice-overlay.on{opacity:1;pointer-events:all;}
-.vo-orb{width:120px;height:120px;border-radius:50%;background:var(--g2);border:1.5px solid var(--bd2);display:flex;align-items:center;justify-content:center;position:relative;}
-.vo-ring{position:absolute;inset:-12px;border-radius:50%;border:1px solid rgba(107,158,120,.2);animation:spin 4s linear infinite;}
-.vo-transcript{font-size:14px;color:var(--w6);text-align:center;max-width:280px;line-height:1.6;}
-.vo-reply{font-size:16px;font-weight:600;color:var(--w8);text-align:center;max-width:280px;line-height:1.6;}
-.vo-close{padding:12px 28px;border-radius:12px;background:var(--g2);border:1px solid var(--bd1);font-size:13px;font-weight:700;color:var(--w6);}
+#voice-ov.on{opacity:1;pointer-events:all;}
+.vo-ring-wrap{position:relative;width:110px;height:110px;}
+.vo-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(107,158,120,.2);animation:spin 5s linear infinite;}
+.vo-ring2{position:absolute;inset:8px;border-radius:50%;border:1px solid rgba(255,255,255,.06);animation:spin 8s linear infinite reverse;}
+.vo-circle{position:absolute;inset:16px;border-radius:50%;background:var(--g2);border:1px solid var(--bd1);display:flex;align-items:center;justify-content:center;}
+.vo-q{font-size:14px;color:var(--w6);text-align:center;max-width:300px;line-height:1.65;padding:0 24px;}
+.vo-a{font-size:16px;font-weight:600;color:var(--w8);text-align:center;max-width:300px;line-height:1.7;padding:0 24px;min-height:56px;}
+.vo-close-btn{padding:13px 32px;border-radius:14px;background:var(--g2);border:1px solid var(--bd1);font-size:13px;font-weight:700;color:var(--w6);}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── PAGES ── */
 .page{display:none;}
 .page.active{display:block;}
-
-/* ── PULL TO REFRESH ── */
-.ptr-hint{text-align:center;padding:12px 0;font-size:10px;color:var(--w4);letter-spacing:.1em;}
-
-/* ── TODOS ── */
-.todo-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;margin-bottom:6px;background:var(--g1);border:1px solid var(--bd0);}
-.todo-chk{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--bd1);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.todo-chk.done{background:var(--g2);border-color:var(--grn);}
-.todo-txt{flex:1;font-size:13px;color:var(--w7);}
-.todo-txt.done{text-decoration:line-through;color:var(--w4);}
-.todo-cat{font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--w4);text-transform:uppercase;}
-.hi-todo{border-left:2px solid var(--grn);}
 </style>
 </head>
 <body>
 
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="live-pill"><div class="live-dot"></div>LIVE</div>
+  <div class="top-icons">
+    <button class="top-icon" onclick="toggleVoice()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+    </button>
+    <button class="top-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M8.46 8.46a5 5 0 0 0 0 7.07"/></svg>
+    </button>
+    <button class="top-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+    <div class="notif-dot"></div>
+  </div>
+</div>
+
 <!-- DEMO BANNER -->
 <div id="demo-banner">
-  <div class="demo-dot"></div>
-  LIVE DEMO — SIMULATED DATA
+  <div class="demo-badge"><div class="live-dot" style="width:4px;height:4px;"></div>DEMO — SIMULATED DATA</div>
   <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank">Get full access $99 →</a>
 </div>
 
-<!-- TOPBAR -->
-<div id="topbar" id="topbar-top" style="top:calc(var(--t) + 40px);">
-  <div class="live-badge"><div class="live-dot"></div>LIVE</div>
-  <div class="topbar-title">Kapaciti</div>
-  <div class="topbar-right">
-    <button class="icon-btn" onclick="toggleVoice()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-    </button>
-    <span class="notif-badge">4</span>
-  </div>
-</div>
-
 <!-- SCROLL AREA -->
-<div id="scroll" style="top:calc(var(--t) + 40px + 52px);bottom:calc(var(--b) + 64px);">
+<div id="scroll" style="top:calc(var(--t) + 52px + 38px);bottom:calc(var(--b) + 64px);">
 
-  <div class="ptr-hint">↓ Pull to refresh</div>
+  <!-- ══ HOME ══ -->
+  <div id="pg-home" class="page active" style="padding-top:10px;">
 
-  <!-- ══ HOME PAGE ══ -->
-  <div id="page-home" class="page active">
-
-    <!-- REVENUE -->
-    <div class="section-head"><span class="section-lbl">// Revenue</span><span class="section-action">View details →</span></div>
-    <div class="rev-card glass">
-      <div class="rev-eyebrow">Monthly Revenue</div>
-      <div class="rev-main">
-        <div>
-          <div class="rev-mrr">$24,870</div>
-          <div class="rev-delta" style="margin-top:10px;">↑ +31.4% vs last month</div>
-        </div>
-        <div class="rev-arr-block">
-          <div class="rev-arr-lbl">ARR</div>
-          <div class="rev-arr">$298,440</div>
+    <!-- Notification toast -->
+    <div class="card" id="notify-card" style="margin-bottom:10px;border-radius:14px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;">
+        <div style="font-size:13px;color:var(--w7);">Enable push notifications for client alerts</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button style="font-size:12px;color:var(--w4);padding:0 8px;" onclick="this.closest('.card').remove()">Later</button>
+          <button style="padding:6px 14px;border-radius:8px;background:var(--w9);color:#090909;font-size:12px;font-weight:700;" onclick="this.closest('.card').remove()">Enable</button>
         </div>
       </div>
-      <div class="rev-bars">
-        <div class="rev-bar" style="height:38%"></div>
-        <div class="rev-bar" style="height:52%"></div>
-        <div class="rev-bar" style="height:44%"></div>
-        <div class="rev-bar" style="height:61%"></div>
-        <div class="rev-bar" style="height:55%"></div>
-        <div class="rev-bar" style="height:70%"></div>
-        <div class="rev-bar" style="height:64%"></div>
-        <div class="rev-bar" style="height:78%"></div>
-        <div class="rev-bar" style="height:82%"></div>
-        <div class="rev-bar" style="height:88%"></div>
-        <div class="rev-bar" style="height:93%"></div>
-        <div class="rev-bar hi" style="height:100%"></div>
+    </div>
+
+    <!-- Revenue card -->
+    <div class="card rev-card">
+      <div class="rev-eyebrow">
+        TOTAL MRR · USD
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
-      <div class="rev-stats">
-        <div class="rev-stat"><div class="rev-stat-val">247</div><div class="rev-stat-lbl">Active</div></div>
-        <div class="rev-stat"><div class="rev-stat-val" style="color:var(--amb);">8</div><div class="rev-stat-lbl">At Risk</div></div>
-        <div class="rev-stat"><div class="rev-stat-val">96%</div><div class="rev-stat-lbl">Retention</div></div>
+      <div class="rev-amount" id="mrr-display">$24,870</div>
+      <div class="rev-sub">
+        <span class="rev-up">▲ 247 active</span>
+        <span>·</span>
+        <span>Goal $30,000</span>
+      </div>
+      <canvas class="sparkline" id="sparkline" height="40"></canvas>
+    </div>
+
+    <!-- AI Daily Brief -->
+    <div class="card brief-card">
+      <div class="brief-lbl">AI DAILY BRIEF <span id="brief-time">09:00</span></div>
+      <div class="brief-text">MRR: $24,870. Active clients: 247. Unanswered messages: 14. COACH has 38 draft replies ready. Pipeline: $62k open, 3 deals in final stage. REACH published 3 posts today. System health: all 9 agents active.</div>
+    </div>
+
+    <!-- Stat grid: 3 cols -->
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="stat-val">247</div>
+        <div class="stat-lbl">Active</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="stat-val">1,840</div>
+        <div class="stat-lbl">Community</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="stat-val grn">$298k</div>
+        <div class="stat-lbl">ARR</div>
       </div>
     </div>
 
-    <!-- MINI GRID: Auto-Coach + Pipeline -->
-    <div class="mini-grid">
-      <div class="mini-card glass">
-        <div class="mini-icon">🧠</div>
-        <div class="mini-lbl">Auto-Coach</div>
-        <div class="mini-val">38</div>
-        <div class="mini-sub">Drafts ready to send</div>
-        <div class="mini-badge badge-grn">AI-GENERATED</div>
+    <!-- Stat grid: 2 cols -->
+    <div class="stat-grid-2">
+      <div class="stat-card">
+        <div class="stat-val">$18.4k</div>
+        <div class="stat-lbl">E-COM TODAY</div>
       </div>
-      <div class="mini-card glass">
-        <div class="mini-icon">🎯</div>
-        <div class="mini-lbl">Pipeline</div>
-        <div class="mini-val">$62k</div>
-        <div class="mini-sub">19 qualified prospects</div>
-        <div class="mini-badge badge-grn">ACTIVE</div>
+      <div class="stat-card">
+        <div class="stat-val amb">8</div>
+        <div class="stat-lbl">AT RISK</div>
       </div>
     </div>
 
-    <!-- MINI GRID: Content + Social -->
-    <div class="mini-grid">
-      <div class="mini-card glass">
-        <div class="mini-icon">📝</div>
-        <div class="mini-lbl">CRAFT</div>
-        <div class="mini-val">14</div>
-        <div class="mini-sub">Content pieces queued</div>
-        <div class="mini-badge badge-grn">SCHEDULED</div>
+    <!-- Action required -->
+    <div class="section-head">
+      <div class="section-lbl">Requires action</div>
+      <div class="section-action">Refresh</div>
+    </div>
+    <div class="card" style="padding:0;">
+      <div class="action-item" style="border-bottom:1px solid var(--bd0);">
+        <div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div style="flex:1;"><div class="action-text">3 open invoices</div><div class="action-sub">Oldest: 14 days unpaid — $4,200</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
       </div>
-      <div class="mini-card glass">
-        <div class="mini-icon">📡</div>
-        <div class="mini-lbl">REACH</div>
-        <div class="mini-val">3</div>
-        <div class="mini-sub">Posts live today</div>
-        <div class="mini-badge badge-amb">IN PROGRESS</div>
+      <div class="action-item" style="border-bottom:1px solid var(--bd0);">
+        <div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="23" y2="17"/><line x1="20" y1="14" x2="26" y2="14"/></svg></div>
+        <div style="flex:1;"><div class="action-text">38 COACH draft replies</div><div class="action-sub">Review and approve before sending</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="action-item">
+        <div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div style="flex:1;"><div class="action-text">8 clients flagged at risk</div><div class="action-sub">James T. silent 9 days — Critical</div></div>
+        <div class="action-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
       </div>
     </div>
 
-    <!-- AGENT FLEET -->
-    <div class="section-head"><span class="section-lbl">// Agent Fleet</span><span class="section-action">9 active</span></div>
-    <div class="agents-list glass">
-      <div class="agent-row"><div class="agent-dot on"></div><div class="agent-name">NEXUS</div><div class="agent-role">Routing 3 tasks</div><div class="agent-status on">LIVE</div></div>
-      <div class="agent-row"><div class="agent-dot on"></div><div class="agent-name">PULSE</div><div class="agent-role">Macro briefing — published</div><div class="agent-status on">DONE</div></div>
-      <div class="agent-row"><div class="agent-dot busy"></div><div class="agent-name">COACH</div><div class="agent-role">38 draft replies queued</div><div class="agent-status busy">BUSY</div></div>
-      <div class="agent-row"><div class="agent-dot on"></div><div class="agent-name">FORGE</div><div class="agent-role">Enriching 19 prospects</div><div class="agent-status on">LIVE</div></div>
-      <div class="agent-row"><div class="agent-dot busy"></div><div class="agent-name">CRAFT</div><div class="agent-role">14 pieces in pipeline</div><div class="agent-status busy">BUSY</div></div>
-      <div class="agent-row"><div class="agent-dot idle"></div><div class="agent-name">BUILD</div><div class="agent-role">Standby — last deploy 2h ago</div><div class="agent-status idle">IDLE</div></div>
-      <div class="agent-row"><div class="agent-dot on"></div><div class="agent-name">REACH</div><div class="agent-role">TikTok + X live</div><div class="agent-status on">LIVE</div></div>
-      <div class="agent-row"><div class="agent-dot on"></div><div class="agent-name">RADAR</div><div class="agent-role">Monitoring 12 signals</div><div class="agent-status on">LIVE</div></div>
-      <div class="agent-row"><div class="agent-dot idle"></div><div class="agent-name">VOICE</div><div class="agent-role">4 emails scheduled</div><div class="agent-status idle">QUEUED</div></div>
-    </div>
-
-    <!-- CLIENTS -->
-    <div class="section-head"><span class="section-lbl">// Clients</span><span class="section-action">View all 247 →</span></div>
-    <div class="client-list">
-      <div class="client-card glass">
-        <div class="client-av">MR</div>
-        <div class="client-info"><div class="client-name">Marcus R.</div><div class="client-meta">Last session: Today 09:14 · 48 trades</div></div>
-        <div class="client-right"><div class="churn-score churn-low">94 — Low risk</div><div class="client-mrr">$249/mo</div></div>
-      </div>
-      <div class="client-card glass">
-        <div class="client-av">SL</div>
-        <div class="client-info"><div class="client-name">Sofia L.</div><div class="client-meta">Last session: Yesterday · 12 trades</div></div>
-        <div class="client-right"><div class="churn-score churn-mid">61 — Watch</div><div class="client-mrr">$399/mo</div></div>
-      </div>
-      <div class="client-card glass">
-        <div class="client-av">JT</div>
-        <div class="client-info"><div class="client-name">James T.</div><div class="client-meta">Silent 9 days · 2 missed sessions</div></div>
-        <div class="client-right"><div class="churn-score churn-hi">28 — Critical</div><div class="client-mrr">$149/mo</div></div>
-      </div>
-      <div class="client-card glass">
-        <div class="client-av">AK</div>
-        <div class="client-info"><div class="client-name">Ana K.</div><div class="client-meta">Last session: Today 07:40 · Elite</div></div>
-        <div class="client-right"><div class="churn-score churn-low">98 — Excellent</div><div class="client-mrr">$999/mo</div></div>
-      </div>
-    </div>
-
-    <!-- E-COMMERCE -->
-    <div class="section-head"><span class="section-lbl">// E-Commerce</span><span class="section-action">Shopify sync →</span></div>
-    <div class="ecom-card glass">
-      <div class="ecom-grid">
-        <div class="ecom-stat"><div class="ecom-stat-val" style="color:var(--grn);">$18.4k</div><div class="ecom-stat-lbl">Revenue today</div></div>
-        <div class="ecom-stat"><div class="ecom-stat-val">1,284</div><div class="ecom-stat-lbl">Orders today</div></div>
-        <div class="ecom-stat"><div class="ecom-stat-val">$14.30</div><div class="ecom-stat-lbl">Avg order</div></div>
-        <div class="ecom-stat"><div class="ecom-stat-val" style="color:var(--amb);">3.2%</div><div class="ecom-stat-lbl">Cart abandonment</div></div>
-      </div>
-      <div style="margin-top:12px;border-top:1px solid var(--bd0);padding-top:10px;">
-        <div style="font-size:8px;font-weight:700;letter-spacing:.16em;color:var(--w4);text-transform:uppercase;margin-bottom:6px;">Top Products</div>
-        <div class="ecom-row"><div class="ecom-prod">AI Trading Course — Pro</div><div class="ecom-sold">342 sold</div><div class="ecom-rev">$34,200</div></div>
-        <div class="ecom-row"><div class="ecom-prod">Command Center License</div><div class="ecom-sold">198 sold</div><div class="ecom-rev">$19,602</div></div>
-        <div class="ecom-row"><div class="ecom-prod">Strategy Playbook PDF</div><div class="ecom-sold">744 sold</div><div class="ecom-rev">$14,880</div></div>
-      </div>
-    </div>
-
-    <!-- PIPELINE -->
-    <div class="section-head"><span class="section-lbl">// Sales Pipeline</span><span class="section-action">$62k open</span></div>
-    <div class="pipeline-card glass">
-      <div class="pipe-row"><div class="pipe-co">Acme Corp</div><div class="pipe-stage">PROPOSAL</div><div class="pipe-val">$14,000</div></div>
-      <div class="pipe-row"><div class="pipe-co">Northwind SaaS</div><div class="pipe-stage">DEMO DONE</div><div class="pipe-val">$8,400</div></div>
-      <div class="pipe-row"><div class="pipe-co">BlueTech AB</div><div class="pipe-stage">NEGOTIATING</div><div class="pipe-val">$22,500</div></div>
-      <div class="pipe-row"><div class="pipe-co">DataPulse Inc</div><div class="pipe-stage">CONTACTED</div><div class="pipe-val">$6,200</div></div>
-      <div class="pipe-row"><div class="pipe-co">Vertex Capital</div><div class="pipe-stage">DISCOVERY</div><div class="pipe-val">$10,900</div></div>
-    </div>
-
-    <!-- CALENDAR -->
-    <div class="section-head"><span class="section-lbl">// Today's Schedule</span><span class="section-action">Mar 22</span></div>
-    <div class="cal-list">
-      <div class="cal-item glass"><div class="cal-time">09:00</div><div class="cal-bar"></div><div class="cal-info"><div class="cal-title">PULSE — Market Briefing</div><div class="cal-meta">Auto-published to Discord</div></div><div class="cal-ai-chip">AI DONE</div></div>
-      <div class="cal-item glass"><div class="cal-time">11:00</div><div class="cal-bar"></div><div class="cal-info"><div class="cal-title">Marcus R. — Session</div><div class="cal-meta">Review: Breakout trade thesis</div></div><div class="cal-ai-chip">BRIEF READY</div></div>
-      <div class="cal-item glass"><div class="cal-time">14:30</div><div class="cal-bar amb"></div><div class="cal-info"><div class="cal-title">Acme Corp — Discovery call</div><div class="cal-meta">FORGE prepared: 3 talking points</div></div><div class="cal-ai-chip">PREPPED</div></div>
-      <div class="cal-item glass"><div class="cal-time">17:00</div><div class="cal-bar"></div><div class="cal-info"><div class="cal-title">Weekly Revenue Review</div><div class="cal-meta">NEXUS — auto-report at 16:50</div></div><div class="cal-ai-chip">SCHEDULED</div></div>
-      <div class="cal-item glass"><div class="cal-time">19:30</div><div class="cal-bar"></div><div class="cal-info"><div class="cal-title">Ana K. — Elite Coaching</div><div class="cal-meta">2 setups flagged by COACH</div></div><div class="cal-ai-chip">BRIEF READY</div></div>
-    </div>
-
-  </div><!-- /home -->
-
-  <!-- ══ TODOS PAGE ══ -->
-  <div id="page-todos" class="page">
-    <div class="section-head"><span class="section-lbl">// Tasks</span><span class="section-action">5 pending · 3 done</span></div>
-    <div class="todo-item glass hi-todo"><div class="todo-chk"></div><div class="todo-txt">Review 8 churn-risk clients — COACH drafted replies</div><div class="todo-cat">URGENT</div></div>
-    <div class="todo-item glass hi-todo"><div class="todo-chk"></div><div class="todo-txt">Approve Acme Corp proposal ($14k) — FORGE ready</div><div class="todo-cat">REVENUE</div></div>
-    <div class="todo-item glass"><div class="todo-chk"></div><div class="todo-txt">Review PULSE briefing before market open</div><div class="todo-cat">MARKET</div></div>
-    <div class="todo-item glass"><div class="todo-chk"></div><div class="todo-txt">Post BlueTech case study — CRAFT queued</div><div class="todo-cat">CONTENT</div></div>
-    <div class="todo-item glass"><div class="todo-chk"></div><div class="todo-txt">Set up Stripe webhook for new product tier</div><div class="todo-cat">BUILD</div></div>
-    <div class="todo-item glass"><div class="todo-chk done"></div><div class="todo-txt done">REACH published 3 TikToks this morning</div><div class="todo-cat">DONE</div></div>
-    <div class="todo-item glass"><div class="todo-chk done"></div><div class="todo-txt done">Daily macro briefing — PULSE auto-completed</div><div class="todo-cat">DONE</div></div>
-    <div class="todo-item glass"><div class="todo-chk done"></div><div class="todo-txt done">Welcome email sent to 12 new clients</div><div class="todo-cat">DONE</div></div>
   </div>
 
-  <!-- ══ CLIENTS PAGE ══ -->
-  <div id="page-clients" class="page">
-    <div class="section-head"><span class="section-lbl">// All Clients</span><span class="section-action">247 active</span></div>
-    <div class="client-list">
-      <div class="client-card glass"><div class="client-av">AK</div><div class="client-info"><div class="client-name">Ana K.</div><div class="client-meta">Elite · 98 trades · 18 months</div></div><div class="client-right"><div class="churn-score churn-low">98</div><div class="client-mrr">$999/mo</div></div></div>
-      <div class="client-card glass"><div class="client-av">MR</div><div class="client-info"><div class="client-name">Marcus R.</div><div class="client-meta">Pro · 48 trades · 7 months</div></div><div class="client-right"><div class="churn-score churn-low">94</div><div class="client-mrr">$249/mo</div></div></div>
-      <div class="client-card glass"><div class="client-av">TJ</div><div class="client-info"><div class="client-name">Thomas J.</div><div class="client-meta">Pro · 31 trades · 5 months</div></div><div class="client-right"><div class="churn-score churn-low">88</div><div class="client-mrr">$249/mo</div></div></div>
-      <div class="client-card glass"><div class="client-av">SL</div><div class="client-info"><div class="client-name">Sofia L.</div><div class="client-meta">Standard · 12 trades · 2 months</div></div><div class="client-right"><div class="churn-score churn-mid">61</div><div class="client-mrr">$399/mo</div></div></div>
-      <div class="client-card glass"><div class="client-av">WP</div><div class="client-info"><div class="client-name">William P.</div><div class="client-meta">Standard · 8 trades · 3 months</div></div><div class="client-right"><div class="churn-score churn-mid">54</div><div class="client-mrr">$149/mo</div></div></div>
-      <div class="client-card glass"><div class="client-av">LC</div><div class="client-info"><div class="client-name">Laura C.</div><div class="client-meta">Standard · 19 trades · 4 months</div></div><div class="client-right"><div class="churn-score churn-mid">67</div><div class="client-mrr">$249/mo</div></div></div>
-      <div class="client-card glass"><div class="client-av">JT</div><div class="client-info"><div class="client-name">James T.</div><div class="client-meta">Silent 9 days · 2 missed sessions</div></div><div class="client-right"><div class="churn-score churn-hi">28</div><div class="client-mrr">$149/mo</div></div></div>
-      <div class="client-card glass"><div class="client-av">RN</div><div class="client-info"><div class="client-name">Ryan N.</div><div class="client-meta">Silent 14 days · no engagement</div></div><div class="client-right"><div class="churn-score churn-hi">18</div><div class="client-mrr">$249/mo</div></div></div>
+  <!-- ══ TODOS ══ -->
+  <div id="pg-todos" class="page" style="padding-top:10px;">
+    <div class="section-head"><div class="section-lbl">Tasks</div><div class="section-action" style="color:var(--grn);">5 pending · 3 done</div></div>
+    <div class="card" style="padding:0;">
+      <div class="action-item" style="border-bottom:1px solid var(--bd0);">
+        <div style="width:20px;height:20px;border-radius:6px;border:1.5px solid var(--bd1);flex-shrink:0;"></div>
+        <div style="flex:1;"><div style="font-size:13px;color:var(--w7);">Review 8 churn-risk clients — COACH drafts ready</div><div style="font-size:10px;color:var(--red);margin-top:2px;">URGENT</div></div>
+      </div>
+      <div class="action-item" style="border-bottom:1px solid var(--bd0);border-left:2px solid var(--grn);">
+        <div style="width:20px;height:20px;border-radius:6px;border:1.5px solid var(--bd1);flex-shrink:0;"></div>
+        <div style="flex:1;"><div style="font-size:13px;color:var(--w7);">Approve Acme Corp proposal — $14k deal</div><div style="font-size:10px;color:var(--amb);margin-top:2px;">REVENUE</div></div>
+      </div>
+      <div class="action-item" style="border-bottom:1px solid var(--bd0);">
+        <div style="width:20px;height:20px;border-radius:6px;border:1.5px solid var(--bd1);flex-shrink:0;"></div>
+        <div style="flex:1;"><div style="font-size:13px;color:var(--w7);">Review PULSE market briefing</div><div style="font-size:10px;color:var(--w4);margin-top:2px;">MARKET</div></div>
+      </div>
+      <div class="action-item" style="border-bottom:1px solid var(--bd0);">
+        <div style="width:20px;height:20px;border-radius:6px;border:1.5px solid var(--bd1);flex-shrink:0;"></div>
+        <div style="flex:1;"><div style="font-size:13px;color:var(--w7);">Post BlueTech case study — CRAFT queued</div><div style="font-size:10px;color:var(--w4);margin-top:2px;">CONTENT</div></div>
+      </div>
+      <div class="action-item" style="border-bottom:1px solid var(--bd0);">
+        <div style="width:20px;height:20px;border-radius:6px;border:1.5px solid var(--bd1);flex-shrink:0;"></div>
+        <div style="flex:1;"><div style="font-size:13px;color:var(--w7);">Stripe webhook — new product tier setup</div><div style="font-size:10px;color:var(--w4);margin-top:2px;">BUILD</div></div>
+      </div>
+      <!-- Done -->
+      <div class="action-item" style="border-bottom:1px solid var(--bd0);opacity:.45;">
+        <div style="width:20px;height:20px;border-radius:6px;background:var(--g2);border:1px solid var(--grn);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div style="flex:1;font-size:13px;color:var(--w4);text-decoration:line-through;">REACH: 3 TikToks published</div>
+      </div>
+      <div class="action-item" style="border-bottom:1px solid var(--bd0);opacity:.45;">
+        <div style="width:20px;height:20px;border-radius:6px;background:var(--g2);border:1px solid var(--grn);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div style="flex:1;font-size:13px;color:var(--w4);text-decoration:line-through;">PULSE macro briefing — auto-completed</div>
+      </div>
+      <div class="action-item" style="opacity:.45;">
+        <div style="width:20px;height:20px;border-radius:6px;background:var(--g2);border:1px solid var(--grn);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--grn)" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div style="flex:1;font-size:13px;color:var(--w4);text-decoration:line-through;">Welcome emails — 12 new clients</div>
+      </div>
     </div>
   </div>
 
-  <!-- ══ CALENDAR PAGE ══ -->
-  <div id="page-calendar" class="page">
-    <div class="section-head"><span class="section-lbl">// Schedule</span><span class="section-action">March 2026</span></div>
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;padding:0 2px;">
-      <div style="text-align:center;font-size:8px;color:var(--w4);font-weight:700;letter-spacing:.1em;padding-bottom:6px;">S</div>
-      <div style="text-align:center;font-size:8px;color:var(--w4);font-weight:700;letter-spacing:.1em;padding-bottom:6px;">M</div>
-      <div style="text-align:center;font-size:8px;color:var(--w4);font-weight:700;letter-spacing:.1em;padding-bottom:6px;">T</div>
-      <div style="text-align:center;font-size:8px;color:var(--w4);font-weight:700;letter-spacing:.1em;padding-bottom:6px;">W</div>
-      <div style="text-align:center;font-size:8px;color:var(--w4);font-weight:700;letter-spacing:.1em;padding-bottom:6px;">T</div>
-      <div style="text-align:center;font-size:8px;color:var(--w4);font-weight:700;letter-spacing:.1em;padding-bottom:6px;">F</div>
-      <div style="text-align:center;font-size:8px;color:var(--w4);font-weight:700;letter-spacing:.1em;padding-bottom:6px;">S</div>
-      <div></div><div></div><div></div><div></div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;font-weight:600;color:var(--w6);">1</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;font-weight:600;color:var(--w6);">2</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;font-weight:600;color:var(--w6);">3</div>
-      <!-- week 2 -->
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">4</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">5</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">6</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">7</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">8</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">9</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">10</div>
-      <!-- week 3 -->
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">11</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">12</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">13</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">14</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">15</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">16</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">17</div>
-      <!-- week 4 -->
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">18</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">19</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">20</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">21</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;border-radius:8px;background:var(--g2);color:var(--w8);font-weight:700;">22</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">23</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">24</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">25</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">26</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">27</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">28</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">29</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">30</div>
-      <div style="text-align:center;padding:8px 0;font-size:13px;color:var(--w5);">31</div>
+  <!-- ══ CLIENTS ══ -->
+  <div id="pg-clients" class="page" style="padding-top:10px;">
+    <div class="section-head"><div class="section-lbl">Clients</div><div class="section-action">247 active</div></div>
+    <!-- Agents section -->
+    <div class="section-head" style="padding-top:0;"><div class="section-lbl">Agent Fleet</div><div class="section-action" style="color:var(--grn);">9 live</div></div>
+    <div class="card agents-card">
+      <div class="agent-row"><div class="ag-dot on"></div><div class="ag-name">NEXUS</div><div class="ag-task">Routing 3 tasks</div><div class="ag-status on">LIVE</div></div>
+      <div class="agent-row"><div class="ag-dot on"></div><div class="ag-name">PULSE</div><div class="ag-task">Macro published 09:00</div><div class="ag-status on">DONE</div></div>
+      <div class="agent-row"><div class="ag-dot busy"></div><div class="ag-name">COACH</div><div class="ag-task">38 draft replies queued</div><div class="ag-status busy">BUSY</div></div>
+      <div class="agent-row"><div class="ag-dot on"></div><div class="ag-name">FORGE</div><div class="ag-task">19 prospects enriching</div><div class="ag-status on">LIVE</div></div>
+      <div class="agent-row"><div class="ag-dot busy"></div><div class="ag-name">CRAFT</div><div class="ag-task">14 content pieces</div><div class="ag-status busy">BUSY</div></div>
+      <div class="agent-row"><div class="ag-dot idle"></div><div class="ag-name">BUILD</div><div class="ag-task">Idle — last deploy 2h ago</div><div class="ag-status idle">IDLE</div></div>
+      <div class="agent-row"><div class="ag-dot on"></div><div class="ag-name">REACH</div><div class="ag-task">TikTok + X publishing</div><div class="ag-status on">LIVE</div></div>
+      <div class="agent-row"><div class="ag-dot on"></div><div class="ag-name">RADAR</div><div class="ag-task">12 signals monitored</div><div class="ag-status on">LIVE</div></div>
+      <div class="agent-row"><div class="ag-dot idle"></div><div class="ag-name">VOICE</div><div class="ag-task">4 emails scheduled</div><div class="ag-status idle">QUEUED</div></div>
     </div>
-    <div class="section-head"><span class="section-lbl">// Today — March 22</span></div>
-    <div class="cal-list">
-      <div class="cal-item glass"><div class="cal-time">09:00</div><div class="cal-bar"></div><div class="cal-info"><div class="cal-title">PULSE — Market Briefing</div><div class="cal-meta">Auto-published · Discord #macro-intel</div></div><div class="cal-ai-chip">DONE</div></div>
-      <div class="cal-item glass"><div class="cal-time">11:00</div><div class="cal-bar"></div><div class="cal-info"><div class="cal-title">Marcus R. — Coaching</div><div class="cal-meta">Breakout trade · AI brief ready</div></div><div class="cal-ai-chip">BRIEF READY</div></div>
-      <div class="cal-item glass"><div class="cal-time">14:30</div><div class="cal-bar amb"></div><div class="cal-info"><div class="cal-title">Acme Corp — Discovery</div><div class="cal-meta">$14k deal · FORGE prepped 3 points</div></div><div class="cal-ai-chip">PREPPED</div></div>
-      <div class="cal-item glass"><div class="cal-time">17:00</div><div class="cal-bar"></div><div class="cal-info"><div class="cal-title">Weekly Revenue Review</div><div class="cal-meta">NEXUS auto-report at 16:50</div></div><div class="cal-ai-chip">SCHEDULED</div></div>
-      <div class="cal-item glass"><div class="cal-time">19:30</div><div class="cal-bar"></div><div class="cal-info"><div class="cal-title">Ana K. — Elite Session</div><div class="cal-meta">2 setups flagged · COACH ready</div></div><div class="cal-ai-chip">BRIEF READY</div></div>
+    <!-- Client list -->
+    <div class="section-head"><div class="section-lbl">Clients — Churn Score</div></div>
+    <div class="card" style="padding:0;">
+      <div class="client-item"><div class="client-av">AK</div><div class="client-info"><div class="client-name">Ana K.</div><div class="client-meta">Elite · 18 months · 98 trades</div></div><div><div class="churn-badge churn-lo">98</div><div style="font-size:10px;color:var(--w4);margin-top:3px;text-align:right;">$999/mo</div></div></div>
+      <div class="client-item"><div class="client-av">MR</div><div class="client-info"><div class="client-name">Marcus R.</div><div class="client-meta">Pro · 7 months · 48 trades</div></div><div><div class="churn-badge churn-lo">94</div><div style="font-size:10px;color:var(--w4);margin-top:3px;text-align:right;">$249/mo</div></div></div>
+      <div class="client-item"><div class="client-av">SL</div><div class="client-info"><div class="client-name">Sofia L.</div><div class="client-meta">Standard · 2 months · 12 trades</div></div><div><div class="churn-badge churn-mi">61</div><div style="font-size:10px;color:var(--w4);margin-top:3px;text-align:right;">$399/mo</div></div></div>
+      <div class="client-item"><div class="client-av">JT</div><div class="client-info"><div class="client-name">James T.</div><div class="client-meta" style="color:var(--red);">Silent 9 days · 2 missed sessions</div></div><div><div class="churn-badge churn-hi">28</div><div style="font-size:10px;color:var(--w4);margin-top:3px;text-align:right;">$149/mo</div></div></div>
+      <div class="client-item"><div class="client-av">RN</div><div class="client-info"><div class="client-name">Ryan N.</div><div class="client-meta" style="color:var(--red);">Silent 14 days · no engagement</div></div><div><div class="churn-badge churn-hi">18</div><div style="font-size:10px;color:var(--w4);margin-top:3px;text-align:right;">$249/mo</div></div></div>
+    </div>
+  </div>
+
+  <!-- ══ CALENDAR ══ -->
+  <div id="pg-cal" class="page" style="padding-top:10px;">
+    <div class="section-head"><div class="section-lbl">Schedule</div><div class="section-action">March 22</div></div>
+    <div class="card" style="padding:0;">
+      <div class="cal-item"><div class="cal-time">09:00</div><div class="cal-bar grn"></div><div style="flex:1;"><div class="cal-title">PULSE — Market Briefing</div><div class="cal-meta">Auto-published to Discord</div></div><div class="cal-tag">DONE</div></div>
+      <div class="cal-item"><div class="cal-time">11:00</div><div class="cal-bar grn"></div><div style="flex:1;"><div class="cal-title">Marcus R. — Coaching</div><div class="cal-meta">Breakout trade thesis</div></div><div class="cal-tag">BRIEF READY</div></div>
+      <div class="cal-item"><div class="cal-time">14:30</div><div class="cal-bar amb"></div><div style="flex:1;"><div class="cal-title">Acme Corp — Discovery</div><div class="cal-meta">$14k deal · 3 points prepped</div></div><div class="cal-tag">PREPPED</div></div>
+      <div class="cal-item"><div class="cal-time">17:00</div><div class="cal-bar grn"></div><div style="flex:1;"><div class="cal-title">Weekly Revenue Review</div><div class="cal-meta">NEXUS auto-report at 16:50</div></div><div class="cal-tag">AUTO</div></div>
+      <div class="cal-item"><div class="cal-time">19:30</div><div class="cal-bar grn"></div><div style="flex:1;"><div class="cal-title">Ana K. — Elite Session</div><div class="cal-meta">2 setups flagged · COACH ready</div></div><div class="cal-tag">BRIEF READY</div></div>
+    </div>
+    <!-- Pipeline -->
+    <div class="section-head"><div class="section-lbl">Sales Pipeline</div><div class="section-action">$62k open</div></div>
+    <div class="card" style="padding:0;">
+      <div class="client-item"><div class="client-av" style="border-radius:10px;font-size:9px;font-weight:800;">ACM</div><div class="client-info"><div class="client-name">Acme Corp</div><div class="client-meta">Proposal sent · Discovery today</div></div><div style="text-align:right;"><div style="font-size:14px;font-weight:800;color:var(--w8);">$14k</div><div style="font-size:9px;font-weight:700;color:var(--amb);margin-top:2px;">PROPOSAL</div></div></div>
+      <div class="client-item"><div class="client-av" style="border-radius:10px;font-size:9px;font-weight:800;">BLU</div><div class="client-info"><div class="client-name">BlueTech AB</div><div class="client-meta">Contract negotiation phase</div></div><div style="text-align:right;"><div style="font-size:14px;font-weight:800;color:var(--w8);">$22.5k</div><div style="font-size:9px;font-weight:700;color:var(--grn);margin-top:2px;">NEGOTIATING</div></div></div>
+      <div class="client-item"><div class="client-av" style="border-radius:10px;font-size:9px;font-weight:800;">NWS</div><div class="client-info"><div class="client-name">Northwind SaaS</div><div class="client-meta">Demo completed · Follow-up sent</div></div><div style="text-align:right;"><div style="font-size:14px;font-weight:800;color:var(--w8);">$8.4k</div><div style="font-size:9px;font-weight:700;color:var(--w4);margin-top:2px;">DEMO DONE</div></div></div>
     </div>
   </div>
 
 </div><!-- /scroll -->
 
-<!-- VOICE ORB BTN -->
-<button class="voice-orb-btn" onclick="toggleVoice()">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-</button>
-
 <!-- BOTTOM NAV -->
-<div id="bottom-nav">
-  <button class="nav-tab active" id="tab-home" onclick="switchTab('home')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+<div id="nav">
+  <button class="nav-btn active" id="nb-home" onclick="nav('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span class="nav-lbl">Home</span>
   </button>
-  <button class="nav-tab" id="tab-todos" onclick="switchTab('todos')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+  <button class="nav-btn" id="nb-todos" onclick="nav('todos')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <div class="nav-dot"></div>
     <span class="nav-lbl">Todos</span>
   </button>
-  <div class="nav-spacer"></div>
-  <button class="nav-tab" id="tab-clients" onclick="switchTab('clients')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+  <div class="nav-fab">
+    <button class="fab-btn" onclick="toggleVoice()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    </button>
+  </div>
+  <button class="nav-btn" id="nb-clients" onclick="nav('clients')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <div class="nav-dot"></div>
     <span class="nav-lbl">Clients</span>
   </button>
-  <button class="nav-tab" id="tab-calendar" onclick="switchTab('calendar')">
+  <button class="nav-btn" id="nb-cal" onclick="nav('cal')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <div class="nav-dot"></div>
     <span class="nav-lbl">Calendar</span>
   </button>
 </div>
 
 <!-- VOICE OVERLAY -->
-<div id="voice-overlay">
-  <div class="vo-orb">
+<div id="voice-ov">
+  <div class="vo-ring-wrap">
     <div class="vo-ring"></div>
-    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="1.8" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+    <div class="vo-ring2"></div>
+    <div class="vo-circle">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+    </div>
   </div>
-  <div class="vo-transcript" id="vo-q">Ask anything — "What's my MRR?" "Who's at risk?" "Draft a reply for James"</div>
-  <div class="vo-reply" id="vo-r"></div>
-  <button class="vo-close" onclick="toggleVoice()">Close</button>
+  <div class="vo-q" id="vo-q">Ask anything — "What's my MRR?" "Who's at risk?" "Draft a reply for James"</div>
+  <div class="vo-a" id="vo-a"></div>
+  <button class="vo-close-btn" onclick="toggleVoice()">Close</button>
 </div>
 
 <script>
 // ── NAV ──
-function switchTab(t){
-  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+function nav(t){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('tab-'+t).classList.add('active');
-  document.getElementById('page-'+t).classList.add('active');
+  document.getElementById('nb-'+t).classList.add('active');
+  document.getElementById('pg-'+t).classList.add('active');
   document.getElementById('scroll').scrollTop=0;
 }
 
-// ── VOICE (scripted demo) ──
-const demoQA=[
-  {q:"What's my MRR?",a:"Your MRR is $24,870 — up 31.4% versus last month. ARR is tracking at $298,440. Retention is 96%. You have 8 clients at risk that COACH has draft replies queued for."},
-  {q:"Who's at risk of churning?",a:"8 clients flagged. Critical: James T., 9 days silent, 2 missed sessions. Ryan N., 14 days no engagement. COACH has drafted re-engagement messages for both — tap Clients to review and approve."},
-  {q:"What's in my pipeline?",a:"$62,000 in open pipeline across 19 prospects. Top deal: BlueTech AB at $22,500, currently negotiating. Acme Corp at $14,000 — proposal sent, discovery call today at 14:30. FORGE is actively enriching 6 new leads."},
-  {q:"Show me today's schedule",a:"Five sessions today. PULSE published the macro briefing at 09:00. Marcus R. coaching at 11:00 — COACH has the brief ready. Acme Corp discovery at 14:30. Weekly revenue review at 17:00. Ana K. elite session at 19:30."},
-];
-let _voIdx=0,_voActive=false;
-function toggleVoice(){
-  _voActive=!_voActive;
-  document.getElementById('voice-overlay').classList.toggle('on',_voActive);
-  if(_voActive){
-    const qa=demoQA[_voIdx%demoQA.length];_voIdx++;
-    document.getElementById('vo-q').textContent='You: "'+qa.q+'"';
-    document.getElementById('vo-r').textContent='';
-    setTimeout(()=>{
-      document.getElementById('vo-r').textContent=qa.a;
-    },900);
+// ── SPARKLINE ──
+(function(){
+  const c=document.getElementById('sparkline');
+  if(!c)return;
+  const dpr=window.devicePixelRatio||1;
+  function draw(){
+    c.width=c.offsetWidth*dpr;c.height=40*dpr;
+    const ctx=c.getContext('2d');ctx.scale(dpr,dpr);
+    const w=c.offsetWidth,h=40;
+    const pts=[2800,4200,5100,6800,8200,9700,11400,13200,15800,17200,19400,21300,22800,24870];
+    const mn=Math.min(...pts),mx=Math.max(...pts);
+    ctx.beginPath();
+    pts.forEach((v,i)=>{
+      const x=(i/(pts.length-1))*w;
+      const y=h-((v-mn)/(mx-mn))*(h*.75)-h*.08;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=1.5;ctx.stroke();
+    // Fill
+    ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();
+    const g=ctx.createLinearGradient(0,0,0,h);
+    g.addColorStop(0,'rgba(255,255,255,.07)');g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=g;ctx.fill();
   }
-}
-
-// ── LIVE TICKER ──
-(function tick(){
-  const mrr=document.querySelector('.rev-mrr');
-  if(mrr){
-    const base=24870,jitter=Math.floor(Math.random()*40-20);
-    mrr.textContent='$'+((base+jitter)).toLocaleString('en-US');
-  }
-  setTimeout(tick,8000+Math.random()*4000);
+  draw();window.addEventListener('resize',draw);
 })();
 
-// ── AGENT STATUS CYCLE ──
-const statuses=['LIVE','BUSY','DONE','QUEUED','IDLE'];
-setInterval(()=>{
-  const rows=document.querySelectorAll('.agent-row');
-  const r=rows[Math.floor(Math.random()*rows.length)];
-  if(!r)return;
-  const dot=r.querySelector('.agent-dot');
-  const stat=r.querySelector('.agent-status');
-  if(dot.classList.contains('on')&&Math.random()>.7){
-    dot.classList.replace('on','busy');
-    stat.classList.replace('on','busy');
-    stat.textContent='BUSY';
-    setTimeout(()=>{dot.classList.replace('busy','on');stat.classList.replace('busy','on');stat.textContent='LIVE';},3000);
+// ── LIVE MRR TICKER ──
+(function tick(){
+  const el=document.getElementById('mrr-display');if(!el)return;
+  const base=24870,j=Math.floor(Math.random()*60-30);
+  el.textContent='$'+(base+j).toLocaleString('en-US');
+  setTimeout(tick,6000+Math.random()*4000);
+})();
+
+// ── BRIEF TIME ──
+(function(){
+  const el=document.getElementById('brief-time');if(!el)return;
+  const now=new Date();
+  el.textContent=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+})();
+
+// ── VOICE SCRIPTED ──
+const qa=[
+  {q:'What\'s my MRR?',a:'MRR is $24,870 — up 31.4% versus last month. ARR tracking at $298,440. Retention is 96%. 8 clients are at risk — COACH has draft re-engagement messages ready for review.'},
+  {q:'Who\'s at risk of churning?',a:'8 clients flagged. Critical: James T., 9 days silent, 2 missed sessions. Ryan N., 14 days no engagement. COACH has drafted replies for both — review and approve in the Clients tab.'},
+  {q:'What\'s in the pipeline?',a:'$62,000 open across 19 prospects. Top deal: BlueTech AB at $22,500, negotiation phase. Acme Corp at $14,000 — discovery call today at 14:30. FORGE is enriching 6 new leads right now.'},
+  {q:'Draft a reply for James',a:'Done. COACH drafted: "Hey James — noticed you\'ve been quiet lately. Everything ok? If you\'re working through something on the trading side, happy to jump in. No pressure, just here when you\'re ready." Review it in the Clients tab.'},
+];
+let qi=0,vopen=false;
+function toggleVoice(){
+  vopen=!vopen;
+  document.getElementById('voice-ov').classList.toggle('on',vopen);
+  if(vopen){
+    const q=qa[qi%qa.length];qi++;
+    document.getElementById('vo-q').textContent='You: "'+q.q+'"';
+    document.getElementById('vo-a').textContent='';
+    setTimeout(()=>{document.getElementById('vo-a').textContent=q.a;},800);
   }
-},5000);
+}
 </script>
 </body>
 </html>
