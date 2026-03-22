@@ -3,600 +3,634 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kapaciti</title>
-<meta name="description" content="One install. All skills. One command. The AI operator's command center.">
+<title>Kapaciti — One install. All skills. One command.</title>
+<meta name="description" content="The AI operator's command center. Revenue, clients, voice, and 70+ agent skills — one interface. $99 one-time.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --black:#020203;
-  --w:rgba(255,255,255,.92);
-  --w6:rgba(255,255,255,.55);
-  --w3:rgba(255,255,255,.28);
-  --w1:rgba(255,255,255,.06);
-  --bd:rgba(255,255,255,.08);
-  --bd2:rgba(255,255,255,.14);
+html{scroll-behavior:smooth;}
+body{
+  background:#08080c;color:rgba(255,255,255,.9);
+  font-family:'Inter',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
-html{scroll-behavior:smooth;cursor:none;}
-body{background:var(--black);color:var(--w);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none;}
-a{color:inherit;text-decoration:none;cursor:none;}
-button{cursor:none;}
+a{color:inherit;text-decoration:none;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);}
 
-/* ── CUSTOM CURSOR ── */
-#cursor{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;mix-blend-mode:difference;}
-#cursor-dot{width:8px;height:8px;background:#fff;border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .2s,height .2s,opacity .2s;}
-#cursor-ring{width:36px;height:36px;border:1px solid rgba(255,255,255,.5);border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .2s;will-change:transform;}
-body.hovering #cursor-dot{width:0;height:0;opacity:0;}
-body.hovering #cursor-ring{width:56px;height:56px;border-color:rgba(255,255,255,.9);}
-
-/* ── CANVAS BG ── */
-#canvas-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.55;}
+/* ── NEURAL CANVAS ── */
+#nc{position:fixed;inset:0;z-index:0;pointer-events:none;}
 
 /* ── NAV ── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 clamp(24px,5vw,64px);height:64px;
-  mix-blend-mode:normal;
+  height:60px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(20px,4vw,60px);
+  background:rgba(8,8,12,.75);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.07);
 }
-nav::before{
-  content:'';position:absolute;inset:0;
-  background:rgba(2,2,3,.6);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--bd);
-}
-.nav-logo{position:relative;z-index:1;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800;letter-spacing:-.3px;}
-.logo-sq{width:24px;height:24px;background:#fff;border-radius:5px;display:flex;align-items:center;justify-content:center;}
-.logo-sq svg{display:block;}
-.nav-center{position:relative;z-index:1;display:flex;gap:36px;}
-.nav-center a{font-size:12px;font-weight:500;color:var(--w3);letter-spacing:.04em;transition:color .15s;}
-.nav-center a:hover{color:var(--w);}
-.nav-right{position:relative;z-index:1;display:flex;gap:8px;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;border:none;transition:all .2s;letter-spacing:.02em;}
-.btn-dim{background:var(--w1);color:var(--w6);border:1px solid var(--bd);}
-.btn-dim:hover{background:rgba(255,255,255,.09);color:var(--w);}
-.btn-white{background:#fff;color:#020203;}
-.btn-white:hover{opacity:.85;}
+.nl{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:800;letter-spacing:-.3px;}
+.nlm{width:24px;height:24px;background:#fff;border-radius:6px;display:grid;place-items:center;flex-shrink:0;}
+.nc{display:flex;gap:28px;}
+.nc a{font-size:12px;color:rgba(255,255,255,.4);transition:color .15s;}
+.nc a:hover{color:rgba(255,255,255,.85);}
+.nr{display:flex;gap:8px;}
+.bt{padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .18s;border:none;display:inline-flex;align-items:center;gap:6px;}
+.bt-d{background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.08);}
+.bt-d:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);}
+.bt-w{background:#fff;color:#08080c;}
+.bt-w:hover{opacity:.88;}
 
-
-/* ── HERO — Split layout ── */
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.15;}}
-
+/* ── HERO ── */
 #hero{
+  position:relative;z-index:1;
   min-height:100vh;
   display:grid;grid-template-columns:1fr 1fr;
-  align-items:center;
-  padding:0 clamp(24px,5vw,72px);
-  padding-top:64px;
-  position:relative;z-index:1;
-  gap:0;overflow:hidden;
+  align-items:center;gap:0;
+  padding:64px clamp(20px,5vw,72px) 0;
 }
 
-/* Scan line */
-.scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15) 40%,rgba(255,255,255,.28) 50%,rgba(255,255,255,.15) 60%,transparent);animation:scanAnim 7s ease-in-out infinite;pointer-events:none;z-index:3;}
-@keyframes scanAnim{0%{top:-2px;opacity:0;}8%{opacity:1;}88%{opacity:.5;}100%{top:101%;opacity:0;}}
-.hero-spot,.hero-grid{display:none;}
+/* Left */
+.hl{padding:60px 48px 60px 0;display:flex;flex-direction:column;align-items:flex-start;}
 
-/* LEFT */
-.hero-left{
-  position:relative;z-index:2;
-  padding:60px 0;
-  display:flex;flex-direction:column;align-items:flex-start;
-  /* Ensure visibility */
-  opacity:1 !important;
-  visibility:visible !important;
-}
-
-.hero-eyebrow{
+.hw{
   display:inline-flex;align-items:center;gap:8px;
   padding:5px 14px 5px 9px;border-radius:99px;
-  border:1px solid var(--bd);background:var(--w1);
-  font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(255,255,255,.38);
-  margin-bottom:36px;animation:fadeIn .6s .1s both;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+  font-size:10px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:32px;
 }
-.eyebrow-live{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.38);animation:blink 1.6s infinite;}
+.hw-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);animation:bk 1.8s infinite;}
+@keyframes bk{0%,100%{opacity:1;}50%{opacity:.15;}}
 
-.hero-h1{
-  font-size:clamp(44px,6.2vw,96px);
-  font-weight:900;letter-spacing:-3px;line-height:.96;
-  margin-bottom:28px;text-align:left;
-  font-family:'Inter',system-ui,sans-serif;
+.hh{
+  font-size:clamp(44px,5.8vw,88px);font-weight:900;letter-spacing:-3px;line-height:.96;
+  margin-bottom:24px;
 }
-.hero-h1 .line{display:block;overflow:hidden;}
-.hero-h1 .inner{display:block;animation:slideUp .9s cubic-bezier(.16,1,.3,1) both;}
-.hero-h1 .line:nth-child(1) .inner{animation-delay:.08s;color:rgba(255,255,255,.92);}
-.hero-h1 .line:nth-child(2) .inner{animation-delay:.17s;color:rgba(255,255,255,.3);font-style:italic;font-weight:300;}
-.hero-h1 .line:nth-child(3) .inner{animation-delay:.26s;color:rgba(255,255,255,.92);}
+.hh .l1{color:rgba(255,255,255,.9);}
+.hh .l2{color:rgba(255,255,255,.28);font-style:italic;font-weight:300;}
+.hh .l3{color:rgba(255,255,255,.9);}
 
-.hero-divider{display:none;}
-
-.hero-sub{
-  font-size:clamp(13px,1.3vw,16px);color:rgba(255,255,255,.5);line-height:1.75;
-  max-width:420px;margin-bottom:36px;
-  animation:fadeIn .7s .5s both;text-align:left;
+.hs{
+  font-size:clamp(13px,1.2vw,16px);color:rgba(255,255,255,.45);line-height:1.8;
+  max-width:400px;margin-bottom:36px;
 }
-.hero-actions{display:flex;gap:8px;flex-wrap:wrap;animation:fadeIn .7s .6s both;margin-bottom:14px;}
-.hero-note{font-size:11px;color:rgba(255,255,255,.25);animation:fadeIn .7s .72s both;letter-spacing:.02em;}
-.hero-device-section{display:none;}
 
-/* Stats */
-.hero-stats-col{
-  display:flex;flex-direction:column;gap:8px;margin-top:36px;
-  animation:fadeIn .7s .85s both;
-}
-.hero-stat{
+.ha{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.btn-p{padding:13px 28px;border-radius:10px;font-size:14px;font-weight:700;background:#fff;color:#08080c;border:none;cursor:pointer;transition:all .2s;}
+.btn-p:hover{opacity:.88;transform:translateY(-1px);}
+.btn-s{padding:13px 28px;border-radius:10px;font-size:14px;font-weight:700;background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:all .2s;}
+.btn-s:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.9);}
+
+.hn{font-size:11px;color:rgba(255,255,255,.22);letter-spacing:.03em;margin-bottom:40px;}
+
+.hst{display:flex;flex-direction:column;gap:8px;}
+.hsr{
   display:inline-flex;align-items:center;gap:10px;
   padding:7px 14px;border-radius:8px;
   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
   width:fit-content;
 }
-.hs-val{font-size:14px;font-weight:800;letter-spacing:-.5px;color:rgba(255,255,255,.85);}
-.hs-label{font-size:11px;color:rgba(255,255,255,.3);}
+.hsv{font-size:14px;font-weight:800;letter-spacing:-.5px;color:rgba(255,255,255,.85);}
+.hsl{font-size:11px;color:rgba(255,255,255,.3);}
 
-/* RIGHT — 3D device */
-.hero-right{
-  position:relative;z-index:2;
+/* Right — 3D device */
+.hr{
   display:flex;align-items:center;justify-content:center;
-  height:100%;min-height:100vh;
-  padding-top:64px;
+  padding:80px 0;position:relative;
+}
+.dc{position:relative;width:320px;height:580px;display:flex;align-items:center;justify-content:center;}
+
+/* Glow */
+.dc::before{
+  content:'';position:absolute;inset:-40px;
+  background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(255,255,255,.045),transparent 70%);
+  border-radius:50%;pointer-events:none;
 }
 
-/* Device container — controls chip overflow */
-.device-container{
-  position:relative;
-  width:340px;height:560px;
-  display:flex;align-items:center;justify-content:center;
-}
-
-.device-glow{
-  position:absolute;inset:-60px;
-  background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(255,255,255,.04),transparent);
-  pointer-events:none;border-radius:50%;
-}
-
-.device-wrap{
+.dw{
   position:relative;z-index:2;
-  transform:perspective(1000px) rotateX(4deg) rotateY(-12deg) rotateZ(1deg);
-  animation:deviceFloat 5.5s ease-in-out infinite;
-  filter:drop-shadow(0 40px 80px rgba(0,0,0,.85));
+  transform:perspective(900px) rotateX(5deg) rotateY(-12deg);
+  animation:fl 5.5s ease-in-out infinite;
+  filter:drop-shadow(0 36px 72px rgba(0,0,0,.9));
 }
-@keyframes deviceFloat{
-  0%,100%{transform:perspective(1000px) rotateX(4deg) rotateY(-12deg) rotateZ(1deg) translateY(0);}
-  50%{transform:perspective(1000px) rotateX(4deg) rotateY(-12deg) rotateZ(1deg) translateY(-10px);}
-}
-
-.device{
-  width:240px;border-radius:24px;overflow:hidden;
-  background:#0c0c14;border:1px solid rgba(255,255,255,.16);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.1), 0 0 0 1px rgba(255,255,255,.04);
+@keyframes fl{
+  0%,100%{transform:perspective(900px) rotateX(5deg) rotateY(-12deg) translateY(0);}
+  50%{transform:perspective(900px) rotateX(5deg) rotateY(-12deg) translateY(-10px);}
 }
 
 /* Corner brackets */
-.corner{position:absolute;width:14px;height:14px;border-color:rgba(255,255,255,.18);border-style:solid;z-index:3;}
-.corner.tl{top:-6px;left:-6px;border-width:1px 0 0 1px;}
-.corner.tr{top:-6px;right:-6px;border-width:1px 1px 0 0;}
-.corner.bl{bottom:-6px;left:-6px;border-width:0 0 1px 1px;}
-.corner.br{bottom:-6px;right:-6px;border-width:0 1px 1px 0;}
+.cr{position:absolute;width:12px;height:12px;border-color:rgba(255,255,255,.2);border-style:solid;z-index:3;}
+.cr.tl{top:-5px;left:-5px;border-width:1px 0 0 1px;}
+.cr.tr{top:-5px;right:-5px;border-width:1px 1px 0 0;}
+.cr.bl{bottom:-5px;left:-5px;border-width:0 0 1px 1px;}
+.cr.br{bottom:-5px;right:-5px;border-width:0 1px 1px 0;}
 
-/* Floating chips — contained within device-container */
-.f-chip{
+.dv{
+  width:240px;border-radius:26px;overflow:hidden;
+  background:#0c0c18;
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 1px rgba(255,255,255,.04);
+}
+.dbar{
+  height:38px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:space-between;padding:0 14px;
+}
+.ddots{display:flex;gap:5px;}
+.ddots span{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.14);}
+.dlive{display:flex;align-items:center;gap:5px;font-size:8px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.3);}
+.dlive-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.4);animation:bk 1.6s infinite;}
+.dbody{padding:14px 12px;}
+.ds-lbl{font-size:7px;font-weight:700;letter-spacing:.16em;color:rgba(255,255,255,.22);text-transform:uppercase;margin:10px 0 6px;}
+.dcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 12px;margin-bottom:6px;}
+.drow{display:flex;align-items:center;justify-content:space-between;}
+.dl{font-size:8px;color:rgba(255,255,255,.3);}
+.dv2{font-size:15px;font-weight:900;letter-spacing:-.5px;color:rgba(255,255,255,.9);}
+.dv2.sm{font-size:11px;}
+.dbadge{font-size:7px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.45);letter-spacing:.08em;}
+.dbars{display:flex;align-items:flex-end;gap:2px;height:22px;margin-top:8px;}
+.dbar2{flex:1;border-radius:2px 2px 0 0;background:rgba(255,255,255,.12);}
+.dbar2.hi{background:rgba(255,255,255,.5);}
+.dagents{display:flex;flex-direction:column;gap:5px;}
+.dagent{display:flex;align-items:center;gap:7px;}
+.dagent-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
+.on{background:rgba(255,255,255,.6);box-shadow:0 0 5px rgba(255,255,255,.25);animation:bk 2s infinite;}
+.idle{background:rgba(255,255,255,.2);}
+.dagent-name{font-size:8px;color:rgba(255,255,255,.4);font-weight:700;flex:1;}
+.dagent-st{font-size:7px;color:rgba(255,255,255,.22);}
+
+/* Floating chips — CONTAINED within .dc */
+.fc{
   position:absolute;z-index:4;
-  padding:7px 12px;border-radius:8px;
-  background:rgba(10,10,14,.88);border:1px solid rgba(255,255,255,.1);
-  backdrop-filter:blur(12px);
+  padding:7px 11px;border-radius:8px;
+  background:rgba(10,10,16,.9);border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(10px);
   font-size:10px;font-weight:600;color:rgba(255,255,255,.6);
   display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(0,0,0,.5);
 }
-.f-chip:nth-child(1){top:8%;left:-12%;animation:chipFloat1 4.5s ease-in-out infinite;}
-.f-chip:nth-child(2){top:18%;right:-16%;animation:chipFloat2 4s 1s ease-in-out infinite;}
-.f-chip:nth-child(3){bottom:28%;left:-18%;animation:chipFloat3 5s .5s ease-in-out infinite;}
-.f-chip:nth-child(4){bottom:12%;right:-12%;animation:chipFloat4 4.2s 1.5s ease-in-out infinite;}
-@keyframes chipFloat1{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
-@keyframes chipFloat2{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
-@keyframes chipFloat3{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
-@keyframes chipFloat4{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-.chip-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);animation:blink 1.6s infinite;}
+.fc-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.45);animation:bk 1.8s infinite;}
+/* Chip positions — within container bounds */
+.fc:nth-child(1){top:6%;left:0;animation:cf1 4.5s ease-in-out infinite;}
+.fc:nth-child(2){top:22%;right:-4%;animation:cf2 4s 1.2s ease-in-out infinite;}
+.fc:nth-child(3){bottom:30%;left:-4%;animation:cf3 5s .6s ease-in-out infinite;}
+.fc:nth-child(4){bottom:14%;right:2%;animation:cf4 4.2s 1.8s ease-in-out infinite;}
+@keyframes cf1{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+@keyframes cf2{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+@keyframes cf3{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+@keyframes cf4{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
 
-/* Device stats below */
-.device-stats{
-  position:absolute;bottom:-48px;left:50%;transform:translateX(-50%);
-  display:flex;gap:7px;white-space:nowrap;
-}
-.ds{
-  padding:5px 11px;border-radius:6px;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+/* Stat chips below device */
+.dstats{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);display:flex;gap:7px;}
+.dstat{
+  padding:4px 11px;border-radius:6px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
   font-size:9px;font-weight:600;color:rgba(255,255,255,.3);
-  display:inline-flex;align-items:center;gap:5px;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;letter-spacing:.04em;
 }
-.ds-dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.3);animation:blink 1.8s infinite;}
+.dstat-dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.3);animation:bk 2s infinite;}
 
-/* Mobile */
-@media(max-width:900px){
-  #hero{grid-template-columns:1fr;padding-top:80px;text-align:center;}
-  .hero-left{align-items:center;padding:48px 0 32px;}
-  .hero-h1{text-align:center;font-size:clamp(40px,10vw,64px);}
-  .hero-sub{text-align:center;max-width:100%;}
-  .hero-actions{justify-content:center;}
-  .hero-note{text-align:center;}
-  .hero-stats-col{align-items:center;}
-  .hero-right{min-height:auto;padding:0 0 80px;}
-  .device-container{width:280px;height:460px;}
-  .device{width:200px;}
-  .f-chip{font-size:9px;padding:5px 10px;}
-  .f-chip:nth-child(2){right:-8%;}
-  .f-chip:nth-child(3){left:-8%;}
+/* MARQUEE */
+.mq{border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);overflow:hidden;padding:16px 0;position:relative;z-index:1;}
+.mq-inner{display:flex;width:max-content;animation:mqs 28s linear infinite;}
+.mq-item{padding:0 36px;font-size:10px;font-weight:700;letter-spacing:.18em;color:rgba(255,255,255,.25);text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;gap:36px;}
+.mq-item::after{content:'·';color:rgba(255,255,255,.15);}
+@keyframes mqs{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SECTIONS */
+section{padding:96px clamp(20px,5vw,72px);position:relative;z-index:1;}
+.si{max-width:960px;margin:0 auto;}
+.ey{font-size:10px;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.28);text-transform:uppercase;margin-bottom:14px;}
+.sh{font-size:clamp(28px,4.5vw,56px);font-weight:900;letter-spacing:-1.5px;line-height:1.05;margin-bottom:16px;}
+.sh em{font-style:italic;font-weight:300;color:rgba(255,255,255,.3);}
+.sp{font-size:15px;color:rgba(255,255,255,.45);line-height:1.75;max-width:480px;margin-bottom:52px;}
+
+/* FEATURES */
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;}
+.fc2{background:#08080c;padding:28px 24px;transition:background .2s;position:relative;overflow:hidden;}
+.fc2::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 100% 80% at 50% -10%,rgba(255,255,255,.025),transparent);opacity:0;transition:opacity .3s;}
+.fc2:hover{background:#0d0d12;}
+.fc2:hover::before{opacity:1;}
+.fcnum{font-size:9px;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.25);margin-bottom:20px;}
+.fctitle{font-size:14px;font-weight:700;margin-bottom:8px;letter-spacing:-.2px;}
+.fcdesc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.7;}
+.fctag{display:inline-block;margin-top:16px;padding:2px 9px;border-radius:4px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);}
+
+/* VOICE */
+.vi{display:grid;grid-template-columns:1fr 1fr;gap:0;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;}
+.vl{padding:52px 44px;border-right:1px solid rgba(255,255,255,.07);}
+.vr{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 44px;background:rgba(255,255,255,.01);}
+.vpoints{display:flex;flex-direction:column;gap:20px;margin-top:32px;}
+.vp{display:flex;gap:14px;}
+.vpn{font-size:9px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.25);margin-top:3px;min-width:18px;}
+.vpt{font-size:13px;font-weight:700;margin-bottom:4px;letter-spacing:-.1px;}
+.vpd{font-size:12px;color:rgba(255,255,255,.45);line-height:1.65;}
+.tpills{display:flex;gap:6px;flex-wrap:wrap;margin-top:24px;}
+.tpill{padding:5px 11px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);font-size:10px;font-weight:600;color:rgba(255,255,255,.3);}
+#wc{width:100%;height:140px;opacity:.65;}
+.vstat{text-align:center;margin-top:24px;}
+.vsv{font-size:52px;font-weight:900;letter-spacing:-2px;line-height:1;}
+.vsl{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;margin-top:4px;}
+.lgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;width:100%;margin-top:24px;}
+.li2{padding:9px 13px;border-radius:9px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);font-size:11px;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:8px;transition:all .15s;}
+.li2:hover{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);}
+
+/* SKILLS */
+.sl{display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap;}
+.sleft{flex:0 0 240px;}
+.sbig{font-size:clamp(80px,12vw,130px);font-weight:900;letter-spacing:-5px;line-height:.9;}
+.sbig span{color:rgba(255,255,255,.25);}
+.ssub{font-size:13px;color:rgba(255,255,255,.4);line-height:1.7;margin-top:14px;max-width:190px;}
+.scats{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.scat{padding:14px 16px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);transition:all .15s;cursor:default;}
+.scat:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12);transform:translateY(-2px);}
+.scat-l{font-size:9px;font-weight:700;letter-spacing:.16em;color:rgba(255,255,255,.28);text-transform:uppercase;margin-bottom:7px;}
+.scat-i{font-size:10px;color:rgba(255,255,255,.45);line-height:2.1;}
+
+/* URGENCY */
+.urg{border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);padding:14px clamp(20px,4vw,60px);display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;background:rgba(255,255,255,.015);position:relative;z-index:1;}
+.upill{padding:4px 12px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);font-size:11px;font-weight:700;color:rgba(255,255,255,.6);}
+.utxt{font-size:13px;color:rgba(255,255,255,.4);}
+.utxt strong{color:rgba(255,255,255,.7);}
+
+/* PRICING */
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.pc2{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:28px 24px;background:rgba(255,255,255,.02);position:relative;transition:all .2s;}
+.pc2:hover{border-color:rgba(255,255,255,.14);transform:translateY(-3px);box-shadow:0 20px 60px rgba(0,0,0,.4);}
+.pc2.feat{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.04);}
+.pbadge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);padding:3px 13px;border-radius:99px;background:#fff;color:#08080c;font-size:9px;font-weight:800;letter-spacing:.1em;white-space:nowrap;}
+.pt2{font-size:9px;font-weight:700;letter-spacing:.18em;color:rgba(255,255,255,.28);text-transform:uppercase;margin-bottom:14px;}
+.pam{font-size:52px;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:4px;}
+.pam sup{font-size:22px;vertical-align:top;margin-top:10px;font-weight:700;color:rgba(255,255,255,.6);}
+.pcad{font-size:11px;color:rgba(255,255,255,.28);margin-bottom:24px;}
+.pbtn2{display:block;width:100%;padding:12px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .18s;margin-bottom:22px;letter-spacing:-.1px;}
+.pbtn2.w{background:#fff;color:#08080c;}
+.pbtn2.w:hover{opacity:.88;}
+.pbtn2.o{background:transparent;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1);}
+.pbtn2.o:hover{border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.85);background:rgba(255,255,255,.04);}
+.pbtn2.g{background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.08);}
+.pbtn2.g:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);}
+.plist2{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.plist2 li{font-size:12px;color:rgba(255,255,255,.45);display:flex;gap:9px;align-items:flex-start;line-height:1.4;}
+.plist2 li .ck{flex-shrink:0;margin-top:2px;color:rgba(255,255,255,.3);}
+.plist2 li strong{color:rgba(255,255,255,.75);font-weight:600;}
+.plist2 li.off{color:rgba(255,255,255,.22);}
+
+/* FAQ */
+.faqw{max-width:640px;margin:0 auto;}
+.faqbox{border:1px solid rgba(255,255,255,.08);border-radius:13px;overflow:hidden;}
+.faqbox details{border-bottom:1px solid rgba(255,255,255,.07);}
+.faqbox details:last-child{border-bottom:none;}
+.faqbox summary{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;font-size:13px;font-weight:600;letter-spacing:-.2px;list-style:none;transition:background .15s;}
+.faqbox summary::-webkit-details-marker{display:none;}
+.faqbox summary:hover{background:rgba(255,255,255,.03);}
+.faqic{width:18px;height:18px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;color:rgba(255,255,255,.3);transition:all .2s;font-weight:300;}
+details[open] .faqic{transform:rotate(45deg);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6);}
+.faqbox p{padding:0 22px 18px;font-size:13px;color:rgba(255,255,255,.45);line-height:1.7;}
+
+/* FINAL */
+.final-wrap{text-align:center;border-top:1px solid rgba(255,255,255,.07);}
+.fh{font-size:clamp(32px,5vw,68px);font-weight:900;letter-spacing:-2px;line-height:.97;margin-bottom:20px;}
+.fh em{font-style:italic;font-weight:300;color:rgba(255,255,255,.3);}
+.fp{font-size:15px;color:rgba(255,255,255,.4);margin-bottom:36px;}
+.fn{font-size:11px;color:rgba(255,255,255,.22);margin-top:14px;letter-spacing:.03em;}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(20px,4vw,60px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;position:relative;z-index:1;}
+.fcopy{font-size:11px;color:rgba(255,255,255,.25);}
+.flinks{display:flex;gap:22px;}
+.flinks a{font-size:11px;color:rgba(255,255,255,.25);transition:color .15s;}
+.flinks a:hover{color:rgba(255,255,255,.6);}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease-out,transform .7s ease-out;}
+.rv.in{opacity:1;transform:none;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  #hero{grid-template-columns:1fr 1fr;gap:0;padding:64px 28px 0;}
+  .hl{padding:48px 24px 48px 0;}
+  .hh{font-size:clamp(36px,5.5vw,72px);}
+  .dc{width:270px;height:500px;}
+  .dv{width:200px;}
+  .fg{grid-template-columns:1fr 1fr;}
+  .vi{grid-template-columns:1fr;}
+  .vl{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);}
+  .scats{grid-template-columns:repeat(2,1fr);}
+  .pg{grid-template-columns:1fr 1fr;}
+  .pc2:first-child{grid-column:1/-1;}
+  .sl{flex-direction:column;gap:28px;}
+  .sleft{display:flex;align-items:baseline;gap:14px;flex:none;}
+  .sbig{font-size:80px;}
 }
-
-/* Large screens */
-@media(min-width:1400px){
-  .inner{max-width:1100px;}
-  .hero-h1{font-size:clamp(80px,6.5vw,108px);}
-  .device{width:270px;}
-  .device-container{width:400px;height:620px;}
+@media(max-width:768px){
+  .nc{display:none;}
+  .bt-d{display:none;}
+  #hero{grid-template-columns:1fr;padding:72px 20px 0;}
+  .hl{padding:32px 0;align-items:center;text-align:center;}
+  .hh{font-size:clamp(38px,9vw,60px);letter-spacing:-2px;}
+  .hs{text-align:center;max-width:100%;}
+  .ha{justify-content:center;}
+  .hn{text-align:center;}
+  .hst{align-items:center;}
+  .hr{padding:24px 0 56px;}
+  .dc{width:260px;height:470px;}
+  .dv{width:190px;}
+  .fc{font-size:9px;padding:5px 9px;}
+  .fc:nth-child(2){right:0;}
+  .fc:nth-child(3){left:0;}
+  section{padding:64px 20px;}
+  .fg{grid-template-columns:1fr;}
+  .vl,.vr{padding:32px 22px;}
+  .lgrid{grid-template-columns:1fr 1fr;}
+  .scats{grid-template-columns:1fr 1fr;}
+  .pg{grid-template-columns:1fr;}
+  .pc2:first-child{grid-column:auto;}
+  footer{flex-direction:column;text-align:center;}
+  .flinks{justify-content:center;flex-wrap:wrap;}
+  .urg{flex-direction:column;text-align:center;}
 }
-
-/* Large screens */
-@media(min-width:1400px){
-  .inner{max-width:1100px;}
-  .feat-h2{font-size:80px;}
-  .hero-h1{font-size:88px;}
-  .d-val{font-size:16px;}
+@media(max-width:380px){
+  .hh{font-size:34px;}
+  .dv{width:170px;}
+  .scats{grid-template-columns:1fr;}
+}
+@media(min-width:1440px){
+  #hero{padding:64px clamp(60px,8vw,120px) 0;}
+  .hl{padding-right:72px;}
+  .hh{font-size:100px;}
+  .dc{width:380px;height:640px;}
+  .dv{width:270px;}
 }
 </style>
 </head>
 <body>
 
-<!-- CUSTOM CURSOR -->
-<div id="cursor">
-  <div id="cursor-ring"></div>
-  <div id="cursor-dot"></div>
-</div>
-
-<!-- THREE.JS PARTICLE BG -->
-<canvas id="canvas-bg"></canvas>
+<!-- NEURAL CANVAS BG -->
+<canvas id="nc"></canvas>
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
-    <div class="logo-sq">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#020203" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    </div>
+  <div class="nl">
+    <div class="nlm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#08080c" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
     Kapaciti
   </div>
-  <div class="nav-center">
+  <div class="nc">
     <a href="#features">Features</a>
     <a href="#voice">Voice</a>
     <a href="#skills">Skills</a>
     <a href="#pricing">Pricing</a>
   </div>
-  <div class="nav-right">
-    <a href="/demo"><button class="btn btn-dim">Try demo</button></a>
-    <a href="#pricing"><button class="btn btn-white">Get access →</button></a>
+  <div class="nr">
+    <a href="/demo"><button class="bt bt-d">Try demo</button></a>
+    <a href="#pricing"><button class="bt bt-w">Get access →</button></a>
   </div>
 </nav>
 
 <!-- HERO -->
-<section id="hero">
-  <div class="scan"></div>
-
-  <!-- LEFT -->
-  <div class="hero-left">
-    <div class="hero-eyebrow">
-      <div class="eyebrow-live"></div>
-      AI operator command center
-    </div>
-    <h1 class="hero-h1">
-      <span class="line"><span class="inner">One install.</span></span>
-      <span class="line"><span class="inner">All skills.</span></span>
-      <span class="line"><span class="inner">One command.</span></span>
+<section id="hero" style="padding-bottom:0;">
+  <div class="hl">
+    <div class="hw"><div class="hw-dot"></div>AI operator command center</div>
+    <h1 class="hh">
+      <span class="l1">One install.</span><br>
+      <span class="l2">All skills.</span><br>
+      <span class="l3">One command.</span>
     </h1>
-    <p class="hero-sub">Revenue, clients, voice, and 70+ agent skills — one interface. Built for OpenClaw and Claude Code operators who run at full capacity.</p>
-    <div class="hero-actions">
-      <a href="/demo"><button class="btn-hero s">Try live demo</button></a>
-      <a href="#pricing"><button class="btn-hero p">Get full access — $99</button></a>
+    <p class="hs">Revenue, clients, voice, and 70+ agent skills — one interface. Built for OpenClaw and Claude Code operators who run at full capacity.</p>
+    <div class="ha">
+      <a href="/demo"><button class="btn-s">Try live demo</button></a>
+      <a href="#pricing"><button class="btn-p">Get full access — $99</button></a>
     </div>
-    <p class="hero-note">No account needed &nbsp;·&nbsp; One-time payment &nbsp;·&nbsp; Yours forever</p>
-    <div class="hero-stats-col">
-      <div class="hero-stat"><span class="hs-val">70+</span><span class="hs-label">agent skills bundled</span></div>
-      <div class="hero-stat"><span class="hs-val">$0/mo</span><span class="hs-label">no subscriptions</span></div>
-      <div class="hero-stat"><span class="hs-val">30 min</span><span class="hs-label">from zero to live</span></div>
+    <p class="hn">No account needed &nbsp;·&nbsp; One-time payment &nbsp;·&nbsp; Yours forever</p>
+    <div class="hst">
+      <div class="hsr"><span class="hsv">70+</span><span class="hsl">agent skills bundled</span></div>
+      <div class="hsr"><span class="hsv">$0/mo</span><span class="hsl">no subscriptions</span></div>
+      <div class="hsr"><span class="hsv">30 min</span><span class="hsl">from zero to live</span></div>
     </div>
   </div>
 
-  <!-- RIGHT — 3D floating device -->
-  <div class="hero-right">
-    <div class="device-container">
-      <div class="device-glow"></div>
-
+  <div class="hr">
+    <div class="dc">
+      <!-- Glow included via ::before -->
       <!-- Floating chips -->
-      <div class="f-chip"><div class="chip-dot"></div>6 agents running</div>
-      <div class="f-chip"><div class="chip-dot"></div>MRR $4,270</div>
-      <div class="f-chip"><div class="chip-dot"></div>Churn risk: 3</div>
-      <div class="f-chip"><div class="chip-dot"></div>Next session 18:00</div>
-
+      <div class="fc"><div class="fc-dot"></div>6 agents running</div>
+      <div class="fc"><div class="fc-dot"></div>MRR $4,270</div>
+      <div class="fc"><div class="fc-dot"></div>Churn risk: 3</div>
+      <div class="fc"><div class="fc-dot"></div>Next: 18:00</div>
       <!-- Device -->
-      <div class="device-wrap">
-        <div class="corner tl"></div><div class="corner tr"></div>
-        <div class="corner bl"></div><div class="corner br"></div>
-        <div class="device">
-          <div class="device-bar">
-            <div class="device-dot"><span></span><span></span><span></span></div>
-            <div class="device-live"><div class="device-live-dot"></div>LIVE</div>
+      <div class="dw">
+        <div class="cr tl"></div><div class="cr tr"></div>
+        <div class="cr bl"></div><div class="cr br"></div>
+        <div class="dv">
+          <div class="dbar">
+            <div class="ddots"><span></span><span></span><span></span></div>
+            <div class="dlive"><div class="dlive-dot"></div>LIVE</div>
           </div>
-          <div class="device-body">
-            <div class="d-section">Revenue</div>
-            <div class="d-card">
-              <div class="d-row">
-                <div><div class="d-label">MRR</div><div class="d-val">$4,270</div></div>
-                <div class="d-badge up">+18.4%</div>
-              </div>
-              <div class="d-bars">
-                <div class="d-bar" style="height:35%"></div>
-                <div class="d-bar" style="height:50%"></div>
-                <div class="d-bar" style="height:42%"></div>
-                <div class="d-bar" style="height:65%"></div>
-                <div class="d-bar" style="height:58%"></div>
-                <div class="d-bar" style="height:75%"></div>
-                <div class="d-bar" style="height:80%"></div>
-                <div class="d-bar" style="height:88%"></div>
-                <div class="d-bar hi" style="height:100%"></div>
+          <div class="dbody">
+            <div class="ds-lbl">Revenue</div>
+            <div class="dcard">
+              <div class="drow"><div><div class="dl">MRR</div><div class="dv2">$4,270</div></div><div class="dbadge">+18.4%</div></div>
+              <div class="dbars">
+                <div class="dbar2" style="height:35%"></div><div class="dbar2" style="height:50%"></div>
+                <div class="dbar2" style="height:42%"></div><div class="dbar2" style="height:65%"></div>
+                <div class="dbar2" style="height:58%"></div><div class="dbar2" style="height:75%"></div>
+                <div class="dbar2" style="height:82%"></div><div class="dbar2" style="height:90%"></div>
+                <div class="dbar2 hi" style="height:100%"></div>
               </div>
             </div>
-            <div class="d-section">Agent Fleet</div>
-            <div class="d-card">
-              <div class="d-agents">
-                <div class="d-agent"><div class="d-agent-dot on"></div><div class="d-agent-name">HAMLET</div><div class="d-agent-status">Publishing macro</div></div>
-                <div class="d-agent"><div class="d-agent-dot on"></div><div class="d-agent-name">ATLAS</div><div class="d-agent-status">Enriching leads</div></div>
-                <div class="d-agent"><div class="d-agent-dot on"></div><div class="d-agent-name">MENTOR</div><div class="d-agent-status">Drafting reply</div></div>
-                <div class="d-agent"><div class="d-agent-dot idle"></div><div class="d-agent-name">BUILDER</div><div class="d-agent-status">Standby</div></div>
+            <div class="ds-lbl">Agent Fleet</div>
+            <div class="dcard">
+              <div class="dagents">
+                <div class="dagent"><div class="dagent-dot on"></div><div class="dagent-name">HAMLET</div><div class="dagent-st">Publishing macro</div></div>
+                <div class="dagent"><div class="dagent-dot on"></div><div class="dagent-name">ATLAS</div><div class="dagent-st">Enriching leads</div></div>
+                <div class="dagent"><div class="dagent-dot on"></div><div class="dagent-name">MENTOR</div><div class="dagent-st">Drafting reply</div></div>
+                <div class="dagent"><div class="dagent-dot idle"></div><div class="dagent-name">BUILDER</div><div class="dagent-st">Standby</div></div>
               </div>
             </div>
-            <div class="d-section">Next Session</div>
-            <div class="d-card">
-              <div class="d-row">
-                <div><div class="d-label">Lea M.</div><div class="d-val sm">18:00 today</div></div>
-                <div class="d-badge">AI brief ready</div>
-              </div>
+            <div class="ds-lbl">Next Session</div>
+            <div class="dcard">
+              <div class="drow"><div><div class="dl">Lea M.</div><div class="dv2 sm">18:00 today</div></div><div class="dbadge">AI brief ready</div></div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="device-stats">
-        <div class="ds"><div class="ds-dot"></div>6 agents live</div>
-        <div class="ds"><div class="ds-dot"></div>MRR $4,270</div>
-        <div class="ds"><div class="ds-dot"></div>18:00 session</div>
+      <div class="dstats">
+        <div class="dstat"><div class="dstat-dot"></div>6 agents</div>
+        <div class="dstat"><div class="dstat-dot"></div>$4,270 MRR</div>
+        <div class="dstat"><div class="dstat-dot"></div>18:00 session</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee" id="marquee">
-    <div class="marquee-item">One install</div>
-    <div class="marquee-item">70+ skills</div>
-    <div class="marquee-item">Voice interface</div>
-    <div class="marquee-item">Whisper + ElevenLabs</div>
-    <div class="marquee-item">Live revenue</div>
-    <div class="marquee-item">Churn predictor</div>
-    <div class="marquee-item">Agent fleet</div>
-    <div class="marquee-item">No subscriptions</div>
-    <div class="marquee-item">$99 one-time</div>
-    <div class="marquee-item">Open source core</div>
-    <div class="marquee-item">One install</div>
-    <div class="marquee-item">70+ skills</div>
-    <div class="marquee-item">Voice interface</div>
-    <div class="marquee-item">Whisper + ElevenLabs</div>
-    <div class="marquee-item">Live revenue</div>
-    <div class="marquee-item">Churn predictor</div>
-    <div class="marquee-item">Agent fleet</div>
-    <div class="marquee-item">No subscriptions</div>
-    <div class="marquee-item">$99 one-time</div>
-    <div class="marquee-item">Open source core</div>
+<div class="mq" style="position:relative;z-index:1;">
+  <div class="mq-inner">
+    <div class="mq-item">One install</div><div class="mq-item">70+ skills</div>
+    <div class="mq-item">Voice interface</div><div class="mq-item">Whisper + ElevenLabs</div>
+    <div class="mq-item">Live revenue</div><div class="mq-item">Churn predictor</div>
+    <div class="mq-item">Agent fleet</div><div class="mq-item">No subscriptions</div>
+    <div class="mq-item">$99 one-time</div><div class="mq-item">Open source core</div>
+    <div class="mq-item">One install</div><div class="mq-item">70+ skills</div>
+    <div class="mq-item">Voice interface</div><div class="mq-item">Whisper + ElevenLabs</div>
+    <div class="mq-item">Live revenue</div><div class="mq-item">Churn predictor</div>
+    <div class="mq-item">Agent fleet</div><div class="mq-item">No subscriptions</div>
+    <div class="mq-item">$99 one-time</div><div class="mq-item">Open source core</div>
   </div>
 </div>
 
 <!-- FEATURES -->
-<section id="features">
-  <div class="feat-header reveal">
-    <div class="feat-eyebrow">What it does</div>
-    <h2 class="feat-h2">Stop switching tabs.<br><em>Command everything.</em></h2>
-  </div>
-  <div class="feat-grid-wrap">
-    <div class="feat-grid reveal">
-      <div class="feat-card tilt">
-        <div class="feat-num">01</div>
-        <div class="feat-title">Voice — ask anything</div>
-        <div class="feat-desc">Hold to talk. Ask about revenue, clients, or your next session. Whisper transcribes, GPT-4 reasons, ElevenLabs answers. Under 3 seconds.</div>
-        <span class="feat-tag">VOICE</span>
-      </div>
-      <div class="feat-card tilt">
-        <div class="feat-num">02</div>
-        <div class="feat-title">Live revenue</div>
-        <div class="feat-desc">Real-time MRR, churn risk, and revenue trends. Stripe-connected. No dashboards to update. No manual exports.</div>
-        <span class="feat-tag">REVENUE</span>
-      </div>
-      <div class="feat-card tilt">
-        <div class="feat-num">03</div>
-        <div class="feat-title">Client intelligence</div>
-        <div class="feat-desc">AI-scored churn risk per client. Session tracking, coaching drafts, one-tap send. Every client feels attended to — automatically.</div>
-        <span class="feat-tag">CLIENTS</span>
-      </div>
-      <div class="feat-card tilt">
-        <div class="feat-num">04</div>
-        <div class="feat-title">Agent fleet</div>
-        <div class="feat-desc">See every agent's live status. Trigger runs, view logs, route tasks — without touching a terminal.</div>
-        <span class="feat-tag">AGENTS</span>
-      </div>
-      <div class="feat-card tilt">
-        <div class="feat-num">05</div>
-        <div class="feat-title">Calendar + War Room</div>
-        <div class="feat-desc">All bookings in one place. Tap for AI session brief. Launch War Room for fullscreen focus with live client data.</div>
-        <span class="feat-tag">CALENDAR</span>
-      </div>
-      <div class="feat-card tilt">
-        <div class="feat-num">06</div>
-        <div class="feat-title">Mac · iPhone · iPad</div>
-        <div class="feat-desc">Fluid layout, any screen. PWA install — no App Store, no Electron. Open HTML/JS. You own the code.</div>
-        <span class="feat-tag">CROSS-DEVICE</span>
-      </div>
+<section id="features" style="position:relative;z-index:1;">
+  <div class="si">
+    <div class="rv"><div class="ey">What it does</div><h2 class="sh">Stop switching tabs.<br><em>Command everything.</em></h2><p class="sp">Every signal your business generates — one interface. Your agents can act on all of it.</p></div>
+    <div class="fg rv">
+      <div class="fc2"><div class="fcnum">01</div><div class="fctitle">Voice — ask anything</div><div class="fcdesc">Hold to talk. Whisper transcribes, GPT-4 reasons, ElevenLabs answers. Under 3 seconds.</div><span class="fctag">VOICE</span></div>
+      <div class="fc2"><div class="fcnum">02</div><div class="fctitle">Live revenue</div><div class="fcdesc">Real-time MRR, churn risk, and revenue trends. Stripe-connected. No manual exports.</div><span class="fctag">REVENUE</span></div>
+      <div class="fc2"><div class="fcnum">03</div><div class="fctitle">Client intelligence</div><div class="fcdesc">AI churn scores per client. Coaching drafts, session tracking, one-tap send.</div><span class="fctag">CLIENTS</span></div>
+      <div class="fc2"><div class="fcnum">04</div><div class="fctitle">Agent fleet</div><div class="fcdesc">Live status for every agent. Trigger runs, inspect logs, route tasks — no terminal needed.</div><span class="fctag">AGENTS</span></div>
+      <div class="fc2"><div class="fcnum">05</div><div class="fctitle">Calendar + War Room</div><div class="fcdesc">All bookings in one place. AI session brief on tap. Fullscreen War Room mode.</div><span class="fctag">CALENDAR</span></div>
+      <div class="fc2"><div class="fcnum">06</div><div class="fctitle">Mac · iPhone · iPad</div><div class="fcdesc">PWA install. No App Store. No Electron. Fluid layout, any screen. You own the code.</div><span class="fctag">DEVICES</span></div>
     </div>
   </div>
 </section>
 
 <!-- VOICE -->
-<section id="voice">
-  <div class="voice-inner reveal">
-    <div class="voice-left">
-      <div class="feat-eyebrow">Voice layer</div>
-      <h2 style="font-size:clamp(28px,4vw,48px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:16px;">It talks back.</h2>
-      <p style="font-size:14px;color:var(--w6);line-height:1.75;max-width:360px;margin-bottom:0;">Custom voice. Zero transcription errors. 99 languages. The full pipeline in under 3 seconds.</p>
-      <div class="voice-points">
-        <div class="vp"><div class="vp-num">01</div><div><div class="vp-title">Whisper transcription</div><div class="vp-desc">Every accent. Every dialect. Every language. Word for word. No retries.</div></div></div>
-        <div class="vp"><div class="vp-num">02</div><div><div class="vp-title">Custom voice — ElevenLabs</div><div class="vp-desc">1,000+ voices or clone your own. Auto language-switch mid-session.</div></div></div>
-        <div class="vp"><div class="vp-num">03</div><div><div class="vp-title">99 languages. Zero wrong answers.</div><div class="vp-desc">Swedish, English, Spanish — mid-sentence. Whisper never gets confused.</div></div></div>
-        <div class="vp"><div class="vp-num">04</div><div><div class="vp-title">Under 3 seconds.</div><div class="vp-desc">Voice → Whisper → GPT-4 → ElevenLabs → speaker. The full pipeline.</div></div></div>
+<section id="voice" style="padding-top:0;position:relative;z-index:1;">
+  <div class="si">
+    <div class="vi rv">
+      <div class="vl">
+        <div class="ey">Voice layer</div>
+        <h2 style="font-size:clamp(24px,3.5vw,44px);font-weight:900;letter-spacing:-1.5px;line-height:1.05;margin-bottom:14px;">It talks back.</h2>
+        <p style="font-size:14px;color:rgba(255,255,255,.45);line-height:1.75;max-width:340px;">Custom voice. Zero transcription errors. 99 languages. Under 3 seconds start to spoken answer.</p>
+        <div class="vpoints">
+          <div class="vp"><div class="vpn">01</div><div><div class="vpt">Whisper transcription</div><div class="vpd">Every accent. Every dialect. Every language. Word for word. No retries.</div></div></div>
+          <div class="vp"><div class="vpn">02</div><div><div class="vpt">Custom voice — ElevenLabs</div><div class="vpd">1,000+ voices or clone your own. Auto language-switch mid-session.</div></div></div>
+          <div class="vp"><div class="vpn">03</div><div><div class="vpt">99 languages. Zero wrong answers.</div><div class="vpd">Swedish, English, Spanish — mid-sentence. Whisper never gets confused.</div></div></div>
+          <div class="vp"><div class="vpn">04</div><div><div class="vpt">Under 3 seconds.</div><div class="vpd">Voice → Whisper → GPT-4 → ElevenLabs → speaker. Always.</div></div></div>
+        </div>
+        <div class="tpills"><span class="tpill">OpenAI Whisper</span><span class="tpill">ElevenLabs TTS</span><span class="tpill">99 languages</span><span class="tpill">&lt;3s latency</span></div>
       </div>
-      <div class="tech-pills">
-        <span class="pill">OpenAI Whisper</span>
-        <span class="pill">ElevenLabs TTS</span>
-        <span class="pill">99 languages</span>
-        <span class="pill">&lt;3s latency</span>
-      </div>
-    </div>
-    <div class="voice-right">
-      <canvas id="waveCanvas"></canvas>
-      <div class="voice-stat">
-        <div class="voice-stat-val" id="langCount">0</div>
-        <div class="voice-stat-label">Languages supported</div>
-      </div>
-      <div class="lang-grid" style="margin-top:28px;">
-        <div class="lang-item">🇸🇪 Swedish</div>
-        <div class="lang-item">🇺🇸 English</div>
-        <div class="lang-item">🇩🇪 German</div>
-        <div class="lang-item">🇪🇸 Spanish</div>
-        <div class="lang-item">🇫🇷 French</div>
-        <div class="lang-item">🇯🇵 Japanese</div>
+      <div class="vr">
+        <canvas id="wc"></canvas>
+        <div class="vstat"><div class="vsv" id="lc">0</div><div class="vsl">Languages supported</div></div>
+        <div class="lgrid">
+          <div class="li2">🇸🇪 Swedish</div><div class="li2">🇺🇸 English</div>
+          <div class="li2">🇩🇪 German</div><div class="li2">🇪🇸 Spanish</div>
+          <div class="li2">🇫🇷 French</div><div class="li2">🇯🇵 Japanese</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- SKILLS -->
-<section id="skills">
-  <div class="reveal">
-    <div class="feat-eyebrow">Skills bundle</div>
-    <h2 style="font-size:clamp(36px,6vw,72px);font-weight:900;letter-spacing:-2.5px;line-height:1.0;margin-bottom:56px;">Every capability.<br><span style="color:var(--w3);font-weight:300;font-style:italic;">One install.</span></h2>
-  </div>
-  <div class="skills-layout reveal">
-    <div class="skills-left">
-      <div class="skills-big"><span id="sc">0</span><span>+</span></div>
-      <div class="skills-sub">Production-ready OpenClaw skills. Drop in. Work immediately.</div>
-    </div>
-    <div class="skills-cats">
-      <div class="scat"><div class="scat-label">Orchestration</div><div class="scat-items">agent-orchestrator<br>capability-evolver<br>self-improving-agent<br>mcp-builder</div></div>
-      <div class="scat"><div class="scat-label">Memory</div><div class="scat-items">cognitive-memory<br>supermemory<br>mnemo-cortex<br>buildlog</div></div>
-      <div class="scat"><div class="scat-label">Revenue</div><div class="scat-items">stripe-integration<br>saas-revenue-tracker<br>financial-data<br>onchain</div></div>
-      <div class="scat"><div class="scat-label">Social</div><div class="scat-items">x-post-automation<br>instagram-poster<br>tiktok-growth<br>typefully</div></div>
-      <div class="scat"><div class="scat-label">Leads & Sales</div><div class="scat-items">lead-hunter<br>dm-outreach<br>email-campaigns<br>firecrawl</div></div>
-      <div class="scat"><div class="scat-label">Research</div><div class="scat-items">deep-research-pro<br>seo-autopilot<br>competitive-intel<br>exa-web-search</div></div>
-      <div class="scat"><div class="scat-label">Databases</div><div class="scat-items">supabase<br>notion<br>playwright<br>webapp-testing</div></div>
-      <div class="scat"><div class="scat-label">Trading</div><div class="scat-items">trading-journal<br>trading-coach<br>day-trading-skill<br>predictme</div></div>
-      <div class="scat"><div class="scat-label">Content</div><div class="scat-items">content-repurposing<br>newsletter-creation<br>landing-page-gen<br>stop-slop</div></div>
+<section id="skills" style="border-top:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.01);position:relative;z-index:1;">
+  <div class="si">
+    <div class="rv"><div class="ey">Skills bundle</div><h2 class="sh">Every capability.<br><em>One install.</em></h2></div>
+    <div class="sl rv">
+      <div class="sleft"><div class="sbig"><span id="sc">0</span><span>+</span></div><div class="ssub">Production-ready skills. Drop in. Work immediately.</div></div>
+      <div class="scats">
+        <div class="scat"><div class="scat-l">Orchestration</div><div class="scat-i">agent-orchestrator<br>capability-evolver<br>self-improving-agent<br>mcp-builder</div></div>
+        <div class="scat"><div class="scat-l">Memory</div><div class="scat-i">cognitive-memory<br>supermemory<br>mnemo-cortex<br>buildlog</div></div>
+        <div class="scat"><div class="scat-l">Revenue</div><div class="scat-i">stripe-integration<br>saas-revenue-tracker<br>financial-data<br>onchain</div></div>
+        <div class="scat"><div class="scat-l">Social</div><div class="scat-i">x-post-automation<br>instagram-poster<br>tiktok-growth<br>typefully</div></div>
+        <div class="scat"><div class="scat-l">Leads & Sales</div><div class="scat-i">lead-hunter<br>dm-outreach<br>email-campaigns<br>firecrawl</div></div>
+        <div class="scat"><div class="scat-l">Research</div><div class="scat-i">deep-research-pro<br>seo-autopilot<br>competitive-intel<br>exa-web-search</div></div>
+        <div class="scat"><div class="scat-l">Databases</div><div class="scat-i">supabase<br>notion<br>playwright<br>webapp-testing</div></div>
+        <div class="scat"><div class="scat-l">Trading</div><div class="scat-i">trading-journal<br>trading-coach<br>day-trading-skill<br>predictme</div></div>
+        <div class="scat"><div class="scat-l">Content</div><div class="scat-i">content-repurposing<br>newsletter-creation<br>landing-page-gen<br>stop-slop</div></div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- URGENCY -->
-<div class="urgency">
-  <div class="u-pill">14 spots left at $99</div>
-  <div class="u-text">Early access pricing. <strong>$99 → $299</strong> at 50 installs.</div>
+<div class="urg">
+  <div class="upill">14 spots left at $99</div>
+  <div class="utxt">Early access. <strong>$99 → $299</strong> at 50 installs.</div>
 </div>
 
 <!-- PRICING -->
-<section id="pricing">
-  <div class="pricing-header reveal">
-    <h2 class="pricing-h2">Start free.<br>Go all-in when ready.</h2>
-    <p class="pricing-sub">One-time payment. No subscriptions. No lock-in.</p>
-  </div>
-  <div class="pricing-grid reveal">
-    <div class="price-card tilt">
-      <div class="pt">Demo</div>
-      <div class="pv">$<span style="color:var(--w)">0</span></div>
-      <div class="pc">Try before you buy</div>
-      <a href="/demo"><button class="pbtn ol">Try live demo →</button></a>
-      <ul class="plist">
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Full UI — all devices</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Voice interface demo</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>All features visible</li>
-        <li class="off"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>Demo data only</li>
-        <li class="off"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>No integrations</li>
-      </ul>
-    </div>
-    <div class="price-card feat-p tilt">
-      <div class="price-badge">MOST POPULAR</div>
-      <div class="pt" style="margin-top:14px;">Full access</div>
-      <div class="pv"><sup>$</sup>99</div>
-      <div class="pc">One-time · Instant GitHub</div>
-      <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="pbtn wt">Get full access →</button></a>
-      <ul class="plist">
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><strong>Private repo invite</strong></li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><strong>70+ skills bundle</strong></li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Stripe + Cal.com</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Whisper + ElevenLabs</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Client AI coaching</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Lifetime updates</li>
-      </ul>
-    </div>
-    <div class="price-card tilt">
-      <div class="pt">Done-for-you</div>
-      <div class="pv"><sup>$</sup>1000</div>
-      <div class="pc">One-time · Custom setup</div>
-      <a href="https://buy.stripe.com/3cI4gy8fKdrQa6L11Z8Vi0g" target="_blank"><button class="pbtn sf">Get custom setup →</button></a>
-      <ul class="plist">
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><strong>Everything in Full Access</strong></li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Custom agent architecture</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>All integrations wired up</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Revenue automations live</li>
-        <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>30-day priority support</li>
-      </ul>
+<section id="pricing" style="position:relative;z-index:1;">
+  <div class="si">
+    <div class="rv" style="text-align:center;margin-bottom:48px;"><div class="ey" style="display:flex;justify-content:center;">Pricing</div><h2 class="sh">Start free.<br><em>Go all-in when ready.</em></h2><p class="sp" style="margin:0 auto;max-width:400px;">One-time payment. No subscriptions. No lock-in.</p></div>
+    <div class="pg rv">
+      <div class="pc2">
+        <div class="pt2">Demo</div>
+        <div class="pam">$<span style="color:rgba(255,255,255,.9)">0</span></div>
+        <div class="pcad">Try before you buy</div>
+        <a href="/demo"><button class="pbtn2 o">Try live demo →</button></a>
+        <ul class="plist2">
+          <li><span class="ck">✓</span>Full UI — all devices</li>
+          <li><span class="ck">✓</span>Voice demo</li>
+          <li><span class="ck">✓</span>All features visible</li>
+          <li class="off"><span class="ck">–</span>Demo data only</li>
+          <li class="off"><span class="ck">–</span>No integrations</li>
+        </ul>
+      </div>
+      <div class="pc2 feat">
+        <div class="pbadge">MOST POPULAR</div>
+        <div class="pt2" style="margin-top:14px;">Full access</div>
+        <div class="pam"><sup>$</sup>99</div>
+        <div class="pcad">One-time · Instant GitHub</div>
+        <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="pbtn2 w">Get full access →</button></a>
+        <ul class="plist2">
+          <li><span class="ck">✓</span><strong>Private repo — instant invite</strong></li>
+          <li><span class="ck">✓</span><strong>70+ skills bundle</strong></li>
+          <li><span class="ck">✓</span>Stripe + Cal.com</li>
+          <li><span class="ck">✓</span>Whisper + ElevenLabs</li>
+          <li><span class="ck">✓</span>Client AI coaching</li>
+          <li><span class="ck">✓</span>Lifetime updates</li>
+        </ul>
+      </div>
+      <div class="pc2">
+        <div class="pt2">Done-for-you</div>
+        <div class="pam"><sup>$</sup>1000</div>
+        <div class="pcad">One-time · Custom setup</div>
+        <a href="https://buy.stripe.com/3cI4gy8fKdrQa6L11Z8Vi0g" target="_blank"><button class="pbtn2 g">Get custom setup →</button></a>
+        <ul class="plist2">
+          <li><span class="ck">✓</span><strong>Everything in Full Access</strong></li>
+          <li><span class="ck">✓</span>Custom agent architecture</li>
+          <li><span class="ck">✓</span>All integrations wired</li>
+          <li><span class="ck">✓</span>Revenue automations live</li>
+          <li><span class="ck">✓</span>30-day priority support</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section id="faq">
-  <div class="faq-wrap">
-    <h2 class="faq-h reveal">Common questions</h2>
-    <div class="faq reveal">
-      <details><summary>Do I get access to your personal accounts?<div class="faq-icon">+</div></summary><p class="faq-a">Never. The repo is generic code. You connect your own Stripe, OpenAI, Cal.com, and Discord keys. Your data stays separate.</p></details>
-      <details><summary>What do I need to run this?<div class="faq-icon">+</div></summary><p class="faq-a">Mac or Linux with Node.js. OpenClaw or Claude Code for agent skills. API keys for Stripe and OpenAI — optionally Cal.com and Discord.</p></details>
-      <details><summary>How long does setup take?<div class="faq-icon">+</div></summary><p class="faq-a">Self-install ($99) takes about 30 minutes. Clone, run setup script, enter keys, done. Done-for-you means we handle it all.</p></details>
-      <details><summary>Is this a subscription?<div class="faq-icon">+</div></summary><p class="faq-a">No. One-time. You own the code. Host it yourself. Pay only for your own API usage directly.</p></details>
-      <details><summary>What are the 70+ skills?<div class="faq-icon">+</div></summary><p class="faq-a">OpenClaw skills covering revenue, agent orchestration, social automation, lead gen, content, SEO, email, databases, trading, and memory. All drop-in ready.</p></details>
+<section id="faq" style="padding-top:0;position:relative;z-index:1;">
+  <div class="si"><div class="faqw">
+    <h2 class="sh rv" style="text-align:center;font-size:clamp(24px,3.5vw,44px);">Common questions</h2>
+    <div class="faqbox rv">
+      <details><summary>Do I get access to your personal accounts?<div class="faqic">+</div></summary><p>Never. The repo contains generic code only. You connect your own Stripe, OpenAI, Cal.com, and Discord keys. Your data stays separate.</p></details>
+      <details><summary>What do I need to run this?<div class="faqic">+</div></summary><p>Mac or Linux with Node.js. OpenClaw or Claude Code for agent skills. API keys for Stripe and OpenAI — optionally Cal.com and Discord.</p></details>
+      <details><summary>How long does setup take?<div class="faqic">+</div></summary><p>Self-install ($99) takes about 30 minutes. Clone, run setup script, enter keys, done. Done-for-you means we handle everything.</p></details>
+      <details><summary>Is this a subscription?<div class="faqic">+</div></summary><p>No. One-time. You own the code. Host yourself. Pay only for your own API usage directly.</p></details>
+      <details><summary>What are the 70+ skills exactly?<div class="faqic">+</div></summary><p>OpenClaw skills covering revenue, orchestration, social, lead gen, content, SEO, email, databases, trading, and memory. All drop-in ready.</p></details>
     </div>
-  </div>
+  </div></div>
 </section>
 
-<!-- FINAL -->
-<section id="final">
-  <div class="reveal">
-    <h2 class="final-h">Your agents are running.<br><em>Your business isn't visible.</em></h2>
-    <p class="final-sub">Get the interface.</p>
+<!-- FINAL CTA -->
+<section class="final-wrap" style="position:relative;z-index:1;">
+  <div class="si rv" style="text-align:center;max-width:640px;">
+    <h2 class="fh">Your agents are running.<br><em>Your business isn't visible.</em></h2>
+    <p class="fp">Get the interface.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-      <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="btn-hero p">Get full access — $99</button></a>
-      <a href="/demo"><button class="btn-hero s">Try demo first</button></a>
+      <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="btn-p" style="font-size:15px;padding:15px 36px;">Get full access — $99</button></a>
+      <a href="/demo"><button class="btn-s" style="font-size:15px;padding:15px 28px;">Try demo first</button></a>
     </div>
-    <p class="final-note">One-time &nbsp;·&nbsp; Instant GitHub access &nbsp;·&nbsp; Lifetime updates</p>
+    <p class="fn">One-time &nbsp;·&nbsp; Instant GitHub access &nbsp;·&nbsp; Lifetime updates</p>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <div class="fc">© 2026 Kapaciti · Built by <a href="https://x.com/Fluxz_Trading" style="color:rgba(255,255,255,.5);">@Fluxz_Trading</a></div>
-  <div class="fl">
+  <div class="fcopy">© 2026 Kapaciti · Built by <a href="https://x.com/Fluxz_Trading" target="_blank" style="color:rgba(255,255,255,.4);">@Fluxz_Trading</a></div>
+  <div class="flinks">
     <a href="https://github.com/fluxzander/fluxz-command-center-lite" target="_blank">GitHub</a>
     <a href="/demo">Demo</a>
     <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank">$99</a>
@@ -604,268 +638,129 @@ nav::before{
   </div>
 </footer>
 
-<!-- THREE.JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script>
-// ── NEURAL NETWORK CANVAS (hero background) ──
+// ── NEURAL NETWORK ──
 (function(){
-  // Replace fixed canvas with hero-specific canvas
-  const old = document.getElementById('canvas-bg');
-  old.style.display='none';
-
-  const c = document.createElement('canvas');
-  c.id = 'neural-canvas';
-  c.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;';
-  document.body.insertBefore(c, document.body.firstChild);
-
-  const ctx = c.getContext('2d');
-  let W, H, nodes=[], packets=[], t=0, mouse={x:0.5,y:0.5};
-
-  function resize(){
-    W=c.width=window.innerWidth;
-    H=c.height=window.innerHeight;
-    initNodes();
-  }
-
-  function initNodes(){
+  const c=document.getElementById('nc');
+  const ctx=c.getContext('2d');
+  let W,H,nodes=[],packets=[],t=0,mx=.5,my=.5;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;buildNodes();}
+  function buildNodes(){
     nodes=[];
-    const count = Math.floor((W*H)/22000);
-    for(let i=0;i<count;i++){
-      nodes.push({
-        x: Math.random()*W,
-        y: Math.random()*H,
-        vx:(Math.random()-.5)*.18,
-        vy:(Math.random()-.5)*.18,
-        r: Math.random()*2+1,
-        pulse:Math.random()*Math.PI*2,
-        pulseSpeed:Math.random()*.02+.008,
-        active:Math.random()<.25
-      });
-    }
+    const n=Math.floor(W*H/18000);
+    for(let i=0;i<n;i++) nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.18,r:Math.random()*1.5+.6,p:Math.random()*Math.PI*2,ps:Math.random()*.018+.007,a:Math.random()<.2});
   }
-
-  function spawnPacket(){
-    if(nodes.length<2) return;
-    const ai = Math.floor(Math.random()*nodes.length);
-    let bi;
-    let best=Infinity;
-    for(let i=0;i<nodes.length;i++){
-      if(i===ai) continue;
-      const d=dist(nodes[ai],nodes[i]);
-      if(d<180&&d<best){best=d;bi=i;}
-    }
-    if(bi===undefined) return;
-    packets.push({from:ai,to:bi,progress:0,speed:Math.random()*.012+.006});
+  function pkt(){
+    if(nodes.length<2)return;
+    let ai=Math.floor(Math.random()*nodes.length),bi,bd=9999;
+    for(let i=0;i<nodes.length;i++){if(i===ai)continue;const d=dist(nodes[ai],nodes[i]);if(d<150&&d<bd){bd=d;bi=i;}}
+    if(bi!==undefined)packets.push({a:ai,b:bi,t:0,s:Math.random()*.014+.006});
   }
-
   function dist(a,b){return Math.sqrt((a.x-b.x)**2+(a.y-b.y)**2);}
-
-  const maxDist = 140;
-
   function draw(){
     requestAnimationFrame(draw);
     ctx.clearRect(0,0,W,H);
-
     t+=.004;
-
-    // Mouse influence
-    const mxPx = mouse.x*W;
-    const myPx = mouse.y*H;
-
-    // Update nodes
+    const mxp=mx*W,myp=my*H;
     nodes.forEach(n=>{
-      n.x+=n.vx;
-      n.y+=n.vy;
-      if(n.x<0||n.x>W) n.vx*=-1;
-      if(n.y<0||n.y>H) n.vy*=-1;
-      n.pulse+=n.pulseSpeed;
-      // subtle mouse attraction
-      const dx=mxPx-n.x, dy=myPx-n.y;
-      const d=Math.sqrt(dx*dx+dy*dy);
-      if(d<200){n.vx+=dx/d*.004;n.vy+=dy/d*.004;}
-      // dampen
-      n.vx*=.998;n.vy*=.998;
+      n.x+=n.vx;n.y+=n.vy;
+      if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1;
+      n.p+=n.ps;
+      const dx=mxp-n.x,dy=myp-n.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<180){n.vx+=dx/d*.003;n.vy+=dy/d*.003;}
+      n.vx*=.999;n.vy*=.999;
     });
-
-    // Draw connections
     for(let i=0;i<nodes.length;i++){
       for(let j=i+1;j<nodes.length;j++){
         const d=dist(nodes[i],nodes[j]);
-        if(d<maxDist){
-          const alpha=(1-d/maxDist)*0.07;
-          ctx.strokeStyle=`rgba(255,255,255,${alpha})`;
-          ctx.lineWidth=.5;
-          ctx.beginPath();
-          ctx.moveTo(nodes[i].x,nodes[i].y);
-          ctx.lineTo(nodes[j].x,nodes[j].y);
-          ctx.stroke();
+        if(d<135){
+          ctx.strokeStyle=`rgba(255,255,255,${(1-d/135)*.06})`;
+          ctx.lineWidth=.5;ctx.beginPath();
+          ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.stroke();
         }
       }
     }
-
-    // Draw packets (data flowing along edges)
     packets=packets.filter(p=>{
-      p.progress+=p.speed;
-      if(p.progress>=1) return false;
-      const a=nodes[p.from],b=nodes[p.to];
-      if(!a||!b) return false;
-      const x=a.x+(b.x-a.x)*p.progress;
-      const y=a.y+(b.y-a.y)*p.progress;
-      const alpha=Math.sin(p.progress*Math.PI)*0.7;
-      ctx.beginPath();
-      ctx.arc(x,y,2,0,Math.PI*2);
-      ctx.fillStyle=`rgba(255,255,255,${alpha})`;
-      ctx.fill();
-      // trail
-      const tx2=a.x+(b.x-a.x)*Math.max(0,p.progress-.08);
-      const ty2=a.y+(b.y-a.y)*Math.max(0,p.progress-.08);
-      ctx.beginPath();
-      ctx.moveTo(x,y);ctx.lineTo(tx2,ty2);
-      ctx.strokeStyle=`rgba(255,255,255,${alpha*.3})`;
-      ctx.lineWidth=1;ctx.stroke();
+      p.t+=p.s;if(p.t>=1)return false;
+      const a=nodes[p.a],b=nodes[p.b];if(!a||!b)return false;
+      const x=a.x+(b.x-a.x)*p.t,y=a.y+(b.y-a.y)*p.t;
+      const al=Math.sin(p.t*Math.PI)*.65;
+      ctx.beginPath();ctx.arc(x,y,1.8,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${al})`;ctx.fill();
+      const tx=a.x+(b.x-a.x)*Math.max(0,p.t-.07),ty=a.y+(b.y-a.y)*Math.max(0,p.t-.07);
+      ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(tx,ty);
+      ctx.strokeStyle=`rgba(255,255,255,${al*.28})`;ctx.lineWidth=.8;ctx.stroke();
       return true;
     });
-
-    // Draw nodes
     nodes.forEach(n=>{
-      const pulse=Math.sin(n.pulse)*.5+.5;
-      const baseAlpha = n.active ? 0.25 : 0.08;
-      const r = n.r + pulse*(n.active?.8:.2);
-
-      // outer glow for active nodes
-      if(n.active){
-        const grad=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r*5);
-        grad.addColorStop(0,`rgba(255,255,255,${.06*pulse})`);
-        grad.addColorStop(1,'rgba(255,255,255,0)');
-        ctx.beginPath();ctx.arc(n.x,n.y,r*5,0,Math.PI*2);
-        ctx.fillStyle=grad;ctx.fill();
+      const pulse=Math.sin(n.p)*.5+.5;
+      const al=n.a?.22:.07;
+      if(n.a){
+        const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*5);
+        g.addColorStop(0,`rgba(255,255,255,${.05*pulse})`);g.addColorStop(1,'rgba(255,255,255,0)');
+        ctx.beginPath();ctx.arc(n.x,n.y,n.r*5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
       }
-
-      ctx.beginPath();
-      ctx.arc(n.x,n.y,r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(255,255,255,${baseAlpha+pulse*.08})`;
-      ctx.fill();
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r+pulse*(n.a?.6:.15),0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${al+pulse*.05})`;ctx.fill();
     });
-
-    // Spawn packets occasionally
-    if(Math.random()<.04) spawnPacket();
+    if(Math.random()<.04)pkt();
   }
-
   window.addEventListener('resize',resize);
-  document.addEventListener('mousemove',e=>{mouse.x=e.clientX/W;mouse.y=e.clientY/H;});
-  resize();
-  draw();
+  document.addEventListener('mousemove',e=>{mx=e.clientX/W;my=e.clientY/H;});
+  resize();draw();
 })();
 
-// ── CURSOR ──
+// ── WAVEFORM ──
 (function(){
-  const ring = document.getElementById('cursor-ring');
-  const dot = document.getElementById('cursor-dot');
-  let rx=0,ry=0,tx=0,ty=0;
-  document.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;dot.style.transform=`translate(calc(${tx}px - 50%), calc(${ty}px - 50%))`; });
-  (function loop(){
-    requestAnimationFrame(loop);
-    rx+=(tx-rx)*.12; ry+=(ty-ry)*.12;
-    ring.style.transform=`translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
-  })();
-  document.querySelectorAll('a,button,.feat-card,.price-card,.scat,.lang-item').forEach(el=>{
-    el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
-    el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
-  });
-})();
-
-// ── SCROLL REVEAL ──
-const obs = new IntersectionObserver(els=>els.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:.08});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-// ── 3D CARD TILT ──
-document.querySelectorAll('.tilt').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r = card.getBoundingClientRect();
-    const x = (e.clientX-r.left)/r.width-.5;
-    const y = (e.clientY-r.top)/r.height-.5;
-    card.style.transform=`perspective(600px) rotateY(${x*12}deg) rotateX(${-y*12}deg) translateZ(6px)`;
-    card.style.setProperty('--mx', `${(e.clientX-r.left)/r.width*100}%`);
-    card.style.setProperty('--my', `${(e.clientY-r.top)/r.height*100}%`);
-  });
-  card.addEventListener('mouseleave',()=>{card.style.transform='';});
-});
-
-// ── WAVEFORM CANVAS ──
-(function(){
-  const c = document.getElementById('waveCanvas');
-  if(!c) return;
-  const ctx = c.getContext('2d');
+  const c=document.getElementById('wc');if(!c)return;
+  const ctx=c.getContext('2d');
   function resize(){c.width=c.offsetWidth*window.devicePixelRatio;c.height=c.offsetHeight*window.devicePixelRatio;ctx.scale(window.devicePixelRatio,window.devicePixelRatio);}
-  resize(); window.addEventListener('resize',resize);
+  resize();window.addEventListener('resize',resize);
   let t=0;
   (function draw(){
     requestAnimationFrame(draw);
     ctx.clearRect(0,0,c.offsetWidth,c.offsetHeight);
-    const w=c.offsetWidth, h=c.offsetHeight;
-    const bars = 48;
-    ctx.strokeStyle='rgba(255,255,255,.5)';
-    ctx.lineWidth=1.5;
+    const w=c.offsetWidth,h=c.offsetHeight,bars=44;
     for(let i=0;i<bars;i++){
-      const x = (i/(bars-1))*w;
-      const amp = (Math.sin(i*.4+t)*Math.sin(i*.13+t*1.7)*.5+.5);
-      const hh = amp*h*.6+4;
-      ctx.globalAlpha = .25 + amp*.5;
-      ctx.beginPath();
-      ctx.moveTo(x, h/2-hh/2);
-      ctx.lineTo(x, h/2+hh/2);
-      ctx.stroke();
+      const x=(i/(bars-1))*w;
+      const amp=(Math.sin(i*.45+t)*Math.sin(i*.14+t*1.8)*.5+.5);
+      const hh=amp*h*.55+3;
+      ctx.globalAlpha=.2+amp*.5;
+      ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(x,h/2-hh/2);ctx.lineTo(x,h/2+hh/2);ctx.stroke();
     }
-    ctx.globalAlpha=1;
-    t+=.04;
+    ctx.globalAlpha=1;t+=.035;
   })();
 })();
 
-// ── SKILLS COUNTER ──
-(function(){
-  const el = document.getElementById('sc');
-  const o = new IntersectionObserver(ents=>{
-    if(ents[0].isIntersecting){
+// ── SCROLL REVEAL ──
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// ── COUNTERS ──
+function counter(id,target,dur){
+  const el=document.getElementById(id);if(!el)return;
+  const o=new IntersectionObserver(ens=>{
+    if(ens[0].isIntersecting){
       let s=null;
-      (function step(ts){
-        if(!s)s=ts;
-        const p=Math.min((ts-s)/1000,1);
-        el.textContent=Math.floor((1-Math.pow(1-p,3))*70);
-        if(p<1)requestAnimationFrame(step);else el.textContent=70;
-      })(performance.now());
+      (function step(ts){if(!s)s=ts;const p=Math.min((ts-s)/dur,1);el.textContent=Math.floor((1-Math.pow(1-p,3))*target);if(p<1)requestAnimationFrame(step);else el.textContent=target;})(performance.now());
       o.disconnect();
     }
   },{threshold:.5});
   o.observe(el);
-})();
+}
+counter('sc',70,1000);
+counter('lc',99,1200);
 
-// ── LANG COUNTER ──
-(function(){
-  const el = document.getElementById('langCount');
-  const o = new IntersectionObserver(ents=>{
-    if(ents[0].isIntersecting){
-      let s=null;
-      (function step(ts){
-        if(!s)s=ts;
-        const p=Math.min((ts-s)/1200,1);
-        el.textContent=Math.floor((1-Math.pow(1-p,3))*99);
-        if(p<1)requestAnimationFrame(step);else el.textContent=99;
-      })(performance.now());
-      o.disconnect();
-    }
-  },{threshold:.5});
-  o.observe(el);
-})();
-
-// ── MAGNETIC BUTTONS ──
-document.querySelectorAll('.btn-hero,.btn,.pbtn').forEach(btn=>{
-  btn.addEventListener('mousemove',e=>{
-    const r=btn.getBoundingClientRect();
-    const x=(e.clientX-r.left-r.width/2)*.25;
-    const y=(e.clientY-r.top-r.height/2)*.25;
-    btn.style.transform=`translate(${x}px,${y}px)`;
+// ── 3D TILT ──
+document.querySelectorAll('.pc2,.fc2,.scat').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    c.style.transform=`perspective(500px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(-2px)`;
   });
-  btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
+  c.addEventListener('mouseleave',()=>{c.style.transform='';});
 });
 </script>
 </body>
