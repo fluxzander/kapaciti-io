@@ -45,14 +45,14 @@ nav{
 /* ── HERO ── */
 #hero{
   position:relative;z-index:1;
-  min-height:100vh;
+  height:100vh;max-height:100vh;overflow:hidden;
   display:grid;grid-template-columns:1fr 1fr;
-  align-items:center;gap:0;
+  align-items:stretch;gap:0;
   padding:64px clamp(20px,5vw,72px) 0;
 }
 
 /* Left */
-.hl{padding:60px 48px 60px 0;display:flex;flex-direction:column;align-items:flex-start;}
+.hl{padding:0 48px 0 0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:calc(100vh - 64px);}
 
 .hw{
   display:inline-flex;align-items:center;gap:8px;
@@ -98,7 +98,7 @@ nav{
 /* Right — 3D device */
 .hr{
   display:flex;align-items:center;justify-content:center;
-  padding:80px 0;position:relative;
+  padding:0;position:relative;min-height:calc(100vh - 64px);
 }
 .dc{position:relative;width:320px;height:580px;display:flex;align-items:center;justify-content:center;}
 
@@ -111,13 +111,13 @@ nav{
 
 .dw{
   position:relative;z-index:2;
-  transform:perspective(900px) rotateX(5deg) rotateY(-12deg);
+  transform:perspective(900px) rotateX(4deg) rotateY(-8deg);
   animation:fl 5.5s ease-in-out infinite;
   filter:drop-shadow(0 36px 72px rgba(0,0,0,.9));
 }
 @keyframes fl{
-  0%,100%{transform:perspective(900px) rotateX(5deg) rotateY(-12deg) translateY(0);}
-  50%{transform:perspective(900px) rotateX(5deg) rotateY(-12deg) translateY(-10px);}
+  0%,100%{transform:perspective(900px) rotateX(4deg) rotateY(-8deg) translateY(0);}
+  50%{transform:perspective(900px) rotateX(4deg) rotateY(-8deg) translateY(-10px);}
 }
 
 /* Corner brackets */
@@ -128,13 +128,23 @@ nav{
 .cr.br{bottom:-5px;right:-5px;border-width:0 1px 1px 0;}
 
 .dv{
-  width:240px;border-radius:26px;overflow:hidden;
-  background:#0c0c18;
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 1px rgba(255,255,255,.04);
+  width:240px;border-radius:24px;
+  background:rgba(255,255,255,.07);
+  border:1.5px solid rgba(255,255,255,.22);
+  box-shadow:0 0 0 1px rgba(255,255,255,.06),0 20px 60px rgba(0,0,0,.8);
+  /* Safari fix: isolation instead of overflow:hidden + border-radius on 3D-transformed parent */
+  isolation:isolate;
+  -webkit-isolation:isolate;
+}
+/* Clip inner content without overflow:hidden on device root */
+.dbody{
+  background:#0c0c16;
+  border-radius:0 0 22px 22px;
+  overflow:hidden;
 }
 .dbar{
-  height:38px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.08);
+  height:36px;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.12);
+  border-radius:22px 22px 0 0;
   display:flex;align-items:center;justify-content:space-between;padding:0 14px;
 }
 .ddots{display:flex;gap:5px;}
@@ -143,7 +153,7 @@ nav{
 .dlive-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.4);animation:bk 1.6s infinite;}
 .dbody{padding:14px 12px;}
 .ds-lbl{font-size:7px;font-weight:700;letter-spacing:.16em;color:rgba(255,255,255,.22);text-transform:uppercase;margin:10px 0 6px;}
-.dcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 12px;margin-bottom:6px;}
+.dcard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:8px;padding:10px 12px;margin-bottom:6px;}
 .drow{display:flex;align-items:center;justify-content:space-between;}
 .dl{font-size:8px;color:rgba(255,255,255,.3);}
 .dv2{font-size:15px;font-weight:900;letter-spacing:-.5px;color:rgba(255,255,255,.9);}
@@ -172,10 +182,10 @@ nav{
 }
 .fc-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.45);animation:bk 1.8s infinite;}
 /* Chip positions — within container bounds */
-.fc:nth-child(1){top:6%;left:0;animation:cf1 4.5s ease-in-out infinite;}
-.fc:nth-child(2){top:22%;right:-4%;animation:cf2 4s 1.2s ease-in-out infinite;}
-.fc:nth-child(3){bottom:30%;left:-4%;animation:cf3 5s .6s ease-in-out infinite;}
-.fc:nth-child(4){bottom:14%;right:2%;animation:cf4 4.2s 1.8s ease-in-out infinite;}
+.fc:nth-child(1){top:8%;left:4%;animation:cf1 4.5s ease-in-out infinite;}
+.fc:nth-child(2){top:22%;right:2%;animation:cf2 4s 1.2s ease-in-out infinite;}
+.fc:nth-child(3){bottom:28%;left:2%;animation:cf3 5s .6s ease-in-out infinite;}
+.fc:nth-child(4){bottom:12%;right:6%;animation:cf4 4.2s 1.8s ease-in-out infinite;}
 @keyframes cf1{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
 @keyframes cf2{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
 @keyframes cf3{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
@@ -327,19 +337,16 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(20px,4vw,60
 @media(max-width:768px){
   .nc{display:none;}
   .bt-d{display:none;}
-  #hero{grid-template-columns:1fr;padding:72px 20px 0;}
-  .hl{padding:32px 0;align-items:center;text-align:center;}
-  .hh{font-size:clamp(38px,9vw,60px);letter-spacing:-2px;}
+  #hero{grid-template-columns:1fr;height:auto;max-height:none;overflow:visible;padding:72px 20px 0;}
+  .hl{padding:32px 0;align-items:center;text-align:center;min-height:auto;justify-content:flex-start;}
+  .hh{font-size:clamp(36px,9vw,56px);letter-spacing:-2px;}
   .hs{text-align:center;max-width:100%;}
   .ha{justify-content:center;}
   .hn{text-align:center;}
-  .hst{align-items:center;}
-  .hr{padding:24px 0 56px;}
-  .dc{width:260px;height:470px;}
+  .hr{padding:20px 0 48px;min-height:auto;}
+  .dc{width:260px;height:420px;}
   .dv{width:190px;}
   .fc{font-size:9px;padding:5px 9px;}
-  .fc:nth-child(2){right:0;}
-  .fc:nth-child(3){left:0;}
   section{padding:64px 20px;}
   .fg{grid-template-columns:1fr;}
   .vl,.vr{padding:32px 22px;}
@@ -402,12 +409,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(20px,4vw,60
       <a href="/demo"><button class="btn-s">Try live demo</button></a>
       <a href="#pricing"><button class="btn-p">Get full access — $99</button></a>
     </div>
-    <p class="hn">No account needed &nbsp;·&nbsp; One-time payment &nbsp;·&nbsp; Yours forever</p>
-    <div class="hst">
-      <div class="hsr"><span class="hsv">70+</span><span class="hsl">agent skills bundled</span></div>
-      <div class="hsr"><span class="hsv">$0/mo</span><span class="hsl">no subscriptions</span></div>
-      <div class="hsr"><span class="hsv">30 min</span><span class="hsl">from zero to live</span></div>
-    </div>
+    <p class="hn">No account needed &nbsp;·&nbsp; One-time &nbsp;·&nbsp; Yours forever</p>
   </div>
 
   <div class="hr">
