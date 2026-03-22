@@ -229,29 +229,48 @@ Skills are specialist modules your agents load on demand. Grouped by capability:
 
 ## AI Engines
 
-Claude is the default. Swap per agent, per task, per session. No lock-in.
+Claude is the default. Swap per agent, per task, per session. No OAuth, no redirect URLs — just an API key in `.env`.
 
-| Provider | Models | Use case |
-|---|---|---|
-| **Anthropic** (default) | Claude Sonnet 4, Opus, Haiku | Main reasoning |
-| **OpenAI** | GPT-4o, o1, o3-mini | Code, structured output |
-| **Google** | Gemini Flash 2.0, Pro 1.5 | Fast, multimodal |
-| **Ollama** | Llama 3, Mistral, Qwen | 100% local, no API key |
-| **DeepSeek** | R1, V3, Coder | Cost-efficient reasoning |
-| **Groq** | LPU inference | Sub-50ms response |
-| **Mistral** | Large, Small, Nemo | Privacy-first, European |
-| **xAI** | Grok-2, Grok-3 | Real-time X data |
+→ **[Full setup guide — docs/AI-ENGINES.md](docs/AI-ENGINES.md)**
+
+| Provider | Models | $/1M tokens | Use case |
+|---|---|---|---|
+| **Claude** (default) | Sonnet 4, Opus, Haiku | $0.80–$15 | Best reasoning + writing |
+| **OpenAI** | GPT-4o, o1, o3-mini, Whisper, DALL-E | $0.15–$15 | Code, images, transcription |
+| **Google** | Gemini Flash 2.0, Pro, **Veo 3** (video), Imagen 3 | $0.075–$7 | Cheapest multimodal, video |
+| **Kimi** (Moonshot) | moonshot-v1-8k/32k/128k | **$0.12–$0.50** | Cheapest long-context |
+| **Ollama** | Llama 3, Mistral, Qwen, CodeLlama, Phi-4... | **$0** | 100% local, no API key |
+| **DeepSeek** | R1, V3, Coder v2 | **$0.14–$2** | Cheapest reasoning |
+| **Groq** | Llama 3.3 70B, Mixtral, Gemma | $0.27–$0.80 | Sub-50ms inference |
+| **Mistral** | Large, Small, Nemo, Codestral | $0.20–$2 | Privacy-first, European |
+| **Grok** | Grok-3, Grok-2 | $5–$15 | Real-time X data |
+| **nano-banana** | Vision models | — | Screenshot, OCR, chart reading |
 
 ```env
-# .env — swap model globally or per agent
+# .env — add keys for providers you want, leave others blank
+
+ANTHROPIC_API_KEY=sk-ant-...       # Claude (default)
+OPENAI_API_KEY=sk-proj-...         # GPT-4o, Whisper, DALL-E
+GOOGLE_API_KEY=AIza...             # Gemini, Veo3, Imagen
+MOONSHOT_API_KEY=sk-...            # Kimi — cheapest long-context
+DEEPSEEK_API_KEY=sk-...            # DeepSeek R1
+GROQ_API_KEY=gsk_...               # Groq — fastest
+MISTRAL_API_KEY=...                # Mistral
+XAI_API_KEY=xai-...                # Grok
+OLLAMA_HOST=http://localhost:11434  # Local Ollama — no key needed
+
+# Global default
 MODEL=anthropic/claude-sonnet-4-6
 
+# Per-agent overrides — mix freely
 PULSE_MODEL=openai/gpt-4o
-BUILD_MODEL=groq/llama-3.3-70b
-COACH_MODEL=ollama/llama3.2
-
-OLLAMA_HOST=http://localhost:11434
+FORGE_MODEL=moonshot/moonshot-v1-128k    # Cheapest for high-volume
+BUILD_MODEL=groq/llama-3.3-70b          # Fastest for code
+COACH_MODEL=ollama/llama3.3:70b         # Local — client data stays offline
+RADAR_MODEL=groq/llama-3.1-8b-instant   # Sub-50ms for real-time signals
 ```
+
+**Cost optimization:** Running all 9 agents with cheap providers (Kimi + Groq + Ollama + DeepSeek) costs ~$5–15/month. Full setup details in [docs/AI-ENGINES.md](docs/AI-ENGINES.md).
 
 ---
 
