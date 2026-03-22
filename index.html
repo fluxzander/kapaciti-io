@@ -87,8 +87,8 @@ h1 .l3{display:block;color:rgba(255,255,255,.95);}
   inset:6px;
   border-radius:40px;
   overflow:hidden;
-  background:#08080f;
-  -webkit-transform:translateZ(0); /* Safari overflow:hidden + border-radius fix */
+  background:#090909;
+  -webkit-transform:translateZ(0);
   transform:translateZ(0);
 }
 
@@ -123,7 +123,7 @@ h1 .l3{display:block;color:rgba(255,255,255,.95);}
 .s-agents{display:flex;flex-direction:column;gap:6px;}
 .s-agent{display:flex;align-items:center;gap:7px;}
 .s-agent-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
-.on{background:rgba(255,255,255,.7);box-shadow:0 0 6px rgba(255,255,255,.3);animation:pulse 2.2s infinite;}
+.on{background:rgba(107,158,120,.9);box-shadow:0 0 6px rgba(107,158,120,.4);animation:pulse 2.2s infinite;}
 .idle{background:rgba(255,255,255,.2);}
 .s-agent-name{font-size:8px;font-weight:700;color:rgba(255,255,255,.5);flex:1;}
 .s-agent-stat{font-size:7px;color:rgba(255,255,255,.25);}
@@ -421,46 +421,49 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
             <div class="phone-notch"><div class="notch-cam"></div><div class="notch-mic"></div></div>
             <div class="phone-glare"></div>
             <div class="screen-content">
-              <!-- Status -->
+              <!-- Status bar -->
               <div class="s-status">
                 <div class="s-time">9:41</div>
                 <div class="s-icons"><div class="s-icon"></div><div class="s-icon"></div></div>
               </div>
               <!-- Revenue -->
               <div class="s-card">
-                <div class="s-label">Monthly Revenue</div>
-                <div class="s-row">
-                  <div class="s-val">$4,270</div>
-                  <div class="s-badge">+18.4%</div>
+                <div class="s-label">// Revenue</div>
+                <div class="s-row" style="margin-bottom:6px;">
+                  <div><div class="s-val">$24,870</div><div style="font-size:7px;color:rgba(107,158,120,.8);margin-top:3px;font-weight:700;">↑ +31.4% MoM</div></div>
+                  <div style="text-align:right;"><div style="font-size:7px;color:rgba(240,237,232,.3);margin-bottom:2px;">ARR</div><div style="font-size:12px;font-weight:800;letter-spacing:-.5px;color:rgba(240,237,232,.8);">$298k</div></div>
                 </div>
                 <div class="s-bars">
-                  <div class="s-bar" style="height:35%"></div>
-                  <div class="s-bar" style="height:50%"></div>
-                  <div class="s-bar" style="height:42%"></div>
-                  <div class="s-bar" style="height:65%"></div>
-                  <div class="s-bar" style="height:58%"></div>
-                  <div class="s-bar" style="height:75%"></div>
-                  <div class="s-bar" style="height:84%"></div>
-                  <div class="s-bar hi" style="height:100%"></div>
+                  <div class="s-bar" style="height:30%"></div><div class="s-bar" style="height:42%"></div>
+                  <div class="s-bar" style="height:38%"></div><div class="s-bar" style="height:55%"></div>
+                  <div class="s-bar" style="height:62%"></div><div class="s-bar" style="height:70%"></div>
+                  <div class="s-bar" style="height:78%"></div><div class="s-bar" style="height:86%"></div>
+                  <div class="s-bar" style="height:92%"></div><div class="s-bar hi" style="height:100%"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:7px;padding-top:6px;border-top:1px solid rgba(255,255,255,.07);">
+                  <div style="text-align:center;"><div style="font-size:11px;font-weight:900;color:rgba(107,158,120,.9);">247</div><div style="font-size:6px;color:rgba(240,237,232,.28);letter-spacing:.12em;text-transform:uppercase;">Active</div></div>
+                  <div style="text-align:center;"><div style="font-size:11px;font-weight:900;color:rgba(158,139,101,.9);">8</div><div style="font-size:6px;color:rgba(240,237,232,.28);letter-spacing:.12em;text-transform:uppercase;">At Risk</div></div>
+                  <div style="text-align:center;"><div style="font-size:11px;font-weight:900;color:rgba(107,158,120,.9);">96%</div><div style="font-size:6px;color:rgba(240,237,232,.28);letter-spacing:.12em;text-transform:uppercase;">Retention</div></div>
                 </div>
               </div>
               <!-- Agents -->
               <div class="s-card">
-                <div class="s-label">Agent Fleet</div>
+                <div class="s-label">// Agent Fleet</div>
                 <div class="s-agents">
-                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name">PULSE</div><div class="s-agent-stat">Macro live</div></div>
-                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name">FORGE</div><div class="s-agent-stat">3 leads</div></div>
-                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name">COACH</div><div class="s-agent-stat">Drafting</div></div>
-                  <div class="s-agent"><div class="s-agent-dot idle"></div><div class="s-agent-name">BUILD</div><div class="s-agent-stat">Idle</div></div>
+                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name" style="color:rgba(107,158,120,.9);">PULSE</div><div class="s-agent-stat">Macro — published</div></div>
+                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name" style="color:rgba(107,158,120,.9);">FORGE</div><div class="s-agent-stat">19 leads enriching</div></div>
+                  <div class="s-agent"><div class="s-agent-dot" style="background:rgba(158,139,101,.8);animation:blink 1.4s infinite;"></div><div class="s-agent-name" style="color:rgba(158,139,101,.9);">COACH</div><div class="s-agent-stat">38 drafts queued</div></div>
+                  <div class="s-agent"><div class="s-agent-dot on"></div><div class="s-agent-name" style="color:rgba(107,158,120,.9);">REACH</div><div class="s-agent-stat">TikTok + X live</div></div>
+                  <div class="s-agent"><div class="s-agent-dot idle"></div><div class="s-agent-name" style="color:rgba(240,237,232,.3);">BUILD</div><div class="s-agent-stat" style="color:rgba(240,237,232,.25);">Idle · deploy 2h ago</div></div>
                 </div>
               </div>
-              <!-- Session -->
+              <!-- Client + session -->
               <div class="s-card">
-                <div class="s-label">Next Session</div>
+                <div class="s-label">// Next Session</div>
                 <div class="s-session">
-                  <div class="s-av">LM</div>
-                  <div class="s-info"><div class="s-name">Lea M.</div><div class="s-time2">Today 18:00</div></div>
-                  <div class="s-chip">Brief ready</div>
+                  <div class="s-av" style="background:rgba(107,158,120,.15);border:1px solid rgba(107,158,120,.3);color:rgba(107,158,120,.9);">AK</div>
+                  <div class="s-info"><div class="s-name">Ana K. — Elite</div><div class="s-time2">Today 19:30 · 2 setups flagged</div></div>
+                  <div class="s-chip" style="background:rgba(107,158,120,.15);border:1px solid rgba(107,158,120,.25);color:rgba(107,158,120,.9);">COACH ready</div>
                 </div>
               </div>
             </div>
@@ -888,46 +891,100 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
 <script type="module">
 import * as THREE from 'three';
 
-// ─── THREE.JS PARTICLE FIELD ───
+// ─── THREE.JS DEEP SPACE SCENE ───
 const canvas = document.getElementById('bg');
 const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:false});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
 renderer.setClearColor(0x000000,0);
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 1000);
-camera.position.z = 28;
+const camera = new THREE.PerspectiveCamera(65, innerWidth/innerHeight, 0.1, 2000);
+camera.position.z = 35;
 
-// Particle system
-const COUNT = 1800;
-const geo = new THREE.BufferGeometry();
-const pos = new Float32Array(COUNT*3);
-const vel = new Float32Array(COUNT*3);
-for(let i=0;i<COUNT;i++){
-  pos[i*3]   = (Math.random()-.5)*60;
-  pos[i*3+1] = (Math.random()-.5)*60;
-  pos[i*3+2] = (Math.random()-.5)*30;
-  vel[i*3]   = (Math.random()-.5)*.006;
-  vel[i*3+1] = (Math.random()-.5)*.006;
-  vel[i*3+2] = 0;
+// ── Star field: 3 depth layers ──
+function makeStars(count, spread, size, opacity, color){
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count*3);
+  const col = new Float32Array(count*3);
+  const c = new THREE.Color(color);
+  for(let i=0;i<count;i++){
+    pos[i*3]   = (Math.random()-.5)*spread;
+    pos[i*3+1] = (Math.random()-.5)*spread;
+    pos[i*3+2] = (Math.random()-.5)*spread*.4;
+    // slight color variation
+    const v = .7+Math.random()*.3;
+    col[i*3]=c.r*v; col[i*3+1]=c.g*v; col[i*3+2]=c.b*v;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col,3));
+  const mat = new THREE.PointsMaterial({size, transparent:true, opacity, vertexColors:true, sizeAttenuation:true});
+  return new THREE.Points(geo, mat);
 }
-geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
-const mat = new THREE.PointsMaterial({color:0xffffff,size:.08,transparent:true,opacity:.18,sizeAttenuation:true});
-const particles = new THREE.Points(geo,mat);
-scene.add(particles);
+// Small distant stars
+const stars1 = makeStars(2200, 120, .06, .5, 0xc8c8d8);
+// Mid stars
+const stars2 = makeStars(600, 80, .12, .28, 0xa8aac0);
+// Bright nearby stars
+const stars3 = makeStars(120, 50, .22, .18, 0xe0e0ff);
+scene.add(stars1, stars2, stars3);
 
-// Grid lines
+// ── Nebula clouds: muted colored sprites ──
+function makeNebula(x,y,z, size, color, opacity){
+  const geo = new THREE.PlaneGeometry(size, size);
+  const mat = new THREE.MeshBasicMaterial({color, transparent:true, opacity, depthWrite:false, side:THREE.DoubleSide});
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(x,y,z);
+  mesh.rotation.z = Math.random()*Math.PI;
+  return mesh;
+}
+// Very muted nebula blobs — deep navy, indigo, slate
+scene.add(makeNebula(-18, 8, -30, 55, 0x1a1a3a, .045));
+scene.add(makeNebula(22, -6, -40, 70, 0x121828, .04));
+scene.add(makeNebula(4, 16, -35, 48, 0x1c1a2e, .035));
+scene.add(makeNebula(-8, -14, -25, 36, 0x0e1424, .05));
+scene.add(makeNebula(30, 12, -45, 60, 0x161622, .03));
+
+// ── Perspective grid ──
 const gridGeo = new THREE.BufferGeometry();
 const gridVerts = [];
-const G = 20, S = 3;
+const G=18, S=3.5;
 for(let i=-G;i<=G;i++){
-  gridVerts.push(i*S,-G*S,-8, i*S,G*S,-8);
-  gridVerts.push(-G*S,i*S,-8, G*S,i*S,-8);
+  gridVerts.push(i*S,-G*S,-22, i*S,G*S,-22);
+  gridVerts.push(-G*S,i*S,-22, G*S,i*S,-22);
 }
 gridGeo.setAttribute('position', new THREE.Float32BufferAttribute(gridVerts,3));
-const gridMat = new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.01});
-const grid = new THREE.LineSegments(gridGeo,gridMat);
+const gridMat = new THREE.LineBasicMaterial({color:0x4455aa, transparent:true, opacity:.018});
+const grid = new THREE.LineSegments(gridGeo, gridMat);
 scene.add(grid);
+
+// ── Horizon grid (depth effect) ──
+const hGeo = new THREE.BufferGeometry();
+const hVerts = [];
+for(let i=-12;i<=12;i++){
+  hVerts.push(i*4,-15,-20, i*4,-15,10);
+}
+for(let i=-5;i<=10;i++){
+  hVerts.push(-48,-15,i*4, 48,-15,i*4);
+}
+hGeo.setAttribute('position', new THREE.Float32BufferAttribute(hVerts,3));
+const hMat = new THREE.LineBasicMaterial({color:0x334488, transparent:true, opacity:.025});
+const hGrid = new THREE.LineSegments(hGeo, hMat);
+scene.add(hGrid);
+
+// ── Shooting stars (data packets) ──
+const shooters=[];
+function spawnShooter(){
+  const geo=new THREE.BufferGeometry();
+  const pts=[new THREE.Vector3((Math.random()-.5)*60,(Math.random()-.5)*40,-5), new THREE.Vector3(0,0,-5)];
+  const dir=new THREE.Vector3((Math.random()-.5)*2,(Math.random()-.5)*2,0).normalize();
+  const start=new THREE.Vector3((Math.random()-.5)*60,(Math.random()-.5)*40,-5);
+  geo.setFromPoints([start, start.clone().add(dir.clone().multiplyScalar(3))]);
+  const mat=new THREE.LineBasicMaterial({color:0x6688cc,transparent:true,opacity:0});
+  const line=new THREE.Line(geo,mat);
+  scene.add(line);
+  shooters.push({line,dir,pos:start.clone(),life:0,maxLife:1.2+Math.random()*.8,speed:.35+Math.random()*.2});
+}
+for(let i=0;i<4;i++) setTimeout(spawnShooter, i*1800);
 
 let mx=0,my=0,W=innerWidth,H=innerHeight,t=0;
 function resize(){
@@ -940,21 +997,38 @@ document.addEventListener('mousemove',e=>{mx=(e.clientX/W-.5)*2;my=(e.clientY/H-
 
 (function animate(){
   requestAnimationFrame(animate);
-  t+=.005;
-  const p=geo.attributes.position.array;
-  for(let i=0;i<COUNT;i++){
-    p[i*3]+=vel[i*3];p[i*3+1]+=vel[i*3+1];
-    if(Math.abs(p[i*3])>30)vel[i*3]*=-1;
-    if(Math.abs(p[i*3+1])>30)vel[i*3+1]*=-1;
+  t+=.003;
+
+  // Stars gentle drift + mouse parallax
+  stars1.rotation.y=mx*.04+t*.008; stars1.rotation.x=my*.03;
+  stars2.rotation.y=mx*.06+t*.012; stars2.rotation.x=my*.04;
+  stars3.rotation.y=mx*.1+t*.018; stars3.rotation.x=my*.07;
+
+  // Grid mouse
+  grid.rotation.y=mx*.025; grid.rotation.x=my*.018;
+  hGrid.rotation.y=mx*.015;
+
+  // Camera drift
+  camera.position.x+=(mx*.8-camera.position.x)*.035;
+  camera.position.y+=(-my*.6-camera.position.y)*.035;
+
+  // Shooters
+  for(let i=shooters.length-1;i>=0;i--){
+    const s=shooters[i];
+    s.life+=.016;
+    s.pos.addScaledVector(s.dir, s.speed);
+    const lifeN=s.life/s.maxLife;
+    s.line.material.opacity=lifeN<.2?lifeN*5*0.6:lifeN>.8?(1-lifeN)*5*0.6:0.6;
+    const pts=[s.pos.clone(), s.pos.clone().add(s.dir.clone().multiplyScalar(-2.5))];
+    s.line.geometry.setFromPoints(pts);
+    if(s.life>s.maxLife){
+      scene.remove(s.line);
+      shooters.splice(i,1);
+      setTimeout(spawnShooter, Math.random()*3000+500);
+    }
   }
-  geo.attributes.position.needsUpdate=true;
-  particles.rotation.y=mx*.08;
-  particles.rotation.x=my*.05;
-  grid.rotation.y=mx*.02;
-  grid.rotation.x=my*.015;
-  camera.position.x+=(mx*.5-camera.position.x)*.04;
-  camera.position.y+=(-my*.5-camera.position.y)*.04;
-  renderer.render(scene,camera);
+
+  renderer.render(scene, camera);
 })();
 </script>
 
