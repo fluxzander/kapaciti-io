@@ -53,17 +53,51 @@ h1 .l3{display:block;color:rgba(255,255,255,.95);}
 
 /* Right — Phone */
 .hr{display:flex;align-items:center;justify-content:center;height:100%;position:relative;padding-bottom:30px;}
-.ar-container{position:relative;width:520px;height:640px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.ar-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3;}
-.ar-chip{
-  position:absolute;z-index:4;
-  display:inline-flex;align-items:center;gap:6px;
-  padding:7px 13px;border-radius:9px;
-  background:rgba(8,8,18,.92);border:1px solid rgba(255,255,255,.13);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  font-size:10px;font-weight:600;color:rgba(255,255,255,.65);
-  white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.5);
+
+/* ── AR ANNOTATION SYSTEM ── */
+.ar-wrap{
+  position:relative;
+  /* wider than phone so chips can float outside */
+  width:min(680px,90vw);
+  height:640px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
 }
+/* SVG annotation lines — lowest layer */
+.ar-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:1;overflow:visible;
+}
+/* Phone is middle layer */
+.ar-wrap .phone-scene{position:relative;z-index:2;}
+/* Chips are top layer — always in front */
+.ar-chip{
+  position:absolute;z-index:10;
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 14px;border-radius:10px;
+  background:rgba(8,8,14,.94);
+  border:1px solid rgba(255,255,255,.13);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  font-size:10px;font-weight:700;color:rgba(255,255,255,.7);
+  white-space:nowrap;
+  box-shadow:0 8px 28px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+  cursor:default;
+}
+.ar-chip:hover{
+  transform:translateY(-2px) scale(1.03)!important;
+  box-shadow:0 12px 36px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.1);
+}
+.ar-chip .chip-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:rgba(107,158,120,.9);
+  box-shadow:0 0 5px rgba(107,158,120,.6);
+  animation:pulse 1.8s infinite;
+}
+.ar-chip .chip-dot.amb{background:rgba(158,139,101,.9);box-shadow:0 0 5px rgba(158,139,101,.5);}
+.ar-chip .chip-dot.dim{background:rgba(255,255,255,.3);box-shadow:none;animation:none;}
+/* annotation endpoint dot */
+.ar-node{fill:rgba(255,255,255,.22);stroke:none;}
 
 /* Phone scene wrapper — applies 3D */
 .phone-scene{
@@ -165,7 +199,7 @@ h1 .l3{display:block;color:rgba(255,255,255,.95);}
   white-space:nowrap;
   box-shadow:0 8px 24px rgba(0,0,0,.5);
 }
-.chip-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);animation:pulse 1.8s infinite;}
+
 .chip:nth-child(1){top:5%;left:-18%;animation:chipfl1 4.5s ease-in-out infinite;}
 .chip:nth-child(2){top:20%;right:-22%;animation:chipfl2 4s 1s ease-in-out infinite;}
 .chip:nth-child(3){bottom:32%;left:-20%;animation:chipfl3 5s .5s ease-in-out infinite;}
@@ -481,7 +515,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
           </div>
         </div>
       </div>
-    </div>
+    </div><!-- /ar-wrap -->
   </div>
 </section>
 
@@ -1185,6 +1219,72 @@ document.querySelectorAll('.price-card,.feat-cell,.s-cat').forEach(c=>{
   });
   c.addEventListener('mouseleave',()=>c.style.transform='');
 });
+</script>
+
+<script>
+// ── INTERACTIVE 3D PARALLAX ──
+(function(){
+  const wrap = document.getElementById('ar-wrap');
+  if(!wrap) return;
+  const phone = wrap.querySelector('.phone-scene');
+  const chips = wrap.querySelectorAll('.ar-chip');
+  const svg = document.getElementById('ar-svg');
+  if(!phone) return;
+
+  let mx=0,my=0,tx=0,ty=0,raf=null;
+
+  function lerp(a,b,t){return a+(b-a)*t;}
+
+  function frame(){
+    tx = lerp(tx, mx, 0.08);
+    ty = lerp(ty, my, 0.08);
+    // Phone tilts toward cursor
+    phone.style.transform = `perspective(900px) rotateY(${tx*8}deg) rotateX(${-ty*6}deg)`;
+    // Chips drift in opposite direction (parallax depth)
+    chips.forEach((c,i)=>{
+      const depth = (i%2===0) ? 1.4 : 1.1;
+      const cx = i < 3 ? -tx*12*depth : tx*12*depth;
+      const cy = -ty * 8 * depth;
+      // Preserve existing animation via separate transform layer not possible easily,
+      // so we nudge translate on top
+      const base = c.style.animation;
+      c.style.setProperty('--px', cx+'px');
+      c.style.setProperty('--py', cy+'px');
+    });
+    // SVG lines shift slightly
+    if(svg) svg.style.transform = `translate(${tx*4}px,${ty*3}px)`;
+    raf = requestAnimationFrame(frame);
+  }
+
+  // Apply CSS var to chips
+  document.querySelectorAll('.ar-chip').forEach(c=>{
+    c.style.setProperty('--px','0px');
+    c.style.setProperty('--py','0px');
+  });
+
+  // Inject CSS for parallax offset
+  const st = document.createElement('style');
+  st.textContent = `.ar-chip{transform:translate(var(--px,0px),var(--py,0px));}
+  .ar-chip:hover{transform:translate(var(--px,0px),var(--py,0px)) translateY(-3px) scale(1.04)!important;}`;
+  document.head.appendChild(st);
+
+  wrap.addEventListener('mousemove', e=>{
+    const r = wrap.getBoundingClientRect();
+    mx = ((e.clientX-r.left)/r.width - 0.5)*2;
+    my = ((e.clientY-r.top)/r.height - 0.5)*2;
+    if(!raf) raf = requestAnimationFrame(frame);
+  });
+
+  wrap.addEventListener('mouseleave',()=>{
+    mx=0;my=0;
+    // Ease back
+    setTimeout(()=>{cancelAnimationFrame(raf);raf=null;
+      phone.style.transform='';
+      chips.forEach(c=>{c.style.setProperty('--px','0px');c.style.setProperty('--py','0px');});
+      if(svg) svg.style.transform='';
+    },600);
+  });
+})();
 </script>
 </body>
 </html>
