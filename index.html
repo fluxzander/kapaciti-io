@@ -210,15 +210,15 @@ nav{
 
 /* SECTIONS */
 section{padding:96px clamp(20px,5vw,72px);position:relative;z-index:1;}
-.si{max-width:960px;margin:0 auto;}
+.si{max-width:960px;margin:0 auto;opacity:1;visibility:visible;}
 .ey{font-size:10px;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.28);text-transform:uppercase;margin-bottom:14px;}
 .sh{font-size:clamp(28px,4.5vw,56px);font-weight:900;letter-spacing:-1.5px;line-height:1.05;margin-bottom:16px;}
 .sh em{font-style:italic;font-weight:300;color:rgba(255,255,255,.3);}
 .sp{font-size:15px;color:rgba(255,255,255,.45);line-height:1.75;max-width:480px;margin-bottom:52px;}
 
 /* FEATURES */
-.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;}
-.fc2{background:#08080c;padding:28px 24px;transition:background .2s;position:relative;overflow:hidden;}
+.fg{opacity:1;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;}
+.fc2{background:#08080c;padding:28px 24px;transition:background .2s;position:relative;overflow:hidden;opacity:1;visibility:visible;}
 .fc2::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 100% 80% at 50% -10%,rgba(255,255,255,.025),transparent);opacity:0;transition:opacity .3s;}
 .fc2:hover{background:#0d0d12;}
 .fc2:hover::before{opacity:1;}
@@ -247,7 +247,7 @@ section{padding:96px clamp(20px,5vw,72px);position:relative;z-index:1;}
 .li2:hover{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);}
 
 /* SKILLS */
-.sl{display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap;}
+.sl{display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap;opacity:1;}
 .sleft{flex:0 0 240px;}
 .sbig{font-size:clamp(80px,12vw,130px);font-weight:900;letter-spacing:-5px;line-height:.9;}
 .sbig span{color:rgba(255,255,255,.25);}
@@ -313,9 +313,9 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(20px,4vw,60
 .flinks a{font-size:11px;color:rgba(255,255,255,.25);transition:color .15s;}
 .flinks a:hover{color:rgba(255,255,255,.6);}
 
-/* reveal */
-.rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease-out,transform .7s ease-out;}
-.rv.in{opacity:1;transform:none;}
+/* reveal — opacity always 1, only animate transform */
+.rv{transform:translateY(20px);transition:transform .6s ease-out;}
+.rv.in{transform:none;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
