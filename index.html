@@ -1011,7 +1011,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
         <div class="price-tier" style="margin-top:14px;">Full Access</div>
         <div class="price-amount"><sup>$</sup>99</div>
         <div class="price-note">One-time · Instant GitHub invite</div>
-        <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="price-btn pbtn-w">Get full access →</button></a>
+        <a href="#contact"><button class="price-btn pbtn-w">Book a call →</button></a>
         <div class="p-agents-block featured">
           <div class="p-agents-label">Agents included</div>
           <div class="p-agents-num">9</div>
@@ -1036,7 +1036,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
         <div class="price-tier">Done-For-You</div>
         <div class="price-amount"><sup>$</sup>1000</div>
         <div class="price-note">One-time · Fully custom setup</div>
-        <a href="https://buy.stripe.com/3cI4gy8fKdrQa6L11Z8Vi0g" target="_blank"><button class="price-btn pbtn-g">Get custom setup →</button></a>
+        <a href="#contact"><button class="price-btn pbtn-g">Get custom setup →</button></a>
         <div class="p-agents-block pro">
           <div class="p-agents-label">PRO agents</div>
           <div class="p-agents-num">50<span style="font-size:28px;color:rgba(255,255,255,.3);">+</span></div>
@@ -1089,10 +1089,42 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
     <h2>Your agents are running.<br><em>Your business isn't visible.</em></h2>
     <p>Get the interface. One install. One command.</p>
     <div class="final-btns">
-      <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank"><button class="btn-primary" style="font-size:15px;padding:16px 36px;">Get full access — $99</button></a>
+      <a href="#contact"><button class="btn-primary" style="font-size:15px;padding:16px 36px;">Book a call →</button></a>
       <a href="/demo"><button class="btn-ghost" style="font-size:15px;padding:16px 28px;">Try demo first</button></a>
     </div>
-    <p class="final-note">One-time &nbsp;·&nbsp; Instant GitHub access &nbsp;·&nbsp; Lifetime updates</p>
+    <p class="final-note">Custom scoped &nbsp;·&nbsp; We build to your stack &nbsp;·&nbsp; Live in 48h</p>
+  </div>
+</section>
+
+<section id="contact" style="padding:100px 24px;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.06);">
+  <div class="wrap" style="max-width:600px;">
+    <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:16px;">Get started</p>
+    <h2 style="font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-1px;margin-bottom:12px;">Tell us about your setup.</h2>
+    <p style="color:rgba(255,255,255,0.45);margin-bottom:48px;font-size:16px;">We scope, package, and deploy your agents. No templates. We reply within 24 hours.</p>
+    <form action="https://formspree.io/f/xpwzkvgb" method="POST" style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);">Name</label>
+          <input type="text" name="name" placeholder="Your name" required style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:13px 16px;font-family:inherit;font-size:14px;color:#fff;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='rgba(255,255,255,0.3)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);">Email</label>
+          <input type="email" name="email" placeholder="you@company.com" required style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:13px 16px;font-family:inherit;font-size:14px;color:#fff;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='rgba(255,255,255,0.3)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);">Company / Project</label>
+        <input type="text" name="company" placeholder="Company or project name" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:13px 16px;font-family:inherit;font-size:14px;color:#fff;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='rgba(255,255,255,0.3)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);">What do you want to automate?</label>
+        <textarea name="message" rows="5" placeholder="Describe your business and what you want to automate. The more detail, the better we can scope it." required style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:13px 16px;font-family:inherit;font-size:14px;color:#fff;outline:none;transition:border-color .2s;resize:vertical;min-height:130px;" onfocus="this.style.borderColor='rgba(255,255,255,0.3)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"></textarea>
+      </div>
+      <input type="hidden" name="_replyto" value="hello@fluxz.me">
+      <input type="hidden" name="_subject" value="New inquiry — Kapaciti.io">
+      <button type="submit" class="btn-primary" style="align-self:flex-start;font-size:14px;padding:14px 32px;">Send inquiry →</button>
+      <p style="font-size:12px;color:rgba(255,255,255,0.25);margin-top:-4px;">We reply within 24 hours. No commitment required.</p>
+    </form>
   </div>
 </section>
 
@@ -1101,8 +1133,7 @@ footer{border-top:1px solid rgba(255,255,255,.07);padding:28px clamp(18px,4vw,56
   <div class="f-links">
     <a href="https://github.com/fluxzander/kapaciti-io" target="_blank">GitHub</a>
     <a href="/demo">Demo</a>
-    <a href="https://buy.stripe.com/aFa6oG53y87w7YD11Z8Vi0f" target="_blank">$99</a>
-    <a href="https://buy.stripe.com/3cI4gy8fKdrQa6L11Z8Vi0g" target="_blank">$1000</a>
+    <a href="#contact">Contact</a>
   </div>
 </footer>
 
